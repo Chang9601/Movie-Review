@@ -4,8 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.chang.recmv.mapper.UserMapper">
-	<select id="getAll" resultType="User">
+	<!--<select id="getAll" resultType="User">
 		select *
 		from recmv_user
+	</select>-->
+	
+	<select id="addUser" resultType="User">
+		insert into recmv_user (id, pw, email, creationTime)
+		values(#{id}, #{pw}, #{email}, now())
 	</select>
+	
+	<select id="ckDupId" resultType="string">
+		select id
+		from recmv_user
+		where id = #{id}
+	</select>
+	
 </mapper>
