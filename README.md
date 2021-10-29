@@ -1,2 +1,2 @@
 # Recommend-Movie
-Personal Project
+Web application recommending movies with Spring Boot
