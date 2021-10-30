@@ -1,5 +1,7 @@
 package com.chang.recmv.mapper;
 
+import java.util.List;
+
 //import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +12,11 @@ import com.chang.recmv.model.User;
 @Mapper
 @Repository
 public interface UserMapper {
-	//public List<User> getAll() throws Exception;
 	public void addUser(User user) throws Exception;
 	public String ckDupId(String id) throws Exception;
+	public String ckLogin(User user) throws Exception;
+	public User readUser(String id) throws Exception;
+	public void updateUser(User user) throws Exception;
+	public void deleteUser(String id) throws Exception;
+	public List<User> getAll(String id) throws Exception;
 }

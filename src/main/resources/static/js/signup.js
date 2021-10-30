@@ -18,8 +18,6 @@ $(document).ready(function() {
 	var emailRegex = /[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4})/;
 			
 	$("form").submit(function() {
-	//	var idRegex = /^(?=(.*[a-z])+)(?=(.*[0-9])+).{5,10}$/;
-		
 		var id = $("#id").val();
 		var pw = $("#pw").val();
 		var cpw = $("#cpw").val();
@@ -28,37 +26,36 @@ $(document).ready(function() {
 		if(!idRegex.test(id) || !ckId(id)) {
 			$("#idCk").html("5~10자의 영문 소문자와 숫자만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
-		}else{
-			
-			$.ajax({
-				url: "./ckDupId",
-				type: "POST",
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify(id),
-				success: function(ret){
-					if(ret === id){	
-						$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
-						return false;
-					}
-				}
-			});
-			
-			$("#idCk").html("사용 가능합니다.").css("color", "green");
 		}
+			
+		$.ajax({
+			url: "./ckDupId",
+			type: "POST",
+			contentType: "text/plain;charset=UTF-8",
+			data: id,
+			success: function(ret){
+				//alert("결과: " + ret);
+				if(ret === id){	
+					$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
+					return false;
+				}else $("#idCk").html("사용 가능합니다.").css("color", "green");
+			}
+		});
+
 		
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
 			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
-		}
+		}else $("#pwCk").html("사용 가능합니다.").css("color", "green");
 		
-		if(cpw === "") {
+		if(cpw !== pw) {
 			$("#cpwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 			return false;
-		}
+		}else $("#cpwCk").html("비밀번호가 일치합니다.").css("color", "green");
 		
 		if(!emailRegex.test(email)) {
-			$("#idCk").html("이메일 형식에 맞지 않습니다.").css("color", "red");
+			$("#emailCk").html("형식에 맞지 않습니다.").css("color", "red");
 			return false;
-		}
+		}else $("#emailCk").html("사용 가능합니다.").css("color", "green"); 
 	});		
 });

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>정보조회</title>
+</head>
+<body>
+	<h1>사용자 정보조회 페이지</h1>
+	
+	<h3>아이디: <span th:text="${user.id}"></span></h3>
+	<h3>비밀번호: <span th:text="${user.pw}"></span></h3>
+	<h3>이메일: <span th:text="${user.email}"></span> </h3>
+	<h3>등급: <span th:text="${user.grade}"></span></h3>
+	<h3>가입날짜: <span th:text="${user.createDate}"></span></h3>
+	
+	<h4><a href="./main">돌아가기</a></h4>
+</body>
+</html>
