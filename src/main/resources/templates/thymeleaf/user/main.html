@@ -2,18 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>사용자 메인</title>
 </head>
 <body>		
-	<h1>사용자 메인 페이지</h1>
+	<h1>사용자 메인</h1>
 	
 	<input type="button" value="로그아웃" onclick="location.href='./logout'">
 	
-	<h2><a href="./read">정보조회</a></h2>
-	<h2><a href="./update">정보수정</a></h2>
-	<h2><a href="./delete">회원탈퇴</a></h2>
+	<h2>user</h2>
+	<h3><a href="./read">정보조회</a></h3>
+	<h3><a href="./update">정보수정</a></h3>
+	<h3><a href="./delete">회원탈퇴</a></h3>
 	
-	
-	<h2><a href="./all">회원목록</a></h2>
+	<h2>review</h2>
+	<h3><a href="/recmv/rev/main">리뷰메인</a></h3>	
+		
+	<div th:if="${id} == 'admin'">
+		<h2><a href="./all">회원목록</a></h2>		
+	</div>
 </body>
 </html>

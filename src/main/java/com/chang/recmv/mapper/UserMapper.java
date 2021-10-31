@@ -17,6 +17,6 @@ public interface UserMapper {
 	public String ckLogin(User user) throws Exception;
 	public User readUser(String id) throws Exception;
 	public void updateUser(User user) throws Exception;
-	public void deleteUser(String id) throws Exception;
+	public void deleteUser(User user) throws Exception;
 	public List<User> getAll(String id) throws Exception;
 }

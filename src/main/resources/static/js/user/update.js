@@ -3,16 +3,24 @@ $(document).ready(function() {
 			
 	$("form").submit(function() {
 		var pw = $("#pw").val();
+		var rpw = $("#rpw").val();
 		var email = $("#email").val();
+		
+		alert("실제: " + rpw);
 		
 		if(pw === "") {
 			$("#pwCk").html("비밀번호를 입력하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("").css("color", "green");
+		}
 		
+		if(pw !== rpw){
+			$("#pwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+			return false;			
+		}
+
 		if(!emailRegex.test(email)) {
 			$("#emailCk").html("형식에 맞지 않습니다.").css("color", "red");
 			return false;
-		}else $("#emailCk").html("사용 가능합니다.").css("color", "green"); 
+		}
 	});		
 });

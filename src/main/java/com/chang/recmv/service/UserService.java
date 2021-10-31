@@ -15,10 +15,6 @@ public class UserService {
 	@Autowired
 	private UserMapper mapper;
 	
-	/*public List<User> getAll() throws Exception {
-		return mapper.getAll();
-	}*/
-	
 	public void addUser(User user) throws Exception {
 		mapper.addUser(user);
 	}
@@ -39,8 +35,8 @@ public class UserService {
 		mapper.updateUser(user);
 	}
 	
-	public void deleteUser(String id) throws Exception {
-		mapper.deleteUser(id);
+	public void deleteUser(User user) throws Exception {
+		mapper.deleteUser(user);
 	}
 	
 	public List<User> getAll(String id) throws Exception {

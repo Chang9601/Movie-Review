@@ -16,7 +16,7 @@ import com.chang.recmv.service.UserService;
 
 @RestController
 public class UserController {
-	/*
+	/* GET 방식: thymeleaf에서 / 없음
 	 * POST 방식: ModelAndView에서 redirect 사용
 	 * String을 json으로 전달: 쌍따옴표 제거, replaceAll("^\"|\"$", "")
 	 * 
@@ -90,17 +90,23 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http:localhost:8088/recmv/main
 	@GetMapping("/user/main") // -> main의 main으로 변환
-	public ModelAndView main() throws Exception {		
+	public ModelAndView main(HttpSession session) throws Exception {		
 		logger.info("User: main() 시작");
 		ModelAndView mav = new ModelAndView("thymeleaf/user/main");
+		String id = (String)session.getAttribute("id");
+		if(id == null) {
+			mav.setViewName("redirect:./login");
+			return mav;			
+		}
+		mav.addObject("id", id);
 		logger.info("User: main() 끝");		
 		
 		return mav;
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/logout")
@@ -174,17 +180,22 @@ public class UserController {
 			mav.setViewName("redirect:./login");
 			return mav;			
 		}
+		User user = service.readUser(id);
+		mav.addObject("user", user);
 		logger.info("User: deleteUserGET(HttpSession session) 시작");
 		
 		return mav;
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
 	@PostMapping("/user/delete")
-	public ModelAndView deleteUserPOST(String id) throws Exception {
+	public ModelAndView deleteUserPOST(User user, HttpSession session) throws Exception {
 		logger.info("User: deleteUserPOST(String id) 시작");
 		ModelAndView mav = new ModelAndView("redirect:./login");
-		logger.info("삭제 전: " + id);
-		service.deleteUser(id);
+		String id = (String)session.getAttribute("id");
+		user.setId(id);
+		logger.info("삭제: " + user);
+		service.deleteUser(user);
+		session.invalidate();
 		logger.info("User: deleteUserPOST(String id) 시작");
 		
 		return mav;
@@ -194,14 +205,18 @@ public class UserController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/all")
-	public ModelAndView getAll(String id) throws Exception {
-		logger.info("User: getAll(String id) 시작");
-		ModelAndView mav = new ModelAndView("/thymeleaf/user/all");
-		logger.info("목록: " + id);
-		logger.info("User: getAll(String id) 끝");
+	public ModelAndView getAll(HttpSession session) throws Exception {
+		logger.info("User: getAll() 시작");
+		ModelAndView mav = new ModelAndView("thymeleaf/user/all");
+		String id = (String)session.getAttribute("id");		
+		if(id == null || !id.equals("admin")) {
+			mav.setViewName("redirect:./login");
+			return mav;			
+		}		
+		mav.addObject("list", service.getAll(id));
+		logger.info("User: getAll() 끝");
 		
 		return mav;
 	}
-	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

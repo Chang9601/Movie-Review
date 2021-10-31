@@ -38,7 +38,7 @@ $(document).ready(function() {
 				if(ret === id){	
 					$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
 					return false;
-				}else $("#idCk").html("사용 가능합니다.").css("color", "green");
+				}
 			}
 		});
 
@@ -46,16 +46,16 @@ $(document).ready(function() {
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
 			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("사용 가능합니다.").css("color", "green");
+		}
 		
 		if(cpw !== pw) {
 			$("#cpwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 			return false;
-		}else $("#cpwCk").html("비밀번호가 일치합니다.").css("color", "green");
+		}
 		
 		if(!emailRegex.test(email)) {
 			$("#emailCk").html("형식에 맞지 않습니다.").css("color", "red");
 			return false;
-		}else $("#emailCk").html("사용 가능합니다.").css("color", "green"); 
+		}
 	});		
 });

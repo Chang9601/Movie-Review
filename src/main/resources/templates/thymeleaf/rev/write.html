@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>리뷰쓰기</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/rev/write.js}"></script>
+
+</head>
+<body>
+	<h1>리뷰쓰기</h1>
+	<form action="" method="post">
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td colspan="2"><input type="text" name="userId" id="userId" th:value=${id} readonly/></td>
+			</tr>
+			<tr>
+				<td>영화</td>
+				<td colspan="2"><input type="text" name="movie" id="movie" readonly/></td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title" id="title"/></td>
+     			<td>
+	     			<select name="rating" id="rating">     			
+	     				<option value=1>★☆☆☆☆</option>
+	     				<option value=2>★★☆☆☆</option>
+	     				<option value=3>★★★☆☆</option>
+	     				<option value=4>★★★★☆</option>
+	     				<option value=5>★★★★★</option>
+	       			</select>
+       			</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="2"><textarea name="rev" id="rev" maxlength="200"></textarea></td>
+			</tr>
+		</table>		
+		<input type="submit" value="리뷰작성">
+	</form>
+</body>
+</html>

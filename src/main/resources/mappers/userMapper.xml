@@ -5,7 +5,7 @@
 
 <mapper namespace="com.chang.recmv.mapper.UserMapper">
 	<insert id="addUser">
-		insert into recmv_user (id, pw, email, createDate)
+		insert into recmv_user(id, pw, email, createDate)
 		values(#{id}, #{pw}, #{email}, now())
 	</insert>
 	
@@ -35,7 +35,7 @@
 	
 	<delete id="deleteUser">
 		delete from recmv_user
-		where id = #{id}
+		where id = #{id} and pw = #{pw}
 	</delete>
 	
 	<select id="getAll" resultType="User">
