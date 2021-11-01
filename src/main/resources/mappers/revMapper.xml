@@ -5,7 +5,24 @@
 
 <mapper namespace="com.chang.recmv.mapper.RevMapper">
 	<insert id="writeRev">
-		insert into recmv_rev(movie, rating, rev, creatDate)
-		values(#{movie}, #{rating}, #{rev}, now())
+		insert into recmv_rev(userId, movie, title, rating, rev, creatDate)
+		values(#{userId}, #{movie}, #{title}, #{rating}, #{rev}, now())
 	</insert>
+	
+	<select id="getAllRev" resultType="Rev">
+		select *
+		from recmv_rev
+	</select>
+
+	<select id="readRev" resultType="Rev">
+		select *
+		from recmv_rev
+		where num = #{num}
+	</select>
+	
+	<update id="updateRev">
+		update recmv_rev 
+		set title = #{title}, rev = #{rev}, rating = #{rating}, updateDate = now()
+		where num = #{num}
+	</update>
 </mapper>

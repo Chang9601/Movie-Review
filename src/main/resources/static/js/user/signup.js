@@ -42,7 +42,6 @@ $(document).ready(function() {
 			}
 		});
 
-		
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
 			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;

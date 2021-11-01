@@ -60,8 +60,7 @@ public class UserController {
 		return ret;
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
-	
+		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/login
 	@GetMapping("/user/login")
@@ -139,7 +138,6 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/update")
 	public ModelAndView updateUserGET(HttpSession session) throws Exception {	
@@ -202,19 +200,18 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/all")
-	public ModelAndView getAll(HttpSession session) throws Exception {
-		logger.info("User: getAll() 시작");
+	public ModelAndView getAllUser(HttpSession session) throws Exception {
+		logger.info("User: getAllUser(HttpSession session) 시작");
 		ModelAndView mav = new ModelAndView("thymeleaf/user/all");
 		String id = (String)session.getAttribute("id");		
 		if(id == null || !id.equals("admin")) {
 			mav.setViewName("redirect:./login");
 			return mav;			
 		}		
-		mav.addObject("list", service.getAll(id));
-		logger.info("User: getAll() 끝");
+		mav.addObject("users", service.getAllUser(id));
+		logger.info("User: getAllUser(HttpSession session) 끝");
 		
 		return mav;
 	}

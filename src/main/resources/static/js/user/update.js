@@ -6,7 +6,7 @@ $(document).ready(function() {
 		var rpw = $("#rpw").val();
 		var email = $("#email").val();
 		
-		alert("실제: " + rpw);
+		//alert("실제: " + rpw);
 		
 		if(pw === "") {
 			$("#pwCk").html("비밀번호를 입력하세요.").css("color", "red");

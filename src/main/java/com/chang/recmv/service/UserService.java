@@ -39,7 +39,7 @@ public class UserService {
 		mapper.deleteUser(user);
 	}
 	
-	public List<User> getAll(String id) throws Exception {
-		return mapper.getAll(id);
+	public List<User> getAllUser(String id) throws Exception {
+		return mapper.getAllUser(id);
 	}
 }

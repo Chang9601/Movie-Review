@@ -2,21 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>리뷰 메인</title>
+<title>리뷰메인</title>
 </head>
 <body>		
-	<h1>리뷰 메인</h1>
+	<h1>리뷰메인</h1>
 	
 	<input type="button" value="로그아웃" onclick="location.href='/recmv/user/logout'">
 	
 	<h3><a href="./write">리뷰쓰기</a></h3>
-	<h3><a href="./update">리뷰수정</a></h3>
-	<h3><a href="./delete">리뷰삭제</a></h3>
+	<h3><a href="./all">리뷰목록</a></h3>
 	
-	<h4><a href="/recmv/user/main">사용자 메인으로 돌아가기</a></h4>	
-	
-	<div th:if="${id} == 'admin'">
-		<h2><a href="./all">리뷰목록</a></h2>		
-	</div>	
+	<h4><a href="/recmv/user/main">회원메인으로 돌아가기</a></h4>		
 </body>
 </html>

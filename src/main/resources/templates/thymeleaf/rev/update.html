@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>리뷰수정</title>
+</head>
+<body>
+	<h1>리뷰수정</h1>
+
+	<form action="" method="post">
+		<input type="hidden" name="num" id="num" th:value="${rev.num}">
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td colspan="2"><input type="text" name="userId" id="userId" th:value="${rev.userId}" readonly/></td>
+			</tr>
+			<tr>
+				<td>영화제목</td>
+				<td colspan="2"><input type="text" name="movie" id="movie" th:value="${rev.movie}" readonly/></td>
+			</tr>
+			<tr>
+				<td>리뷰제목</td>
+				<td><input type="text" name="title" id="title" th:value="${rev.title}"/></td>
+     			<td>
+	     			<select name="rating" id="rating" th:value="${rev.rating}">     			
+	     				<option value=1 th:selected="${rev.rating} == 1">★☆☆☆☆</option>
+	     				<option value=2 th:selected="${rev.rating} == 2">★★☆☆☆</option>
+	     				<option value=3 th:selected="${rev.rating} == 3">★★★☆☆</option>
+	     				<option value=4 th:selected="${rev.rating} == 4">★★★★☆</option>
+	     				<option value=5 th:selected="${rev.rating} == 5">★★★★★</option>
+	       			</select>
+       			</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="2"><textarea name="rev" id="rev" maxlength="200" th:text="${rev.rev}"></textarea></td>
+			</tr>
+		</table>		
+		<input type="submit" value="리뷰수정">
+	</form>
+	
+	<h4><a href="./main">돌아가기</a></h4>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package com.chang.recmv.service;
 
 
+import java.util.List;
+
 //import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +19,17 @@ public class RevService {
 	
 	public void writeRev(Rev rev) throws Exception {
 		mapper.writeRev(rev);
+	}
+	
+	public List<Rev> getAllRev() throws Exception {
+		return mapper.getAllRev();
+	}
+	
+	public Rev readRev(Integer num) throws Exception {
+		return mapper.readRev(num);
+	}
+
+	public void updateRev(Rev rev) throws Exception {
+		mapper.updateRev(rev);
 	}
 }

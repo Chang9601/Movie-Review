@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>사용자 정보목록</title>
+<title>회원목록</title>
 </head>
 <body>
-	<h1>사용자 정보목록</h1>
+	<h1>회원목록</h1>
 	<table border="1">
 		<tr>
 			<td>아이디</td>
@@ -14,12 +14,12 @@
 			<td>등급</td>
 			<td>가입날짜</td>
 		</tr>
-		<tr th:each="user : ${list}">
-			<td th:text="${user.id}">
-			<td th:text="${user.pw}">
-			<td th:text="${user.email}">
-			<td th:text="${user.grade}">
-			<td th:text="${user.createDate}">
+		<tr th:each="user : ${users}">
+			<td th:text="${user.id}"></td>
+			<td th:text="${user.pw}"></td>
+			<td th:text="${user.email}"></td>
+			<td th:text="${user.grade}"></td>
+			<td th:text="${user.createDate}"></td>
 		</tr>
 	</table>
 	

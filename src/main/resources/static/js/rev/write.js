@@ -1,15 +1,16 @@
 $(document).ready(function() {
 	$("form").submit(function() {
 		var title = $("#title").val();
-		var content = $("#content").val();
+		var rev = $("#rev").val();
+		
 				
 		if(title === "") {
-			$("#pwCk").html("제목을 입력하세요.").css("color", "red");
+			$("#titleCk").html("제목을 입력하세요.").css("color", "red");
 			return false;
 		}
 
-		if(content === ""){
-			$("#pwCk").html("내용을 입력하세요.").css("color", "red");
+		if(rev === ""){
+			$("#revCk").html("내용을 입력하세요.").css("color", "red");
 			return false;			
 		}
 	});		
