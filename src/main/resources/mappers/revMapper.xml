@@ -25,4 +25,9 @@
 		set title = #{title}, rev = #{rev}, rating = #{rating}, updateDate = now()
 		where num = #{num}
 	</update>
+	
+	<delete id="deleteRev">
+		delete from recmv_rev
+		where num = #{num}
+	</delete>
 </mapper>

@@ -1,6 +1,5 @@
 package com.chang.recmv.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -58,7 +57,7 @@ public class RevController {
 	@PostMapping("/rev/write")
 	public ModelAndView writePOST(Rev rev) throws Exception {
 		logger.info("Rev: writePOST(Rev rev, HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./main");		
+		ModelAndView mav = new ModelAndView("redirect:./all");		
 		logger.info("쓰기: " + rev);
 		service.writeRev(rev);
 		logger.info("Rev: writePOST(Rev rev, HttpSession session) 끝");
@@ -88,7 +87,7 @@ public class RevController {
 	@GetMapping("/rev/read")
 	public ModelAndView readRev(Integer num, HttpSession session) throws Exception {
 		logger.info("Rev : readRev(Integer num, HttpSession session) 시작");
-		logger.info("번호: " + num);
+		//logger.info("번호: " + num);
 		ModelAndView mav = new ModelAndView("thymeleaf/rev/read");
 		String id = (String)session.getAttribute("id");
 		if(id == null) {
@@ -132,7 +131,16 @@ public class RevController {
 		return mav;
 	}	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+	@PostMapping("/rev/delete")
+	public ModelAndView deleteRev(Integer num) throws Exception {
+		logger.info("Rev : deleteRev() 시작");
+		ModelAndView mav = new ModelAndView("redirect:./all");
+		service.deleteRev(num);
+		logger.info("Rev : deleteRev() 끝");
 		
-	
-	
+		return mav;
+	}
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 }

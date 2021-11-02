@@ -87,6 +87,15 @@ public class UserController {
 		
 		return mav;
 	}
+	
+	@PostMapping("/user/ckUser")
+	public String ckUser(@RequestBody User user) throws Exception {
+		logger.info("User: ckUser(User user) 시작");
+		String id = service.ckLogin(user); 
+		logger.info("User: ckUser(User user) 끝");
+		
+		return id;
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -119,7 +128,7 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/read")
 	public ModelAndView readUser(HttpSession session) throws Exception {		
 		logger.info("User: readUser(HttpSession session) 시작");
@@ -136,9 +145,9 @@ public class UserController {
 		
 		return mav;
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/update")
 	public ModelAndView updateUserGET(HttpSession session) throws Exception {	
 		logger.info("User: updateUserGET(HttpSession session) 시작");
@@ -166,9 +175,9 @@ public class UserController {
 		
 		return mav;
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/delete")
 	public ModelAndView deleteUserGET(HttpSession session) throws Exception {
 		logger.info("User: deleteUserGET(HttpSession session) 시작");
@@ -192,13 +201,14 @@ public class UserController {
 		String id = (String)session.getAttribute("id");
 		user.setId(id);
 		logger.info("삭제: " + user);
+		service.deleteRev(id);
 		service.deleteUser(user);
 		session.invalidate();
 		logger.info("User: deleteUserPOST(String id) 시작");
 		
 		return mav;
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정보삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/all")

@@ -29,7 +29,12 @@
 		set email = #{email}, updateDate = now()
 		where id = #{id} and pw = #{pw}
 	</update>
-	
+
+	<delete id="deleteRev">
+		delete from recmv_rev
+		where userId = #{userId}
+	</delete>
+		
 	<delete id="deleteUser">
 		delete from recmv_user
 		where id = #{id} and pw = #{pw}

@@ -21,7 +21,6 @@ $(document).ready(function() {
 		}
 			
 		form.attr("action", "./delete");
-		form.attr("method", "get");
 		form.submit();
 	});
 		
