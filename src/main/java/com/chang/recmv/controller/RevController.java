@@ -15,7 +15,6 @@ import com.chang.recmv.service.RevService;
 
 @RestController
 public class RevController {
-
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 
 	@Autowired

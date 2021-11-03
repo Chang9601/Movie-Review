@@ -89,7 +89,15 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>		
+		</dependency>			
+		
+		<dependency>
+			<groupId>kobis-opcl-rest-v1.0</groupId>
+			<artifactId>kobis-opcl-rest-v1.0</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/lib/kobis-opcl-rest-v1.0.jar</systemPath>
+		</dependency>
 		<!-- 추가 라이브러리 -->		
 	</dependencies>
 
@@ -106,6 +114,13 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-maven-plugin</artifactId>
+			    <configuration>
+			    	<includeSystemScope>true</includeSystemScope>
+			    </configuration>
 			</plugin>
 		</plugins>
 	</build>

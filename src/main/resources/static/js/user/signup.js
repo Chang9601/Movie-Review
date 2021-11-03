@@ -28,20 +28,24 @@ $(document).ready(function() {
 			return false;
 		}
 			
+		data = {
+			id: id
+		};
+		
 		$.ajax({
 			url: "./ckDupId",
 			type: "POST",
-			contentType: "text/plain;charset=UTF-8",
-			data: id,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: data,
 			success: function(ret){
 				//alert("결과: " + ret);
 				if(ret === id){	
 					$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
 					return false;
-				}
+				}				
 			}
 		});
-
+			
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
 			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;

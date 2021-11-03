@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,11 +52,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/ckDupId")
-	public String ckDupId(@RequestBody String id) throws Exception {
-		logger.info("User: ckDupId(@RequestBody String id) 시작");
+	public String ckDupId(@RequestParam("id") String id) throws Exception {
+		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
 		logger.info("아이디 중복확인: " + id);
 		String ret = service.ckDupId(id);
-		logger.info("User: ckDupId(@RequestBody String id) 끝");
+		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 끝");
 		
 		return ret;
 	}
@@ -91,6 +92,7 @@ public class UserController {
 	@PostMapping("/user/ckUser")
 	public String ckUser(@RequestBody User user) throws Exception {
 		logger.info("User: ckUser(User user) 시작");
+		System.out.println("사용자: " + user);
 		String id = service.ckLogin(user); 
 		logger.info("User: ckUser(User user) 끝");
 		
