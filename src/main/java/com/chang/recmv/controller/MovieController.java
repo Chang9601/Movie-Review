@@ -19,7 +19,7 @@ public class MovieController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 	
 	// 발급키
-	private String key = "957ea9693381e2fd1ffb2a2691ca38be";
+	private String key = "";
 		
 	// KOBIS 오픈 API Rest Client 호출
 	private KobisOpenAPIRestService service = new KobisOpenAPIRestService(key);
