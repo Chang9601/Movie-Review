@@ -17,35 +17,23 @@ $(document).ready(function() {
 	var pwRegex = /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*]+)).{7,14}$/;
 	var emailRegex = /[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4})/;
 			
-	$("form").submit(function() {
+	$("#btn-signup").on("click", ()=>{
 		var id = $("#id").val();
 		var pw = $("#pw").val();
 		var cpw = $("#cpw").val();
 		var email = $("#email").val();
-					
+						
+		var obj = {
+			id: id,
+			pw: pw,
+			email: email
+		}
+						
 		if(!idRegex.test(id) || !ckId(id)) {
 			$("#idCk").html("5~10자의 영문 소문자와 숫자만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
 		}
-			
-		data = {
-			id: id
-		};
-		
-		$.ajax({
-			url: "./ckDupId",
-			type: "POST",
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: data,
-			success: function(ret){
-				//alert("결과: " + ret);
-				if(ret === id){	
-					$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
-					return false;
-				}				
-			}
-		});
-			
+
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
 			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
@@ -59,6 +47,36 @@ $(document).ready(function() {
 		if(!emailRegex.test(email)) {
 			$("#emailCk").html("형식에 맞지 않습니다.").css("color", "red");
 			return false;
-		}
+		}	
+				
+		$.ajax({
+				url: "/recmv/api/user/ckDupId",
+				type: "GET",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: {id: id},		
+				//dataType: "text"
+			}).done(function(resp){
+				console.log(resp);
+				if(resp === id) {
+					$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
+					return false;				
+				}
+								
+				$.ajax({			
+					url: "/recmv/api/user/signup",
+					type: "POST",
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify(obj),	
+				//dataType: "text"						
+				}).done(function(resp){
+					console.log(resp);	
+					location.href = "./login";
+				}).fail(function(err){
+					alert(JSON.stringify(err));
+				});		
+						
+			}).fail(function(err){
+				alert(JSON.stringify(err));
+		});	
 	});		
 });

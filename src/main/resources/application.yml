@@ -12,6 +12,9 @@ spring:
     #view:
       #prefix: /WEB-INF/views/
       #suffix: .jsp
+  thymeleaf:
+    prefix: classpath:templates/thymeleaf/
+    suffix: .html
      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -33,13 +36,6 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
-      
-  thymeleaf:
-    view-names: thymeleaf/*
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    check-template-location: true
             
 mybatis:
   type-aliases-package: com.chang.recmv.model

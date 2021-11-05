@@ -27,8 +27,7 @@ public class MovieController {
 	@GetMapping("/movie/daily")
 	public ModelAndView getDaily() throws Exception {
 		
-		logger.info("Movie: getDaily() 시작");
-		
+		logger.info("Movie: getDaily() 시작");		
 		// 조회날짜: yyyymmdd 형식
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String targetDt = LocalDate.now().minusDays(1).format(formatter);

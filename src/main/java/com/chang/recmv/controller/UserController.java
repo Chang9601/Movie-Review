@@ -5,17 +5,19 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chang.recmv.model.User;
 import com.chang.recmv.service.UserService;
 
-@RestController
+@Controller
+@RequestMapping("/user/*")
 public class UserController {
 	/* GET 방식: thymeleaf에서 / 없음
 	 * POST 방식: ModelAndView에서 redirect 사용
@@ -31,46 +33,24 @@ public class UserController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/signup
-	@GetMapping("/user/signup")
-	public ModelAndView signupGET() throws Exception {
-		logger.info("User: signupGET() 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/signup");
-		logger.info("User: signupGET() 끝");
+	@GetMapping("/signup")
+	public String signupGet() throws Exception {
+		logger.info("User: signupGet() 시작");
+		logger.info("User: signupGet() 끝");
 			
-		return mav;
-	}
-		
-	@PostMapping("/user/signup")
-	public ModelAndView signupPOST(User user) throws Exception {
-		logger.info("User: signupPOST(User user) 시작");
-		logger.info("회원가입: " + user);
-		ModelAndView mav = new ModelAndView("redirect:./login");
-		service.addUser(user);
-		logger.info("User: signupPOST(User user) 끝");
-		
-		return mav;
-	}
-	
-	@PostMapping("/user/ckDupId")
-	public String ckDupId(@RequestParam("id") String id) throws Exception {
-		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
-		logger.info("아이디 중복확인: " + id);
-		String ret = service.ckDupId(id);
-		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 끝");
-		
-		return ret;
+		return "user/signup";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/login
-	@GetMapping("/user/login")
-	public ModelAndView loginGET() throws Exception {
+	@GetMapping("/login")
+	public String loginGET() throws Exception {
 		logger.info("User: loginGET() 시작");		
-		ModelAndView mav = new ModelAndView("thymeleaf/user/login");
+		//ModelAndView mav = new ModelAndView("thymeleaf/user/login");
 		logger.info("User: loginGET() 끝");
 		
-		return mav;
+		return "user/login";
 	}
 	
 	@PostMapping("/user/login")
