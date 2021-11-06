@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,15 +46,14 @@ public class UserController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/login
 	@GetMapping("/login")
-	public String loginGET() throws Exception {
-		logger.info("User: loginGET() 시작");		
-		//ModelAndView mav = new ModelAndView("thymeleaf/user/login");
-		logger.info("User: loginGET() 끝");
+	public String loginGet() throws Exception {
+		logger.info("User: loginGet() 시작");		
+		logger.info("User: loginGet() 끝");
 		
 		return "user/login";
 	}
 	
-	@PostMapping("/user/login")
+	/*@PostMapping("/user/login")
 	public ModelAndView loginPOST(User user, HttpSession session) throws Exception {
 		logger.info("User: loginPOST(User user, HttpSession session) 시작");
 		ModelAndView mav = new ModelAndView("redirect:./main");
@@ -77,36 +77,32 @@ public class UserController {
 		logger.info("User: ckUser(User user) 끝");
 		
 		return id;
-	}
+	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http:localhost:8088/recmv/main
-	@GetMapping("/user/main") // -> main의 main으로 변환
-	public ModelAndView main(HttpSession session) throws Exception {		
-		logger.info("User: main() 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/main");
+	@GetMapping("/main") // -> main의 main으로 변환
+	public String main(HttpSession session, Model model) throws Exception {		
+		logger.info("User: main(HttpSession session, Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:./login");
-			return mav;			
-		}
-		mav.addObject("id", id);
-		logger.info("User: main() 끝");		
+		if(id == null) 
+			return "redirect:./login";
+		model.addAttribute("id", id);
+		logger.info("User: main(HttpSession session, Model model) 끝");		
 		
-		return mav;
+		return "user/main";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/logout")
-	public ModelAndView logout(HttpSession session) throws Exception {
+	public String logout(HttpSession session) throws Exception {
 		logger.info("User: logout(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./login");
 		session.invalidate();
 		logger.info("User: logout(HttpSession session) 끝");
 		
-		return mav;
+		return "redirect:./login";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	

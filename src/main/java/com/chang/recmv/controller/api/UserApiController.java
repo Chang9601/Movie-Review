@@ -1,5 +1,7 @@
 package com.chang.recmv.controller.api;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +25,45 @@ public class UserApiController {
 
 	@Autowired
 	private UserService service;
+
+	@GetMapping("/ckDupId")
+	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {
+		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
+		logger.info("아이디 중복확인: " + id);
+		String dbId = service.ckDupId(id);
+		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 끝");
+
+		return new ResponseEntity<String>(dbId, HttpStatus.OK);
+	}
 	
 	@PostMapping("/signup")
 	public ResponseEntity<String> signupPost(@RequestBody User user) throws Exception {
-		logger.info("signPost(@RequestBody User user) 시작");
+		logger.info("User: signupPost(@RequestBody User user) 시작");
 		logger.info("회원가입: " + user);
 		service.addUser(user);
-		logger.info("signPost(@RequestBody User user) 끝");
+		logger.info("User: signupPost(@RequestBody User user) 끝");
 		
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
-	@GetMapping("/ckDupId")
-	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {
-		logger.info("ckDupId(@RequestParam String id) 시작");
-		logger.info("아이디 중복확인: " + id);
-		String dbId = service.ckDupId(id);
-		logger.info("ckDupId(@RequestParam String id) 끝");
+	@PostMapping("/ckUser")
+	public ResponseEntity<String> ckUser(@RequestBody User user) throws Exception {
+		logger.info("User: ckUser(@RequestBody User user) 시작");
+		logger.info("사용자 확인: " + user);
+		String id = service.ckLogin(user);
+		logger.info("User: ckUser(@RequestBody User user) 끝");
 
-		return new ResponseEntity<String>(dbId, HttpStatus.OK);
+		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<String> loginPost(@RequestBody User user, HttpSession session) throws Exception {
+		logger.info("User: loginPost(@RequestBody User user, HttpSession session) 시작");
+		logger.info("로그인: " + user);
+		String id = service.ckLogin(user);
+		session.setAttribute("id", id);
+		logger.info("User: loginPost(@RequestBody User user, HttpSession session) 끝");	
+		
+		return new ResponseEntity<String>(id, HttpStatus.OK);
+	}	
 }
