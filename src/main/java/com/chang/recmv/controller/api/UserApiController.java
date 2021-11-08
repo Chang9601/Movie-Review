@@ -25,9 +25,12 @@ public class UserApiController {
 
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping("/ckDupId")
-	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {
+	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {	
 		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
 		logger.info("아이디 중복확인: " + id);
 		String dbId = service.ckDupId(id);
@@ -57,12 +60,13 @@ public class UserApiController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> loginPost(@RequestBody User user, HttpSession session) throws Exception {
-		logger.info("User: loginPost(@RequestBody User user, HttpSession session) 시작");
+	public ResponseEntity<String> loginPost(@RequestBody User user) throws Exception {
+		logger.info("User: loginPost(@RequestBody User user) 시작");
 		logger.info("로그인: " + user);
 		String id = service.ckLogin(user);
-		session.setAttribute("id", id);
-		logger.info("User: loginPost(@RequestBody User user, HttpSession session) 끝");	
+		if(id != null)
+			session.setAttribute("id", id);
+		logger.info("User: loginPost(@RequestBody User user) 끝");	
 		
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}	

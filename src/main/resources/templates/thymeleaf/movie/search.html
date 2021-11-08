@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>영화검색</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+	<form>
+		<label for="query">검색</label>
+		<input type="text" name="query" id="query" placeholder="검색하려는 영화제목을 입력하세요.">
+	</form>
+	<button id="btn-search">찾기</button>		
+	
+	
+	<h1>영화 정보</h1>
+</body>
+<script type="text/javascript" th:src="@{/js/movie.js}"></script>
+</html>

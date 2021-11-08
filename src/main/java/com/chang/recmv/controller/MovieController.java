@@ -1,23 +1,23 @@
 package com.chang.recmv.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
+//import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
 
-@RestController
+@Controller
+@RequestMapping("/movie/*")
 public class MovieController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 	
+	/*
 	// 발급키
 	private String key = "";
 		
@@ -56,5 +56,14 @@ public class MovieController {
 		logger.info("Movie: getDaily() 끝");
 	
 		return mav;
+	}
+	*/
+	
+	@GetMapping("/search")
+	public String search() throws Exception {
+		logger.info("Movie: search() 시작");		
+		logger.info("Movie: search() 끝");		
+		
+		return "movie/search";
 	}
 }
