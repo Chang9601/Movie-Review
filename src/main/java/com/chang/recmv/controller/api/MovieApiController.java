@@ -5,16 +5,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+//import java.sql.Timestamp;
+//import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+//import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+//import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chang.recmv.model.Movie;
+import com.chang.recmv.service.MovieService;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
@@ -32,6 +40,9 @@ import com.chang.recmv.model.Movie;
 public class MovieApiController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MovieApiController.class); 
+
+	@Autowired
+	private MovieService service;
 	
 	/*
 	// 발급키
@@ -100,7 +111,7 @@ public class MovieApiController {
         JSONParser parser = new JSONParser();
         JSONObject obj = (JSONObject)parser.parse(json);
         JSONArray items = (JSONArray)obj.get("items");      
-		List<Movie> list = new ArrayList<Movie>();
+		//List<Movie> list = new ArrayList<Movie>();
         
 		for(int i = 0; i < items.size(); i++) {
 			Movie movie = new Movie();
@@ -109,21 +120,18 @@ public class MovieApiController {
 			movie.setLink((String)tmp.get("link"));
 			movie.setImage((String)tmp.get("image"));
 			movie.setActor((String)tmp.get("actor"));
-			
-			System.out.println("제목: " + tmp.get(("title")));
-			System.out.println("링크: " + tmp.get(("link")));
-			System.out.println("이미지: " + tmp.get(("image")));
-			System.out.println("배우: " + tmp.get(("actor")));
-			
+			movie.setPlot(getPlot((String)tmp.get("link")));
+			/*System.out.println("제목: " + movie.getTitle());
+			System.out.println("링크: " + movie.getLink());
+			System.out.println("이미지: " + movie.getImage());
+			System.out.println("배우: " + movie.getActor());
+			*/
 			if(movie != null)
-				list.add(movie);
+				service.addMovie(movie);
 		}
 				
         logger.info("Movie: searchMovie(@RequestParam(\"query\") String query) 끝");  
 		//System.out.println("영화: " + items);
-		
-		
-        
         return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
 	}
 	
@@ -181,4 +189,12 @@ public class MovieApiController {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }	
+    
+    private static String getPlot(String URL) throws Exception {
+    	Document doc = Jsoup.connect(URL).get();
+    	Element text = doc.select("p.con_tx").first();
+    	String plot = text.text();
+    	
+    	return plot;
+    } 
 }

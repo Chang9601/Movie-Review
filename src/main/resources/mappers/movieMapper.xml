@@ -3,31 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.chang.recmv.mapper.RevMapper">
-	<insert id="writeRev">
-		insert into recmv_rev(userId, movie, title, rating, rev, creatDate)
-		values(#{userId}, #{movie}, #{title}, #{rating}, #{rev}, now())
+<mapper namespace="com.chang.recmv.mapper.MovieMapper">
+	<insert id="addMovie">
+		insert into recmv_movie(title, link, image, actor, plot, createDate)
+		values(#{title}, #{link}, #{image}, #{actor}, #{plot}, now())
 	</insert>
 	
-	<select id="getAllRev" resultType="Rev">
-		select *
-		from recmv_rev
+	<select id="readMovie" resultType="Movie">
+		select * from recmv_movie
+		where title = #{title}
 	</select>
-
-	<select id="readRev" resultType="Rev">
-		select *
-		from recmv_rev
-		where num = #{num}
-	</select>
-	
-	<update id="updateRev">
-		update recmv_rev 
-		set title = #{title}, rev = #{rev}, rating = #{rating}, updateDate = now()
-		where num = #{num}
-	</update>
-	
-	<delete id="deleteRev">
-		delete from recmv_rev
-		where num = #{num}
-	</delete>
 </mapper>

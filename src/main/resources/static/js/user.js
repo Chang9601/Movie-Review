@@ -87,7 +87,7 @@ var user = {
 				//dataType: "text"						
 			}).done(function(resp){
 				console.log(resp);	
-				location.replace("./login");
+				location.replace("./login");	
 			}).fail(function(err){
 				alert(JSON.stringify(err));
 			});					

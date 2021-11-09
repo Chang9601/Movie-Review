@@ -18,6 +18,8 @@ var movie = {
 		}).done(function(resp){
 			var ret = resp[0];
 			console.log(ret);
+			var loc = "./search?title=" + ret.title;
+			location.replace(loc);			
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		});				

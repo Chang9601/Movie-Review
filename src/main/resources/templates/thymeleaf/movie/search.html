@@ -14,7 +14,14 @@
 	<button id="btn-search">찾기</button>		
 	
 	
-	<h1>영화 정보</h1>
+	<div th:if="${movie} != null">	
+		<h2>영화 정보</h2>	
+		<h3>제목: <span th:text="${movie.title}"></span></h3>
+		<h3>링크: <span th:text="${movie.link}"></span></h3>
+		<h3>배우: <span th:text="${movie.actor}"></span></h3>	
+		<h3>줄거리: <span th:text="${movie.plot}"></span></h3>	
+		<h3>이미지: <img th:src="${movie.image}" width="300" height="400"> </h3>	
+	</div>
 </body>
 <script type="text/javascript" th:src="@{/js/movie.js}"></script>
 </html>
