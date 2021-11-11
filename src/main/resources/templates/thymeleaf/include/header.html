@@ -7,17 +7,21 @@
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav">
-	      <li class="nav-item">
-	        <a class="nav-link" href="/recmv/user/signup">회원가입</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/recmv/user/login">로그인</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/recmv/rev/all">리뷰</a>
-	      </li>    
-	    </ul>
+	  
+	  	<div th:if="${session.id} == null">
+		    <ul class="navbar-nav">
+		      <li class="nav-item"><a class="nav-link" href="/recmv/user/signup">회원가입</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/user/login">로그인</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/rev/all">리뷰</a></li>  	        
+		    </ul>
+	    </div>
+	   	<div th:unless="${session.id} == null">
+		    <ul class="navbar-nav">
+		      <li class="nav-item"><a class="nav-link" href="/recmv/user/logout">로그아웃</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/rev/main">리뷰</a></li>   
+		      <li class="nav-item"><a class="nav-link" href="/recmv/user/read">회원정보</a></li>			      
+		    </ul>	       
+		</div>	    
 	  </div>  
 	</nav>
 	<br>

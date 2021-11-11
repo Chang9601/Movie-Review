@@ -50,32 +50,6 @@ public class UserController {
 		
 		return "user/login";
 	}
-	
-	/*@PostMapping("/user/login")
-	public ModelAndView loginPOST(User user, HttpSession session) throws Exception {
-		logger.info("User: loginPOST(User user, HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./main");
-		logger.info("로그인: " + user);
-		String id = service.ckLogin(user);
-		if(id == null) {
-			mav.setViewName("redirect:./login");
-			return mav;
-		}
-		session.setAttribute("id", id);
-		logger.info("User: loginPOST(User user, HttpSession session) 끝");
-		
-		return mav;
-	}
-	
-	@PostMapping("/user/ckUser")
-	public String ckUser(@RequestBody User user) throws Exception {
-		logger.info("User: ckUser(User user) 시작");
-		System.out.println("사용자: " + user);
-		String id = service.ckLogin(user); 
-		logger.info("User: ckUser(User user) 끝");
-		
-		return id;
-	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -89,12 +63,12 @@ public class UserController {
 		model.addAttribute("id", id);
 		logger.info("User: main(HttpSession session, Model model) 끝");		
 		
-		return "user/main";
+		return "main/main";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/user/logout")
+	@GetMapping("/logout")
 	public String logout(HttpSession session) throws Exception {
 		logger.info("User: logout(HttpSession session) 시작");
 		session.invalidate();
@@ -105,21 +79,18 @@ public class UserController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/user/read")
-	public ModelAndView readUser(HttpSession session) throws Exception {		
-		logger.info("User: readUser(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/read");
+	@GetMapping("/read")
+	public String readUser(HttpSession session, Model model) throws Exception {		
+		logger.info("User: readUser(HttpSession session, Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:./login");
-			return mav;			
-		}
+		if(id == null) 
+			return "redirect:./login";
 		User user = service.readUser(id);
 		logger.info("조회: " + user);
-		mav.addObject("user", user);
-		logger.info("User: readUser(HttpSession session) 끝");
+		model.addAttribute("user", user);
+		logger.info("User: readUser(HttpSession session, Model model) 끝");
 		
-		return mav;
+		return "user/read";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	

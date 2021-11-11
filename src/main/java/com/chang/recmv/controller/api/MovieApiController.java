@@ -5,16 +5,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-//import java.sql.Timestamp;
-//import java.util.ArrayList;
 import java.util.HashMap;
-//import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-//import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +28,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
-
 @RestController
 @RequestMapping("/api/movie/*")
 public class MovieApiController {
@@ -44,55 +37,12 @@ public class MovieApiController {
 	@Autowired
 	private MovieService service;
 	
-	/*
-	// 발급키
-	private String kobisKey = "";
-		
-	// KOBIS 오픈 API Rest Client 호출
-	private KobisOpenAPIRestService kobisService = new KobisOpenAPIRestService(kobisKey);
-	
-	@GetMapping("/movie/daily")
-	public ResponseEntity<HashMap<String, Object>> getDaily() throws Exception {
-		
-		logger.info("Movie: getDaily() 시작");		
-		// 조회날짜: yyyymmdd 형식
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		String targetDt = LocalDate.now().minusDays(1).format(formatter);
-		
-		// 결과 ROW(default: "10", 최대: "10")
-		String itemPerPage = "10";
-		
-		// 다양성/상업영화("Y": 다양성, "N": 상업, default: 전체")
-		String multiMovieYn = "";
-		
-		// 한국/외국영화("K": 한국, "F": 외국, default: 전체)
-		String repNationCd = "";
-		
-		// 상영지역(default: 전체)
-		String wideAreaCd = "";
-		
-		//ModelAndView mav = new ModelAndView("thymeleaf/movie/daily");
-		
-		// 일일 박스오피스 서비스 호출
-		String dailyResp = kobisService.getDailyBoxOffice(true, targetDt, itemPerPage, multiMovieYn, repNationCd, wideAreaCd);		
-		
-		// JSON 라이브러리를 통해 처리
-		ObjectMapper mapper = new ObjectMapper();
-		HashMap<String, Object> dailyRet = mapper.readValue(dailyResp, HashMap.class);
-		logger.info("Movie: getDaily() 끝");
-	
-		return new ResponseEntity<HashMap<String,Object>>(dailyRet, HttpStatus.OK);
-	}
-	*/
-	
-	private String clientId = "";
-	
+	private String clientId = "";	
 	private String clientSecret = "";
 	
-	
 	@GetMapping("/searchMovie")
-	public ResponseEntity<JSONArray> searchMovie(@RequestParam("query") String query) throws Exception {
-		logger.info("Movie: searchMovie(@RequestParam(\"query\") String query) 시작");
+	public ResponseEntity<JSONArray> searchPost(@RequestParam("query") String query) throws Exception {
+		logger.info("Movie: searchPost(@RequestParam(\"query\") String query) 시작");
 		
         try {
             query = URLEncoder.encode(query, "UTF-8");
@@ -111,7 +61,6 @@ public class MovieApiController {
         JSONParser parser = new JSONParser();
         JSONObject obj = (JSONObject)parser.parse(json);
         JSONArray items = (JSONArray)obj.get("items");      
-		//List<Movie> list = new ArrayList<Movie>();
         
 		for(int i = 0; i < items.size(); i++) {
 			Movie movie = new Movie();
@@ -121,20 +70,15 @@ public class MovieApiController {
 			movie.setImage((String)tmp.get("image"));
 			movie.setActor((String)tmp.get("actor"));
 			movie.setPlot(getPlot((String)tmp.get("link")));
-			/*System.out.println("제목: " + movie.getTitle());
-			System.out.println("링크: " + movie.getLink());
-			System.out.println("이미지: " + movie.getImage());
-			System.out.println("배우: " + movie.getActor());
-			*/
+
 			if(movie != null)
 				service.addMovie(movie);
 		}
 				
-        logger.info("Movie: searchMovie(@RequestParam(\"query\") String query) 끝");  
-		//System.out.println("영화: " + items);
+        logger.info("Movie: searchPost(@RequestParam(\"query\") String query) 끝");  
         return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
 	}
-	
+		
     private static String get(String apiUrl, Map<String, String> requestHeaders){
         HttpURLConnection con = connect(apiUrl);
         try {
@@ -157,7 +101,6 @@ public class MovieApiController {
         }
     }
 
-
     private static HttpURLConnection connect(String apiUrl){
         try {
             URL url = new URL(apiUrl);
@@ -168,7 +111,6 @@ public class MovieApiController {
             throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
         }
     }
-
 
     private static String readBody(InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body);
@@ -189,7 +131,7 @@ public class MovieApiController {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }	
-    
+     
     private static String getPlot(String URL) throws Exception {
     	Document doc = Jsoup.connect(URL).get();
     	Element text = doc.select("p.con_tx").first();

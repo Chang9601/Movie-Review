@@ -5,15 +5,18 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chang.recmv.model.Rev;
 import com.chang.recmv.service.RevService;
 
-@RestController
+@Controller
+@RequestMapping("/rev/*")
 public class RevController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 
@@ -21,36 +24,30 @@ public class RevController {
 	private RevService service;
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/rev/main")
-	public ModelAndView main(HttpSession session) throws Exception {		
-		logger.info("Rev: main() 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/rev/main");
+	@GetMapping("/main")
+	public String main(HttpSession session, Model model) throws Exception {		
+		logger.info("Rev: main(HttpSession session, Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:/user/login");
-			return mav;
-		}		
-		mav.addObject("id", id);
-		logger.info("Rev: main() 끝");		
+		if(id == null) 
+			return "redirect:/user/login";		
+		model.addAttribute("id", id);
+		logger.info("Rev: main(HttpSession session, Model model) 끝");		
 		
-		return mav;
+		return "/rev/main";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/rev/write")
-	public ModelAndView writeGET(HttpSession session) throws Exception {
-		logger.info("Rev: writeGET(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/rev/write");
+	@GetMapping("/write")
+	public String writeGET(HttpSession session, Model model) throws Exception {
+		logger.info("Rev: writeGET(HttpSession session, Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:/user/login");
-			return mav;			
-		}			
-		mav.addObject("id", id);
-		logger.info("Rev: writeGET(HttpSession session) 끝");
+		if(id == null) 
+			return "redirect:/user/login";
+		model.addAttribute("id", id);
+		logger.info("Rev: writeGET(HttpSession session, Model model) 끝");
 
-		return mav;
+		return "/rev/write";
 	}
 	
 	@PostMapping("/rev/write")

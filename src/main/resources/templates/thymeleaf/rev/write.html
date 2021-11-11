@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>리뷰쓰기</title>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" th:src="@{/js/rev/write.js}"></script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-	<h1>리뷰쓰기</h1>
-	<form action="" method="post">
-		<table border="1">
-			<tr>
-				<td>아이디</td>
-				<td colspan="2"><input type="text" name="userId" id="userId" th:value="${id}" readonly/></td>				
-			</tr>
-			<tr>
-				<td>영화제목</td>
-				<td colspan="2"><input type="text" name="movie" id="movie"/></td>
-			</tr>
-			<tr>
-				<td>리뷰제목</td>
-				<td><input type="text" name="title" id="title"/></td>
-				<td><span id="titleCk"></span></td>
-     			<td>
-	     			<select name="rating" id="rating">     			
-	     				<option value=1>★☆☆☆☆</option>
-	     				<option value=2>★★☆☆☆</option>
-	     				<option value=3>★★★☆☆</option>
-	     				<option value=4>★★★★☆</option>
-	     				<option value=5>★★★★★</option>
-	       			</select>
-       			</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td colspan="2"><textarea name="rev" id="rev" maxlength="200"></textarea></td>
-				<td><span id="revCk"></span></td>
-			</tr>
-		</table>		
-		<input type="submit" value="리뷰작성">
-	</form>
-	<h4><a href="./main">돌아가기</a></h4>	
+
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div class="container">
+				<h1>리뷰쓰기</h1>
+				<form>
+					<table border="1">
+						<tr>
+							<td>아이디</td>
+							<td colspan="2"><input type="text" name="userId" id="userId"
+								th:value="${id}" readonly /></td>
+						</tr>
+						<tr>
+							<td>영화제목</td>
+							<td colspan="2"><input type="text" name="movie" id="movie" /></td>
+						</tr>
+						<tr>
+							<td>리뷰제목</td>
+							<td><input type="text" name="title" id="title" /></td>
+							<td><span id="titleCk"></span></td>
+							<td><select name="rating" id="rating">
+									<option value=1>★☆☆☆☆</option>
+									<option value=2>★★☆☆☆</option>
+									<option value=3>★★★☆☆</option>
+									<option value=4>★★★★☆</option>
+									<option value=5>★★★★★</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>내용</td>
+							<td colspan="2"><textarea name="rev" id="rev"
+									maxlength="200"></textarea></td>
+							<td><span id="revCk"></span></td>					
+						</tr>
+					</table>
+					<input type="submit" value="리뷰작성">
+				</form>
+			</div>
+		</main>
+
+		<h4>
+			<a href="./main">돌아가기</a>
+		</h4>
 </body>
 </html>

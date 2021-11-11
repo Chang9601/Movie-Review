@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>회원메인</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>		
-	<h1>회원메인</h1>
-	
-	<input type="button" value="로그아웃" onclick="location.href='./logout'">
-	
-	<h2>user</h2>
-	<h3><a href="./read">정보조회</a></h3>
-	<h3><a href="./update">정보수정</a></h3>
-	<h3><a href="./delete">회원탈퇴</a></h3>
-	
-	<h2>review</h2>
-	<h3><a href="/recmv/rev/main">리뷰메인</a></h3>	
-	
-	<h2>movie</h2>
-	<h3><a href="/recmv/movie/daily">일일영화</a></h3>	
-		
-	<div th:if="${id} == 'admin'">
-		<h3><a href="./all">회원목록</a></h3>		
-	</div>
+<body>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div>
+				<h2>user</h2>
+				<h3><a href="./update">정보수정</a></h3>
+				<h3><a href="./delete">회원탈퇴</a></h3>
+
+				<h2>review</h2>
+				<h3><a href="/recmv/rev/main">리뷰메인</a></h3>
+
+				<h2>movie</h2>
+				<h3><a href="/recmv/movie/daily">일일영화</a></h3>
+
+				<div th:if="${id} == 'admin'">
+					<h3><a href="./all">회원목록</a></h3>
+				</div>
+			</div>
+		</main>
 </body>
 </html>
