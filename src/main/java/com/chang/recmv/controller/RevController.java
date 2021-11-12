@@ -23,33 +23,36 @@ public class RevController {
 	@Autowired
 	private RevService service;
 	
+	@Autowired
+	private HttpSession session;
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/main")
-	public String main(HttpSession session, Model model) throws Exception {		
-		logger.info("Rev: main(HttpSession session, Model model) 시작");
+	public String main(Model model) throws Exception {		
+		logger.info("Rev: main(Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) 
-			return "redirect:/user/login";		
+	//	if(id == null) 
+		//	return "redirect:/user/login";		
 		model.addAttribute("id", id);
-		logger.info("Rev: main(HttpSession session, Model model) 끝");		
+		logger.info("Rev: main(Model model) 끝");		
 		
-		return "/rev/main";
+		return "rev/main";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/write")
-	public String writeGET(HttpSession session, Model model) throws Exception {
-		logger.info("Rev: writeGET(HttpSession session, Model model) 시작");
+	public String writeGet(Model model) throws Exception {
+		logger.info("Rev: writeGet(Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";
 		model.addAttribute("id", id);
-		logger.info("Rev: writeGET(HttpSession session, Model model) 끝");
+		logger.info("Rev: writeGet(Model model) 끝");
 
-		return "/rev/write";
+		return "rev/write";
 	}
-	
+	/*
 	@PostMapping("/rev/write")
 	public ModelAndView writePOST(Rev rev) throws Exception {
 		logger.info("Rev: writePOST(Rev rev, HttpSession session) 시작");
@@ -59,7 +62,7 @@ public class RevController {
 		logger.info("Rev: writePOST(Rev rev, HttpSession session) 끝");
 		
 		return mav;
-	}
+	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

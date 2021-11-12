@@ -17,7 +17,7 @@ public class Rev {
 	private String title; // 리뷰제목
 	private String userId; // recmv_user의 id를 참조하는 FK	
 	private Integer rating; // 평가
-	private String rev; // 리뷰내용
+	private String content; // 내용
 	private Integer like; // 좋아요
 	private Timestamp createDate; // 등록 날짜/시간
 	private Timestamp updateDate; // 수정 날짜/시간

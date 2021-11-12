@@ -20,10 +20,10 @@ var user = {
 		$("#btn-login").on("click", ()=> {
 			this.login();
 		});
-		$("#btn-update").on("click", ()=> {
+		$("#btn-upd-user").on("click", ()=> {
 			this.update();
 		});
-		$("#btn-delete").on("click", ()=> {
+		$("#btn-del-user").on("click", ()=> {
 			this.delete();
 		});
 	},
@@ -55,7 +55,7 @@ var user = {
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {id: id}	
 			//dataType: "text"
-		}).done(function(resp){
+		}).done(function(resp) {
 			console.log(resp);
 			if(resp === id) {
 				$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
@@ -67,18 +67,18 @@ var user = {
 				return false;
 			}else $("#pwCk").html("");
 
-			
 			if(cpw !== pw) {
 				$("#cpwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 				return false;
 			}else $("#cpwCk").html("");
-
 			
 			if(!emailRegex.test(email)) {
-				$("#emailCk").html("형식에 맞지 않습니다.").css("color", "red");
+				$("#emailCk").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
 				return false;
 			}else $("#emailCk").html("");
 	
+			location.replace("./login");
+			
 			$.ajax({			
 				url: "/recmv/api/user/signup",
 				type: "POST",
@@ -115,30 +115,19 @@ var user = {
 		}else $("#pwCk").html("");
 					
 		$.ajax({
-			url: "/recmv/api/user/ckUser",
+			url: "/recmv/api/user/login",
 			type: "POST",
 			contentType: "application/json; charset=UTF-8",
 			data: JSON.stringify(user)
 		}).done(function(resp){
 			console.log(resp);
+
 			if(resp !== id){
 				alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
 				return false;				
-			}
-			
-			$.ajax({
-				url: "/recmv/api/user/login",
-				type: "POST",
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify(user)
-			}).done(function(resp){
-				console.log(resp);
-				if(resp == null)
-					location.replace("./login");									
-				location.replace("./main");
-			}).fail(function(err){
-				alert(JSON.stringify(err));				
-			});
+			}	
+					
+			location.replace("./main");
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		});		

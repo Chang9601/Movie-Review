@@ -29,6 +29,7 @@ public class UserApiController {
 	@Autowired
 	private HttpSession session;
 
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/ckDupId")
 	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {	
 		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
@@ -46,19 +47,11 @@ public class UserApiController {
 		service.addUser(user);
 		logger.info("User: signupPost(@RequestBody User user) 끝");
 		
-		return new ResponseEntity<String>("ok", HttpStatus.OK);
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
-	
-	@PostMapping("/ckUser")
-	public ResponseEntity<String> ckUser(@RequestBody User user) throws Exception {
-		logger.info("User: ckUser(@RequestBody User user) 시작");
-		logger.info("사용자 확인: " + user);
-		String id = service.ckLogin(user);
-		logger.info("User: ckUser(@RequestBody User user) 끝");
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-		return new ResponseEntity<String>(id, HttpStatus.OK);
-	}
-	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PostMapping("/login")
 	public ResponseEntity<String> loginPost(@RequestBody User user) throws Exception {
 		logger.info("User: loginPost(@RequestBody User user) 시작");
@@ -70,4 +63,6 @@ public class UserApiController {
 		
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
 }

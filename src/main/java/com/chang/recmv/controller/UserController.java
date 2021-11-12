@@ -30,6 +30,9 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	@Autowired
+	private HttpSession session;	
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/signup
 	@GetMapping("/signup")
@@ -52,27 +55,27 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http:localhost:8088/recmv/main
-	@GetMapping("/main") // -> main의 main으로 변환
-	public String main(HttpSession session, Model model) throws Exception {		
-		logger.info("User: main(HttpSession session, Model model) 시작");
+	@GetMapping("/main")
+	public String main(Model model) throws Exception {		
+		logger.info("User: main(Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:./login";
 		model.addAttribute("id", id);
-		logger.info("User: main(HttpSession session, Model model) 끝");		
+		logger.info("User: main(Model model) 끝");		
 		
 		return "main/main";
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 사용자 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그아웃 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/logout")
-	public String logout(HttpSession session) throws Exception {
-		logger.info("User: logout(HttpSession session) 시작");
+	public String logout() throws Exception {
+		logger.info("User: logout() 시작");
 		session.invalidate();
-		logger.info("User: logout(HttpSession session) 끝");
+		logger.info("User: logout() 끝");
 		
 		return "redirect:./login";
 	}
@@ -80,19 +83,24 @@ public class UserController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/read")
-	public String readUser(HttpSession session, Model model) throws Exception {		
-		logger.info("User: readUser(HttpSession session, Model model) 시작");
+	public String readUser(Model model) throws Exception {		
+		logger.info("User: readUser(Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:./login";
 		User user = service.readUser(id);
 		logger.info("조회: " + user);
 		model.addAttribute("user", user);
-		logger.info("User: readUser(HttpSession session, Model model) 끝");
+		logger.info("User: readUser(Model model) 끝");
 		
 		return "user/read";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
+	
+	
+	
+	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/user/update")
