@@ -20,10 +20,10 @@ var user = {
 		$("#btn-login").on("click", ()=> {
 			this.login();
 		});
-		$("#btn-upd-user").on("click", ()=> {
+		$("#btn-update").on("click", ()=> {
 			this.update();
 		});
-		$("#btn-del-user").on("click", ()=> {
+		$("#btn-delete").on("click", ()=> {
 			this.delete();
 		});
 	},

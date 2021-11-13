@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,23 +53,12 @@ public class RevController {
 
 		return "rev/write";
 	}
-	/*
-	@PostMapping("/rev/write")
-	public ModelAndView writePOST(Rev rev) throws Exception {
-		logger.info("Rev: writePOST(Rev rev, HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./all");		
-		logger.info("쓰기: " + rev);
-		service.writeRev(rev);
-		logger.info("Rev: writePOST(Rev rev, HttpSession session) 끝");
-		
-		return mav;
-	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/rev/all")
-	public ModelAndView getAllRev(HttpSession session) throws Exception {
-		logger.info("Rev: getAllRev(HttpSession session) 시작");
+	/*@GetMapping("/all")
+	public ModelAndView getAllRev(Model model) throws Exception {
+		logger.info("Rev: getAllRev() 시작");
 		ModelAndView mav = new ModelAndView("thymeleaf/rev/all");				
 		String id = (String)session.getAttribute("id");
 		if(id == null) {
@@ -76,49 +66,42 @@ public class RevController {
 			return mav;			
 		}		 
 		mav.addObject("revs", service.getAllRev());
-		logger.info("Rev: getAllRev(HttpSession session) 끝");		
+		logger.info("Rev: getAllRev() 끝");		
 		
 		return mav;
-	}
+	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰읽기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/rev/read")
-	public ModelAndView readRev(Integer num, HttpSession session) throws Exception {
-		logger.info("Rev : readRev(Integer num, HttpSession session) 시작");
-		//logger.info("번호: " + num);
-		ModelAndView mav = new ModelAndView("thymeleaf/rev/read");
+	@GetMapping("/read/{num}")
+	public String readRev(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 시작");
+		//logger.info("숫자: " + num);
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:/user/login");
-			return mav;			
-		}
-		mav.addObject("id", id);
-		mav.addObject("rev", service.readRev(num));
-		logger.info("읽기: " + service.readRev(num));
-		logger.info("Rev : readRev(Integer num, HttpSession session) 끝");
+		//if(id == null) 
+			//return "redirect:/user/login";
+		model.addAttribute("rev", service.readRev(num));
+		logger.info("리뷰읽기: " + service.readRev(num));
+		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 끝");
 		
-		return mav;
+		return "rev/read";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰읽기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	@GetMapping("/rev/update")
-	public ModelAndView updateRevGET(Integer num, HttpSession session) throws Exception {
-		logger.info("Rev : updateRevGET(Integer num, HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/rev/update");
+	@GetMapping("/update/{num}")
+	public String updateRevGET(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:/user/login");
-			return mav;			
-		}
-		mav.addObject("rev", service.readRev(num));
+		if(id == null) 
+			return "redirect:/user/login";		
+		model.addAttribute("rev", service.readRev(num));
 		logger.info("수정 전: " + service.readRev(num));
-		logger.info("Rev : updateRevGET(Integer num, HttpSession session) 끝");
+		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 끝");
 		
-		return mav;
+		return "rev/update";
 	}	
-	
+	/*
 	@PostMapping("/rev/update")
 	public ModelAndView updateRevPOST(Rev rev) throws Exception {
 		logger.info("Rev : updateRevPOST(Integer num, HttpSession session) 시작");
@@ -128,7 +111,7 @@ public class RevController {
 		logger.info("Rev : updateRevPOST(Integer num, HttpSession session) 끝");
 		
 		return mav;
-	}	
+	}*/	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	

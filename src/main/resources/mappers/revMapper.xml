@@ -12,6 +12,13 @@
 	<select id="getAllRev" resultType="Rev">
 		select *
 		from recmv_rev
+		order by createDate desc
+		limit #{beginNumOfItems}, #{numOfItemsPerPage}		
+	</select>
+	
+	<select id="getNumAllRev" resultType="int">
+		select count(*)
+		from recmv_rev
 	</select>
 
 	<select id="readRev" resultType="Rev">

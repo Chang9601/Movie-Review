@@ -3,10 +3,10 @@ var rev = {
 		$("#btn-write").on("click", () => {
 			this.write();
 		});
-		$("#btn-upd-rev").on("click", () => {
+		$("#btn-update").on("click", () => {
 			this.update();
 		});
-		$("#btn-del-rev").on("click", () => {
+		$("#btn-delete").on("click", () => {
 			this.delete();
 		});
 	},

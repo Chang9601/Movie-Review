@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chang.recmv.mapper.RevMapper;
+import com.chang.recmv.model.Criteria;
 import com.chang.recmv.model.Rev;
 
 @Service
@@ -21,8 +22,12 @@ public class RevService {
 		mapper.writeRev(rev);
 	}
 	
-	public List<Rev> getAllRev() throws Exception {
-		return mapper.getAllRev();
+	public List<Rev> getAllRev(Criteria cri) throws Exception {
+		return mapper.getAllRev(cri);
+	}
+	
+	public Integer getNumAllRev() throws Exception {
+		return mapper.getNumAllRev();
 	}
 	
 	public Rev readRev(Integer num) throws Exception {

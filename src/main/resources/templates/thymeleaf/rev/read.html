@@ -1,48 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>리뷰조회</title>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" th:src="@{/js/rev/read.js}"></script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-	<h1>리뷰조회</h1>
 
-	<form action="" method="post">
-		<input type="hidden" name="num" id="num" th:value="${rev.num}"/>
-		<input type="hidden" name="id" id="id" th:value="${id}"/>
-	</form>
-	<table border="1">
-		<tr>
-			<td>아이디</td>
-			<td colspan="2"><input type="text" name="userId" id="userId" th:value="${rev.userId}" readonly/></td>
-		</tr>
-		<tr>
-			<td>영화제목</td>
-			<td colspan="2"><input type="text" name="movie" id="movie" th:value="${rev.movie}" readonly/></td>
-		</tr>
-		<tr>
-			<td>리뷰제목</td>
-			<td><input type="text" name="title" id="title" th:value="${rev.title}" readonly/></td>
-    			<td>
-    				<span th:if="${rev.rating} == 1">★☆☆☆☆</span>
-    				<span th:if="${rev.rating} == 2">★★☆☆☆</span>
-    				<span th:if="${rev.rating} == 3">★★★☆☆</span>
-    				<span th:if="${rev.rating} == 4">★★★★☆</span>
-    				<span th:if="${rev.rating} == 5">★★★★★</span>
-      			</td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td colspan="2"><textarea name="rev" id="rev" maxlength="200" th:text="${rev.rev}" readonly></textarea></td>
-		</tr>
-	</table>		
-	<button type="submit" id="upRev">리뷰수정</button>
-	<button type="submit" id="deRev">리뷰삭제</button>
-			
-	<h4><a href="./all">돌아가기</a></h4>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div class="container">
+				<h1>리뷰조회</h1>
+					<div class="form-group">
+						아이디: <span th:text="${rev.userId}"></span>
+					</div>
+					<div class="form-group">
+						영화제목: <span th:text="${rev.movie}"></span>
+					</div>
+					<div class="form-group">
+						리뷰제목: <span th:text="${rev.title}"></span>
+					</div>
+					<div class="form-group">
+						별점:
+						<span th:if="${rev.rating} == 1">★☆☆☆☆</span>
+			    		<span th:if="${rev.rating} == 2">★★☆☆☆</span>
+			    		<span th:if="${rev.rating} == 3">★★★☆☆</span>
+		 				<span th:if="${rev.rating} == 4">★★★★☆</span>
+		   				<span th:if="${rev.rating} == 5">★★★★★</span>
+					</div>
+					<div class="form-group">		   				
+						내용 <div th:text="${rev.content}"></div>
+					</div>
+			</div>
+		</main>				
 </body>
 </html>
