@@ -34,8 +34,8 @@ public class RevService {
 		return mapper.readRev(num);
 	}
 
-	public void updateRev(Rev rev) throws Exception {
-		mapper.updateRev(rev);
+	public void updateRev(Rev rev, Integer num) throws Exception {
+		mapper.updateRev(rev, num);
 	}
 	
 	public void deleteRev(Integer num) throws Exception {

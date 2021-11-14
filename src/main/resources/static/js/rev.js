@@ -43,39 +43,63 @@ var rev = {
 			data: JSON.stringify(rev)
 		}).done(function(resp){
 			console.log(resp);
-			location.replace("./main");			
+			location.replace("/recmv");			
 		}).fail(function(err){
 			alert(JSON.stringify(err));			
 		});
 	},
 
 	update: function() {
-		var form = $("form");
-		var id = $("#id").val();
-		var userId = $("#userId").val();
+		var num = $("#num").val();
+		var title = $("#title").val();
+		var content = $("#content").val();
+		var rating = $("#rating").val();
+		
+		var rev = {
+			num: num,
+			title: title,
+			content: content,
+			rating: rating
+		};
 
-		if (id !== userId) {
-			alert("수정권한이 없습니다.");
+		if (title === "") {
+			$("#titleCk").html("제목을 입력하세요.").css("color", "red");
 			return false;
-		}
+		} else $("#titleCk").html("");
 
-		form.attr("action", "./update");
-		form.attr("method", "get");
-		form.submit();
+		if (content === "") {
+			$("#contentCk").html("내용을 입력하세요.").css("color", "red");
+			return false;
+		} else $("#contentCk").html("");
+		
+		$.ajax({
+			url: "/recmv/api/rev/update/" + num,
+			type: "PUT",
+			contentType: "application/json; charset=UTF-8",
+			data: JSON.stringify(rev)
+		}).done(function(resp){
+			console.log(resp);
+			alert("수정이 완료되었습니다.")			
+			location.replace("/recmv/rev/read/" + num);				
+		}).fail(function(){
+			alert(JSON.stringify(err));									
+		});
 	},
 	
 	delete: function() {
-		var form = $("form");
-		var id = $("#id").val();
-		var userId = $("#userId").val();
-
-		if (id !== userId) {
-			alert("수정권한이 없습니다.");
-			return false;
-		}
-
-		form.attr("action", "./delete");
-		form.submit();
+		var num = $("#num").text();
+		var currentPageNum = $("#currentPageNum").text();
+		
+		$.ajax({
+			url: "/recmv/api/rev/delete/" + num,
+			type: "DELETE",
+		}).done(function(resp){
+			console.log(resp);
+			alert("삭제가 완료되었습니다.")
+			location.replace("/recmv/?currentPageNum=" + currentPageNum);						
+		}).fail(function(err){
+			alert(JSON.stringify(err));						
+		});
 	},	
 };
 

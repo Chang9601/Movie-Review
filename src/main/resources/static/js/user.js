@@ -127,7 +127,7 @@ var user = {
 				return false;				
 			}	
 					
-			location.replace("./main");
+			location.replace("/recmv");
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		});		

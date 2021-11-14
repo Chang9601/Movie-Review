@@ -24,7 +24,6 @@ public class HomeController {
 		Paging page = new Paging(cri, service.getNumAllRev());
 		model.addAttribute("page", page);
 		model.addAttribute("revs", service.getAllRev(cri));
-		logger.info("페이지: " + page);
 		logger.info("Home: start(Model model) 끝");
 
 		return "index";

@@ -29,7 +29,7 @@
 	
 	<update id="updateRev">
 		update recmv_rev 
-		set title = #{title}, rev = #{rev}, rating = #{rating}, updateDate = now()
+		set title = #{rev.title}, content = #{rev.content}, rating = #{rev.rating}, updateDate = now()
 		where num = #{num}
 	</update>
 	

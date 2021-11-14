@@ -9,11 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.chang.recmv.model.Rev;
 import com.chang.recmv.service.RevService;
 
 @Controller
@@ -74,12 +71,12 @@ public class RevController {
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰읽기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/read/{num}")
-	public String readRev(@PathVariable Integer num, Model model) throws Exception {
+	public String readRev(@PathVariable Integer num, Model model, Integer currentPageNum) throws Exception {
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 시작");
-		//logger.info("숫자: " + num);
 		String id = (String)session.getAttribute("id");
-		//if(id == null) 
-			//return "redirect:/user/login";
+		logger.info("페이지 번호: " + currentPageNum);
+		model.addAttribute("id", id);
+		model.addAttribute("currentPageNum", currentPageNum);
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰읽기: " + service.readRev(num));
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 끝");
@@ -90,39 +87,16 @@ public class RevController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	@GetMapping("/update/{num}")
-	public String updateRevGET(@PathVariable Integer num, Model model) throws Exception {
-		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 시작");
+	public String updateRevGet(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev: updateRevGet(@PathVariable Integer num, Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";		
 		model.addAttribute("rev", service.readRev(num));
-		logger.info("수정 전: " + service.readRev(num));
-		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 끝");
+		logger.info("리뷰수정 전: " + service.readRev(num));
+		logger.info("Rev: updateRevGet(@PathVariable Integer num, Model model) 끝");
 		
 		return "rev/update";
 	}	
-	/*
-	@PostMapping("/rev/update")
-	public ModelAndView updateRevPOST(Rev rev) throws Exception {
-		logger.info("Rev : updateRevPOST(Integer num, HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./read?num=" + rev.getNum());
-		logger.info("수정 후: " + rev);
-		service.updateRev(rev);
-		logger.info("Rev : updateRevPOST(Integer num, HttpSession session) 끝");
-		
-		return mav;
-	}*/	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	@PostMapping("/rev/delete")
-	public ModelAndView deleteRev(Integer num) throws Exception {
-		logger.info("Rev : deleteRev() 시작");
-		ModelAndView mav = new ModelAndView("redirect:./all");
-		service.deleteRev(num);
-		logger.info("Rev : deleteRev() 끝");
-		
-		return mav;
-	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 }

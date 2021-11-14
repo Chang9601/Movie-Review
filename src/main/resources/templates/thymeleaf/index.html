@@ -16,7 +16,7 @@
 							<h4 class="card-title" th:text="${rev.movie}"></h4>
 							<h4 class="card-title" th:text="${rev.title}"></h4>
 							<h4 class="card-title" th:text="${rev.userId}"></h4>
-							<a th:href="@{/rev/read/{num}(num=${rev.num})}"
+							<a th:href="@{/rev/read/{num}(num=${rev.num}, currentPageNum=${page.cri.currentPageNum})}"
 								class="btn btn-primary">리뷰읽기</a>
 						</div>
 					</div>
