@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,7 +88,7 @@ public class UserController {
 		if(id == null) 
 			return "redirect:./login";
 		User user = service.readUser(id);
-		logger.info("조회: " + user);
+		logger.info("회원조회: " + user);
 		model.addAttribute("user", user);
 		logger.info("User: readUser(Model model) 끝");
 		
@@ -97,71 +96,35 @@ public class UserController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	
-	
-	
-	
-	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/user/update")
-	public ModelAndView updateUserGET(HttpSession session) throws Exception {	
-		logger.info("User: updateUserGET(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/update");
+	@GetMapping("/update")
+	public String updateUserGet(Model model) throws Exception {	
+		logger.info("User: updateUserGet(Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:./login");
-			return mav;			
-		}
+		if(id == null)
+			return "redirect:./login";
 		User user = service.readUser(id);
-		logger.info("수정 전: " + user);
-		mav.addObject("user", user);
-		logger.info("User: updateUserGET(HttpSession session) 끝");
+		logger.info("회원수정 전: " + user);
+		model.addAttribute("user", user);
+		logger.info("User: updateUserGet(Model model) 끝");
 		
-		return mav;
-	}
-
-	@PostMapping("/user/update")
-	public ModelAndView updateUserPOST(User user) throws Exception {		
-		logger.info("User: updateUserPOST(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./main");
-		service.updateUser(user);
-		logger.info("수정 후: " + user);
-		logger.info("User: updateUserPOST(HttpSession session) 끝");
-		
-		return mav;
+		return "user/update";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/user/delete")
-	public ModelAndView deleteUserGET(HttpSession session) throws Exception {
-		logger.info("User: deleteUserGET(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/delete");
+	@GetMapping("/delete")
+	public String deleteUserGet(Model model) throws Exception {
+		logger.info("User: deleteUserGet(Model model) 시작");
 		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:./login");
-			return mav;			
-		}
+		if(id == null) 
+			return "redirect:./login";		
 		User user = service.readUser(id);
-		mav.addObject("user", user);
-		logger.info("User: deleteUserGET(HttpSession session) 시작");
+		logger.info("회원삭제 전: " + user);		
+		model.addAttribute("user", user);
+		logger.info("User: deleteUserGet(Model model) 끝");
 		
-		return mav;
-	}
-	
-	@PostMapping("/user/delete")
-	public ModelAndView deleteUserPOST(User user, HttpSession session) throws Exception {
-		logger.info("User: deleteUserPOST(String id) 시작");
-		ModelAndView mav = new ModelAndView("redirect:./login");
-		String id = (String)session.getAttribute("id");
-		user.setId(id);
-		logger.info("삭제: " + user);
-		service.deleteRev(id);
-		service.deleteUser(user);
-		session.invalidate();
-		logger.info("User: deleteUserPOST(String id) 시작");
-		
-		return mav;
+		return "user/delete";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

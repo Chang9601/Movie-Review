@@ -9,11 +9,9 @@
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
 	rel="stylesheet">
 </head>
-<body>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-				<h1>리뷰수정</h1>			
 				<form>
 					<input type="hidden" name="num" id="num" th:value="${rev.num}">
 					<div class="form-group">
@@ -46,10 +44,9 @@
 					</div>
 				</form>
 				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>					
-				<button id="btn-update" class="btn btn-primary">리뷰수정</button>	
+				<button id="btn-upd-rev" class="btn btn-primary">리뷰수정</button>	
 			</div>
 		</main>		
-</body>
 <script>
   $('.summernote').summernote({
     tabsize: 2,

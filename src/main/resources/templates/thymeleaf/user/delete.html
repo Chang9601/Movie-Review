@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>회원탈퇴</title>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" th:src="@{/js/user/delete.js}"></script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-	<h1>회원탈퇴</h1>
-	<form action="" method="post">
-		<input type="hidden" name="rpw" id="rpw" th:value="${user.pw}"/>
-			
-		<label for="pw">비밀번호</label>
-		<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요."/>
-		<span id="pwCk"></span>
-		<br>
-		
-		<input type="submit" value="회원탈퇴">
-	</form>
-	
-	<h4><a href="./main">돌아가기</a></h4>
-</body>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div class="container">		
+				<form>
+					<input type="hidden" name="id" id="id" class="form-control" th:value="${user.id}">									
+					<input type="hidden" name="rpw" id="rpw" class="form-control" th:value="${user.pw}">									
+					<div class="form-group">
+						<label for="pw">비밀번호</label>
+						<input type="password" name="pw" id="pw" class="form-control" placeholder="비밀번호를 입력하세요.">
+						<span id="pwCk"></span>
+					</div>			
+				</form>		
+				<button id="btn-del-user" class="btn btn-danger">회원탈퇴</button>	
+				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>					
+			</div>
+		</main>
 </html>

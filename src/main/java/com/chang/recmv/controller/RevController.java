@@ -69,7 +69,7 @@ public class RevController {
 	}*/
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰읽기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/read/{num}")
 	public String readRev(@PathVariable Integer num, Model model, Integer currentPageNum) throws Exception {
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 시작");
@@ -78,12 +78,12 @@ public class RevController {
 		model.addAttribute("id", id);
 		model.addAttribute("currentPageNum", currentPageNum);
 		model.addAttribute("rev", service.readRev(num));
-		logger.info("리뷰읽기: " + service.readRev(num));
+		logger.info("리뷰조회: " + service.readRev(num));
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model) 끝");
 		
 		return "rev/read";
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰읽기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	@GetMapping("/update/{num}")

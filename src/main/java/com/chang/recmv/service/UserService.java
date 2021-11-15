@@ -31,8 +31,8 @@ public class UserService {
 		return mapper.readUser(id);
 	}
 	
-	public void updateUser(User user) throws Exception {
-		mapper.updateUser(user);
+	public void updateUser(User user, String pw) throws Exception {
+		mapper.updateUser(user, pw);
 	}
 	
 	public void deleteRev(String id) throws Exception {

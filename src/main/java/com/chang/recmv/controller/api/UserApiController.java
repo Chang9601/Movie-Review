@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,4 +67,31 @@ public class UserApiController {
 	}	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@PutMapping("/update")
+	public ResponseEntity<String> updateUserPost(@RequestBody User user) throws Exception {
+		logger.info("User: updateUserPost(@RequestBody User user) 시작");
+		logger.info("회원수정 후: " + user);
+		String id = (String)session.getAttribute("id");
+		String pw = service.readUser(id).getPw();
+		service.updateUser(user, pw);
+		logger.info("User: updateUserPost(@RequestBody User user) 끝");	
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@DeleteMapping("/delete")
+	public ResponseEntity<String> deleteUserPost(@RequestBody User user) throws Exception {
+		logger.info("User: deleteUserPost(@RequestBody User user) 시작");
+		service.deleteRev(user.getId());
+		service.deleteUser(user);
+		session.invalidate();
+		logger.info("회원삭제 후: " + user);		
+		logger.info("User: deleteUserPost(@RequestBody User user) 끝");	
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

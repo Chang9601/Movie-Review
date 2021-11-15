@@ -26,8 +26,8 @@
 	
 	<update id="updateUser">
 		update recmv_user 
-		set email = #{email}, updateDate = now()
-		where id = #{id} and pw = #{pw}
+		set pw = #{user.pw}, email = #{user.email}, updateDate = now()
+		where id = #{user.id} and pw = #{pw}
 	</update>
 
 	<delete id="deleteRev">

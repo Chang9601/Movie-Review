@@ -6,12 +6,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">	
 </head>
-<body>
-
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-				<h1>리뷰쓰기</h1>
 				<form>
 					<div class="form-group">
 						<label for="userId">아이디</label> 
@@ -46,7 +43,6 @@
 				<button id="btn-write" class="btn btn-primary">리뷰작성</button>	
 			</div>			
 		</main>
-</body>
 <script>
   $('.summernote').summernote({
     tabsize: 2,

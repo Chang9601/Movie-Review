@@ -3,10 +3,10 @@ var rev = {
 		$("#btn-write").on("click", () => {
 			this.write();
 		});
-		$("#btn-update").on("click", () => {
+		$("#btn-upd-rev").on("click", () => {
 			this.update();
 		});
-		$("#btn-delete").on("click", () => {
+		$("#btn-del-rev").on("click", () => {
 			this.delete();
 		});
 	},
@@ -43,6 +43,7 @@ var rev = {
 			data: JSON.stringify(rev)
 		}).done(function(resp){
 			console.log(resp);
+			alert("리뷰작성이 완료되었습니다.")						
 			location.replace("/recmv");			
 		}).fail(function(err){
 			alert(JSON.stringify(err));			
