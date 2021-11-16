@@ -37,8 +37,8 @@ public class MovieApiController {
 	@Autowired
 	private MovieService service;
 	
-	private String clientId = "xayyRvE7DP1vyw8ehkC8";	
-	private String clientSecret = "mLATucrjt8";
+	private String clientId = "";	
+	private String clientSecret = "";
 	
 	@GetMapping("/searchMovie")
 	public ResponseEntity<JSONArray> searchPost(@RequestParam("query") String query) throws Exception {
