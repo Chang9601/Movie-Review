@@ -30,6 +30,14 @@ public class RevService {
 		return mapper.getNumAllRev();
 	}
 	
+	public Integer readNum(String id) throws Exception {
+		return mapper.readNum(id);
+	}
+	
+	public String readId(Integer num) throws Exception {
+		return mapper.readId(num);
+	}
+	
 	public Rev readRev(Integer num) throws Exception {
 		return mapper.readRev(num);
 	}

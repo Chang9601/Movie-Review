@@ -54,7 +54,6 @@ var user = {
 			type: "GET",
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {id: id}	
-			//dataType: "text"
 		}).done(function(resp) {
 			console.log(resp);
 			if(resp === id) {
@@ -83,7 +82,6 @@ var user = {
 				type: "POST",
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify(user),	
-				//dataType: "text"						
 			}).done(function(resp) {
 				console.log(resp);	
 				alert("회원가입이 완료되었습니다.");											
@@ -99,6 +97,7 @@ var user = {
 	login: function() {
 		var id = $("#id").val();
 		var pw = $("#pw").val();
+		
 		var user = {
 			id: id,
 			pw: pw	
@@ -108,7 +107,7 @@ var user = {
 			$("#idCk").html("아이디를 입력하세요.").css("color", "red");
 			return false;
 		}else $("#idCk").html("");			 
-		
+
 		if(pw === "") {
 			$("#pwCk").html("비밀번호를 입력하세요.").css("color", "red");
 			return false;
@@ -121,12 +120,10 @@ var user = {
 			data: JSON.stringify(user)
 		}).done(function(resp) {
 			console.log(resp);
-
 			if(resp !== id){
 				alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
 				return false;				
 			}	
-			
 			alert("로그인이 완료되었습니다.")								
 			location.replace("/recmv");
 		}).fail(function(err) {

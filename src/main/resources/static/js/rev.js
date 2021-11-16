@@ -12,14 +12,14 @@ var rev = {
 	},
 
 	write: function() {
-		var userId = $("#userId").val();
+		var userNum = $("#userNum").val();
 		var movie = $("#movie").val();
 		var title = $("#title").val();
 		var content = $("#content").val();
 		var rating = $("#rating").val();
 		
 		var rev = {
-			userId: userId,
+			userNum: userNum,
 			movie: movie,
 			title: title,
 			content: content,
@@ -44,7 +44,7 @@ var rev = {
 		}).done(function(resp){
 			console.log(resp);
 			alert("리뷰작성이 완료되었습니다.")						
-			location.replace("/recmv");			
+			location.replace("/recmv/rev/main");			
 		}).fail(function(err){
 			alert(JSON.stringify(err));			
 		});
@@ -97,7 +97,7 @@ var rev = {
 		}).done(function(resp){
 			console.log(resp);
 			alert("삭제가 완료되었습니다.")
-			location.replace("/recmv/?currentPageNum=" + currentPageNum);						
+			location.replace("/recmv/rev/main?currentPageNum=" + currentPageNum);						
 		}).fail(function(err){
 			alert(JSON.stringify(err));						
 		});

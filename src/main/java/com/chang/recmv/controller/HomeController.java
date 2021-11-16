@@ -20,12 +20,13 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String start(Model model, Criteria cri) throws Exception {
-		logger.info("Home: start(Model model) 시작");
+		/*logger.info("Home: start(Model model) 시작");
 		Paging page = new Paging(cri, service.getNumAllRev());
 		model.addAttribute("page", page);
 		model.addAttribute("revs", service.getAllRev(cri));
+		//logger.info("페이징: " + page);
 		logger.info("Home: start(Model model) 끝");
-
+		 */
 		return "index";
 	}
 }

@@ -30,9 +30,9 @@
 		where id = #{user.id} and pw = #{pw}
 	</update>
 
-	<delete id="deleteRev">
+	<delete id="deleteRevs">
 		delete from recmv_rev
-		where userId = #{userId}
+		where userNum = #{userNum}
 	</delete>
 		
 	<delete id="deleteUser">

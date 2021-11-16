@@ -72,7 +72,7 @@ public class Paging {
 
 	@Override
 	public String toString() {
-		return "PageVO [beginNumOfPage=" + beginNumOfPage + ", endNumOfPage=" + endNumOfPage + ", pre=" + pre + ", nxt="
+		return "Paging [beginNumOfPage=" + beginNumOfPage + ", endNumOfPage=" + endNumOfPage + ", pre=" + pre + ", nxt="
 				+ nxt + ", numOfItems=" + numOfItems + ", numOfPagesPerPage=" + numOfPagesPerPage + ", cri=" + cri
 				+ "]";
 	}

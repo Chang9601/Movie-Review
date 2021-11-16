@@ -5,7 +5,6 @@ public class Criteria {
 	private int numOfItemsPerPage; // 페이지 당 출력할 항목의 개수
 	private int beginNumOfItems; // DB 시작번호
 
-	
 	public Criteria(int currentPageNum, int numOfItemsPerPage) {
 		this.currentPageNum = currentPageNum;
 		this.numOfItemsPerPage = numOfItemsPerPage;
@@ -34,8 +33,6 @@ public class Criteria {
 	public int getBeginNumOfItems() {
 		return (currentPageNum-1)*numOfItemsPerPage;
 	}
-	
-	
 	
 	@Override
 	public String toString() {

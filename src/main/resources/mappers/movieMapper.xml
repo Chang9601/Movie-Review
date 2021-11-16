@@ -9,7 +9,7 @@
 		values(#{title}, #{link}, #{image}, #{actor}, #{plot}, now())
 	</insert>
 	
-	<select id="readMovie" resultType="Movie">
+	<select id="readMovies" resultType="Movie">
 		select * from recmv_movie
 		where title = #{title}
 	</select>

@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+	if(!!window.performance && window.performance.navigation.type == 2){
+		window.location.reload();
+		// !!는 변수를 불리언으로 형변환하는 방법
+	}
+</script>
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
@@ -11,7 +17,7 @@
 					<span hidden="hidden" id="num" th:text="${rev.num}"></span>
 					<span hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
 					<div class="form-group">
-						아이디: <span th:text="${rev.userId}"></span>
+						아이디: <span th:text="${id}"></span>
 					</div>
 					<div class="form-group">
 						영화제목: <span th:text="${rev.movie}"></span>
@@ -31,7 +37,7 @@
 						내용: <div th:text="${rev.content}"></div>
 					</div>
 				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>	
-				<span th:if="${id} == ${rev.userId}">
+				<span th:if="${num} == ${rev.userNum}">
 					<a th:href="@{/rev/update/{num}(num=${rev.num})}" class="btn btn-warning">리뷰수정</a>
 					<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>			
 				</span>	

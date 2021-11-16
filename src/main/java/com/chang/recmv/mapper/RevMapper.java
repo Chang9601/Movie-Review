@@ -14,6 +14,8 @@ public interface RevMapper {
 	public void writeRev(Rev rev) throws Exception;
 	public List<Rev> getAllRev(Criteria cri) throws Exception;
 	public Integer getNumAllRev() throws Exception;
+	public Integer readNum(String id) throws Exception;
+	public String readId(Integer num) throws Exception;
 	public Rev readRev(Integer num) throws Exception;
 	public void updateRev(Rev rev, Integer num) throws Exception;
 	public void deleteRev(Integer num) throws Exception;

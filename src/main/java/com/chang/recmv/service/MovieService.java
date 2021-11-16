@@ -1,5 +1,7 @@
 package com.chang.recmv.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class MovieService {
 		mapper.addMovie(movie);
 	}
 	
-	public Movie readMovie(String title) throws Exception {
-		return mapper.readMovie(title);
+	public List<Movie> readMovies(String title) throws Exception {
+		return mapper.readMovies(title);
 	}
 }

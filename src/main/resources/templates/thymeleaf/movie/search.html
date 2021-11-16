@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>영화검색</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-	<form>
-		<label for="query">검색</label>
-		<input type="text" name="query" id="query" placeholder="검색하려는 영화제목을 입력하세요.">
-	</form>
-	<button id="btn-search">찾기</button>		
-	
-	
-	<div th:if="${movie} != null">	
-		<h2>영화 정보</h2>	
-		<h3>제목: <span th:text="${movie.title}"></span></h3>
-		<h3>링크: <span th:text="${movie.link}"></span></h3>
-		<h3>배우: <span th:text="${movie.actor}"></span></h3>	
-		<h3>줄거리: <span th:text="${movie.plot}"></span></h3>	
-		<h3>이미지: <img th:src="${movie.image}" width="300" height="400"> </h3>	
-	</div>
-</body>
-<script type="text/javascript" th:src="@{/js/movie.js}"></script>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div class="container">
+				<form>
+					<label for="query">검색</label>
+					<input type="text" name="query" id="query" placeholder="검색하려는 영화제목을 입력하세요.">
+				</form>
+				<button id="btn-movie-search">찾기</button>		
+
+				<th:block th:each="movie : ${movies}">
+					<div class="card m-2">
+						<div class="card-body">
+							제목: <h5 class="card-title" th:text="${movie.title}"></h5>
+							링크: <h5 class="card-title"> <a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h5>
+							배우: <h5 class="card-title" th:text="${movie.actor}"></h5>
+							줄거리: <h5 class="card-title" th:text="${movie.plot}"></h5>
+							이미지: <h5 class="card-title"><img th:src="${movie.image}" width="300" height="400"></h5>
+						</div>
+					</div>				
+				</th:block>							
+			</div>
+		</main>		
 </html>

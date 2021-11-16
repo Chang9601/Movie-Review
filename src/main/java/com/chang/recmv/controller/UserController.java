@@ -55,7 +55,6 @@ public class UserController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// http:localhost:8088/recmv/main
 	@GetMapping("/main")
 	public String main(Model model) throws Exception {		
 		logger.info("User: main(Model model) 시작");

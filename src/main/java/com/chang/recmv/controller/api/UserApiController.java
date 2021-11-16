@@ -85,7 +85,8 @@ public class UserApiController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUserPost(@RequestBody User user) throws Exception {
 		logger.info("User: deleteUserPost(@RequestBody User user) 시작");
-		service.deleteRev(user.getId());
+		// 작성된 리뷰 모두 삭제 후 회원탈퇴
+		service.deleteRevs(user.getId());
 		service.deleteUser(user);
 		session.invalidate();
 		logger.info("회원삭제 후: " + user);		

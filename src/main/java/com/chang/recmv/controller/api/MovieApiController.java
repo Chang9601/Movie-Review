@@ -37,8 +37,8 @@ public class MovieApiController {
 	@Autowired
 	private MovieService service;
 	
-	private String clientId = "";	
-	private String clientSecret = "";
+	private String clientId = "xayyRvE7DP1vyw8ehkC8";	
+	private String clientSecret = "mLATucrjt8";
 	
 	@GetMapping("/searchMovie")
 	public ResponseEntity<JSONArray> searchPost(@RequestParam("query") String query) throws Exception {
@@ -70,6 +70,8 @@ public class MovieApiController {
 			movie.setImage((String)tmp.get("image"));
 			movie.setActor((String)tmp.get("actor"));
 			movie.setPlot(getPlot((String)tmp.get("link")));
+			
+			logger.info("제목: " + (String)tmp.get("title"));
 
 			if(movie != null)
 				service.addMovie(movie);
@@ -135,7 +137,8 @@ public class MovieApiController {
     private static String getPlot(String URL) throws Exception {
     	Document doc = Jsoup.connect(URL).get();
     	Element text = doc.select("p.con_tx").first();
-    	String plot = text.text();
+    	String plot = null;
+    	if(text != null) plot = text.text();
     	
     	return plot;
     } 

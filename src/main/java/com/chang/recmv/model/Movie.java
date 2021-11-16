@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Movie {
-	private String title;
-	private String link;
-	private String image;
-	private String actor;
-	private String plot;
+	private Integer num; // 키
+	private Integer revNum; // recmv_rev의 num 참조
+	private String title; // 영화제목
+	private String link; // 영화링크
+	private String image; // 영화 이미지
+	private String actor; // 배우목록
+	private String plot; // 줄거리
 	private Timestamp createDate; // 등록 날짜/시간	
 }

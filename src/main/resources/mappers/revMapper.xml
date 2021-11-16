@@ -5,13 +5,12 @@
 
 <mapper namespace="com.chang.recmv.mapper.RevMapper">
 	<insert id="writeRev">
-		insert into recmv_rev(userId, movie, title, rating, content, createDate)
-		values(#{userId}, #{movie}, #{title}, #{rating}, #{content}, now())
+		insert into recmv_rev(userNum, movie, title, rating, content, createDate)
+		values(#{userNum}, #{movie}, #{title}, #{rating}, #{content}, now())
 	</insert>
 	
 	<select id="getAllRev" resultType="Rev">
-		select *
-		from recmv_rev
+		select * from recmv_rev
 		order by createDate desc
 		limit #{beginNumOfItems}, #{numOfItemsPerPage}		
 	</select>
@@ -20,10 +19,19 @@
 		select count(*)
 		from recmv_rev
 	</select>
+	
+	<select id="readNum" resultType="int">
+		select num from recmv_user
+		where id = #{id}
+	</select>
+	
+	<select id="readId" resultType="string">
+		select id from recmv_user
+		where num = #{num}
+	</select>
 
 	<select id="readRev" resultType="Rev">
-		select *
-		from recmv_rev
+		select * from recmv_rev
 		where num = #{num}
 	</select>
 	
