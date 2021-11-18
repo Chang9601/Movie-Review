@@ -17,6 +17,8 @@
 				<th:block th:each="rev : ${revs}">
 					<div class="card m-2">
 						<div class="card-body">
+							<h4 class="card-title"><img th:src="${rev.image}" width="200" height="300"></h4>						
+							<h4 class="card-title" th:text="${rev.id}"></h4>
 							<h4 class="card-title" th:text="${rev.movie}"></h4>
 							<h4 class="card-title" th:text="${rev.title}"></h4>
 							<a th:href="@{/rev/read/{num}(num=${rev.num}, currentPageNum=${page.cri.currentPageNum})}" 
@@ -24,9 +26,6 @@
 						</div>
 					</div>				
 				</th:block>
-				<div class="card m-2">
-					<a href="/recmv/rev/write" class="btn btn-secondary">리뷰쓰기</a>	
-				</div>				
 				<ul class="pagination d-flex justify-content-center">
 					<li class="page-item" th:if="${page.pre} == true"><a 
 						th:href="@{/rev/main?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"

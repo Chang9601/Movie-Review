@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.chang.recmv.model.Criteria;
+import com.chang.recmv.model.Movie;
 import com.chang.recmv.model.Paging;
 import com.chang.recmv.service.RevService;
 
@@ -30,9 +31,9 @@ public class RevController {
 	@GetMapping("/main")
 	public String main(Model model, Criteria cri) throws Exception {
 		logger.info("Rev: main(Model model, Criteria cri) 시작");
-		Paging page = new Paging(cri, service.getNumAllRev());
+		Paging page = new Paging(cri, service.getNumRevs());
 		model.addAttribute("page", page);
-		model.addAttribute("revs", service.getAllRev(cri));
+		model.addAttribute("revs", service.getRevs(cri));
 		logger.info("페이징: " + page);
 		logger.info("Rev: main(Model model, Criteria cri) 끝");
 
@@ -41,17 +42,29 @@ public class RevController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰메인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/write")
-	public String writeGet(Model model) throws Exception {
-		logger.info("Rev: writeGet(Model model) 시작");
+	@GetMapping("/write/{num}")
+	public String writeGet(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev: writeGet(@PathVariable Integer num, Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";
-		Integer num = service.readNum(id);
+		
+		// 키에 해당하는 영화
+		Movie movie = service.readMovie(num);
+		// 로그인된 사용자의 아이디
 		model.addAttribute("id", id);
-		model.addAttribute("userNum", num);
+		// 로그인된 사용자의 키
+		model.addAttribute("userNum", service.readNum(id));
+		// 영화제목
+		model.addAttribute("movie", movie.getTitle());
+		// 영화 이미지
+		model.addAttribute("image", movie.getImage());
+		// 영화의 키
+		model.addAttribute("movieNum", num);
+		
+		//
 		//logger.info("아이디: " + id + ", 번호: " + num);
-		logger.info("Rev: writeGet(Model model) 끝");
+		logger.info("Rev: writeGet(@PathVariable Integer num, Model model) 끝");
 
 		return "rev/write";
 	}
@@ -87,6 +100,8 @@ public class RevController {
 		// 리뷰를 작성한 사용자의 아이디
 		model.addAttribute("id", service.readId(userNum));
 		model.addAttribute("currentPageNum", currentPageNum);
+		
+		// 키에 해당하는 리뷰
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰조회: " + service.readRev(num));
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model, Integer currentPageNum) 끝");

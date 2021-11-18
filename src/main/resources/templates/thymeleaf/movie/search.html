@@ -12,14 +12,14 @@
 					<label for="query">검색</label>
 					<input type="text" name="query" id="query" placeholder="검색하려는 영화제목을 입력하세요.">
 				</form>
-				<button id="btn-movie-search">찾기</button>		
+				<button id="btn-movie-search" class="btn btn-primary">찾기</button>		
 
 				<th:block th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
 							제목: <h5 class="card-title" th:text="${movie.title}"></h5>
 							링크: <h5 class="card-title"> <a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h5>
-							배우: <h5 class="card-title" th:text="${movie.actor}"></h5>
+							배우: <h5 class="card-title" th:text="${movie.cast}"></h5>
 							줄거리: <h5 class="card-title" th:text="${movie.plot}"></h5>
 							이미지: <h5 class="card-title"><img th:src="${movie.image}" width="300" height="400"></h5>
 						</div>

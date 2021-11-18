@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.chang.recmv.model.Criteria;
 import com.chang.recmv.model.Paging;
-import com.chang.recmv.service.RevService;
+import com.chang.recmv.service.MovieService;
 
 @Controller
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 
 	@Autowired
-	private RevService service;
-	
+	private MovieService service;
+
 	@GetMapping("/")
 	public String start(Model model, Criteria cri) throws Exception {
-		/*logger.info("Home: start(Model model) 시작");
-		Paging page = new Paging(cri, service.getNumAllRev());
+		logger.info("Home: start(Model model, Criteria cri) 시작");
+		Paging page = new Paging(cri, service.getNumMovies());
 		model.addAttribute("page", page);
-		model.addAttribute("revs", service.getAllRev(cri));
+		model.addAttribute("movies", service.getMovies(cri));
 		//logger.info("페이징: " + page);
-		logger.info("Home: start(Model model) 끝");
-		 */
+		logger.info("Home: start(Model model, Criteria cri) 끝");
+
 		return "index";
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.chang.recmv.mapper.RevMapper;
 import com.chang.recmv.model.Criteria;
+import com.chang.recmv.model.Movie;
 import com.chang.recmv.model.Rev;
 
 @Service
@@ -22,20 +23,12 @@ public class RevService {
 		mapper.writeRev(rev);
 	}
 	
-	public List<Rev> getAllRev(Criteria cri) throws Exception {
-		return mapper.getAllRev(cri);
+	public List<Rev> getRevs(Criteria cri) throws Exception {
+		return mapper.getRevs(cri);
 	}
 	
-	public Integer getNumAllRev() throws Exception {
-		return mapper.getNumAllRev();
-	}
-	
-	public Integer readNum(String id) throws Exception {
-		return mapper.readNum(id);
-	}
-	
-	public String readId(Integer num) throws Exception {
-		return mapper.readId(num);
+	public Integer getNumRevs() throws Exception {
+		return mapper.getNumRevs();
 	}
 	
 	public Rev readRev(Integer num) throws Exception {
@@ -49,4 +42,16 @@ public class RevService {
 	public void deleteRev(Integer num) throws Exception {
 		mapper.deleteRev(num);
 	}
+	
+	public Integer readNum(String id) throws Exception {
+		return mapper.readNum(id);
+	}
+	
+	public String readId(Integer num) throws Exception {
+		return mapper.readId(num);
+	}
+	
+	public Movie readMovie(Integer num) throws Exception {
+		return mapper.readMovie(num);
+	}	
 }

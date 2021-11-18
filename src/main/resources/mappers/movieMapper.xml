@@ -5,12 +5,27 @@
 
 <mapper namespace="com.chang.recmv.mapper.MovieMapper">
 	<insert id="addMovie">
-		insert into recmv_movie(title, link, image, actor, plot, createDate)
-		values(#{title}, #{link}, #{image}, #{actor}, #{plot}, now())
+		insert into recmv_movie(title, link, image, cast, plot, createDate)
+		values(#{title}, #{link}, #{image}, #{cast}, #{plot}, now())
 	</insert>
 	
-	<select id="readMovies" resultType="Movie">
+	<select id="ckDupMovie" resultType="int">
+		select num from recmv_movie
+		where title = #{title}
+	</select>
+	
+	<select id="readMovie" resultType="Movie">
 		select * from recmv_movie
 		where title = #{title}
 	</select>
+	
+	<select id="getMovies" resultType="Movie">
+		select * from recmv_movie
+		limit #{beginNumOfItems}, #{numOfItemsPerPage}				
+	</select>
+
+	<select id="getNumMovies" resultType="int">
+		select count(*)
+		from recmv_movie
+	</select>	
 </mapper>

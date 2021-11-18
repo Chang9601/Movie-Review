@@ -8,21 +8,22 @@
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-				<!-- <th:block th:each="rev : ${revs}">
+				<th:block th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
-							<h4 class="card-title" th:text="${rev.movie}"></h4>
-							<h4 class="card-title" th:text="${rev.title}"></h4>
-							<h4 class="card-title" th:text="${rev.userNum}"></h4>
-							<a th:href="@{/rev/read/{num}(num=${rev.num}, currentPageNum=${page.cri.currentPageNum})}" 
-								class="btn btn-primary">리뷰읽기</a>
+							<h4 class="card-title"><img th:src="${movie.image}" width="300" height="400"></h4>		
+							<h4 class="card-title" th:text="${movie.title}"></h4>												
+ 							<!--<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>-->
+							<h4 class="card-title" th:text="${movie.cast}"></h4>
+							<h4 class="card-title" th:text="${movie.plot}"></h4>						
+							<h4 class="card-title"><a th:href="@{/rev/write/{num}(num=${movie.num})}" target="_blank" class="btn btn-primary">리뷰쓰기</a></h4>
 						</div>
 					</div>
 				</th:block>
 				<ul class="pagination d-flex justify-content-center">
 					<li class="page-item" th:if="${page.pre} == true"><a 
 						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
-						class="page-link" aria-label="Previous"> <span
+						class="page-link" aria-label="Pmovieious"> <span
 							aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
 						</span>
 					</a>
@@ -41,7 +42,7 @@
 								class="lnr lnr-chevron-right">다음</span>
 						</span>
 					</a></li>
-				</ul> -->
+				</ul>
 			</div>
 		</main>
 </html>

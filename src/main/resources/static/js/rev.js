@@ -13,6 +13,9 @@ var rev = {
 
 	write: function() {
 		var userNum = $("#userNum").val();
+		var movieNum = $("#movieNum").val();
+		var image = $("#image").val();
+		var id = $("#id").val();
 		var movie = $("#movie").val();
 		var title = $("#title").val();
 		var content = $("#content").val();
@@ -20,6 +23,9 @@ var rev = {
 		
 		var rev = {
 			userNum: userNum,
+			movieNum: movieNum,
+			image: image,
+			id: id,
 			movie: movie,
 			title: title,
 			content: content,

@@ -35,15 +35,15 @@ public class UserService {
 		mapper.updateUser(user, pw);
 	}
 	
-	public void deleteRevs(String id) throws Exception {
-		mapper.deleteRevs(id);
-	}
-	
 	public void deleteUser(User user) throws Exception {
 		mapper.deleteUser(user);
 	}
 	
 	public List<User> getAllUser(String id) throws Exception {
 		return mapper.getAllUser(id);
+	}
+
+	public void deleteRevs(String id) throws Exception {
+		mapper.deleteRevs(id);
 	}
 }

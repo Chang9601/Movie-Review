@@ -37,8 +37,8 @@ public class MovieApiController {
 	@Autowired
 	private MovieService service;
 	
-	private String clientId = "";	
-	private String clientSecret = "";
+	private String clientId = "xayyRvE7DP1vyw8ehkC8";	
+	private String clientSecret = "mLATucrjt8";
 	
 	@GetMapping("/searchMovie")
 	public ResponseEntity<JSONArray> searchPost(@RequestParam("query") String query) throws Exception {
@@ -65,16 +65,27 @@ public class MovieApiController {
 		for(int i = 0; i < items.size(); i++) {
 			Movie movie = new Movie();
 			JSONObject tmp = (JSONObject)items.get(i);
-			movie.setTitle((String)tmp.get("title"));
-			movie.setLink((String)tmp.get("link"));
-			movie.setImage((String)tmp.get("image"));
-			movie.setActor((String)tmp.get("actor"));
-			movie.setPlot(getPlot((String)tmp.get("link")));
 			
-			logger.info("제목: " + (String)tmp.get("title"));
+			String title = (String)tmp.get("title");
+			String link = (String)tmp.get("link");
+			String image = (String)tmp.get("image");
+			String cast = (String)tmp.get("actor");
+			String plot = getPlot((String)tmp.get("link"));
 
-			if(movie != null)
+			title = title.replace("<b>", "");
+			title = title.replace("</b>", "");
+			cast = cast.replace("|", ", ");	
+			cast = cast.replaceAll("(, )$", "");
+			
+			// 영화 중복방지
+			if(service.ckDupMovie(title) == null) {				
+				movie.setTitle(title);
+				movie.setLink(link);
+				movie.setImage(image);
+				movie.setCast(cast);
+				movie.setPlot(plot);
 				service.addMovie(movie);
+			}
 		}
 				
         logger.info("Movie: searchPost(@RequestParam(\"query\") String query) 끝");  

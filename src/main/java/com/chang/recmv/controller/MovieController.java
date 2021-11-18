@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.chang.recmv.model.Criteria;
 import com.chang.recmv.model.Movie;
+import com.chang.recmv.model.Paging;
 import com.chang.recmv.service.MovieService;
 
 @Controller
@@ -20,27 +22,15 @@ public class MovieController {
 
 	@Autowired
 	private MovieService service;
-	
+
 	@GetMapping("/search")
 	public String searchGet(Model model, String title) throws Exception {
-		logger.info("Movie: search() 시작");		
-		List<Movie> movies = null;
-		if(title != null) {
-			movies = service.readMovies(title);
-			title = title.replace("<b>", "");
-			title = title.replace("</b>", "");
-		}
-		if(movies != null) {
-			for(Movie movie : movies) {
-				String actor = movie.getActor();
-				actor = actor.replace("|", " ");	
-				
-				movie.setTitle(title);
-				movie.setActor(actor);
-			}
-		}
-		model.addAttribute("movies", movies);
-		logger.info("Movie: search() 끝");		
+		logger.info("Movie: search(Model model, String title) 시작");		
+		Movie movie = null;
+		if(title != null) 
+			movie = service.readMovie(title);
+		model.addAttribute("movie", movie);
+		logger.info("Movie: search(Model model, String title) 끝");		
 		
 		return "movie/search";
 	}

@@ -29,11 +29,6 @@
 		set pw = #{user.pw}, email = #{user.email}, updateDate = now()
 		where id = #{user.id} and pw = #{pw}
 	</update>
-
-	<delete id="deleteRevs">
-		delete from recmv_rev
-		where userNum = #{userNum}
-	</delete>
 		
 	<delete id="deleteUser">
 		delete from recmv_user
@@ -44,4 +39,9 @@
 		select * from recmv_user
 		where id != #{id}
 	</select>	
+	
+	<delete id="deleteRevs">
+		delete from recmv_rev
+		where userNum = #{userNum}
+	</delete>	
 </mapper>
