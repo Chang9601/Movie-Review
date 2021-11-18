@@ -14,10 +14,13 @@ var movie = {
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			data: {query: query}	
 		}).done(function(resp){
-			var ret = resp[0];
+			console.log(resp);
+			/*var ret = resp[0];
 			console.log(ret);
 			var loc = "./search?title=" + ret.title;
-			location.replace(loc);			
+			location.replace(loc);*/		
+			location.replace("/recmv");
+				
 		}).fail(function(err){
 			alert(JSON.stringify(err));
 		});				

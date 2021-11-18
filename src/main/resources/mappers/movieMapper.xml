@@ -21,6 +21,7 @@
 	
 	<select id="getMovies" resultType="Movie">
 		select * from recmv_movie
+		order by title
 		limit #{beginNumOfItems}, #{numOfItemsPerPage}				
 	</select>
 
