@@ -10,11 +10,11 @@
 		<main class="main" th:fragment="main">
 			<div class="container">
 				<form>
-					<input type="hidden" name="userNum" class="form-control" id="userNum" th:value="${userNum}" readonly>				
-					<input type="hidden" name="movieNum" class="form-control" id="movieNum" th:value="${movieNum}" readonly>				
+					<input type="hidden" name="user-num" class="form-control" id="user-num" th:value="${user-num}" readonly>				
+					<input type="hidden" name="movie-num" class="form-control" id="movie-num" th:value="${movie-num}" readonly>				
 					<input type="hidden" name="image" class="form-control" id="image" th:value="${image}" readonly>				
 					<div class="form-group">
-						<label for="userId">아이디</label> 
+						<label for="id">아이디</label> 
 						<input type="text" name="id" class="form-control" id="id" th:value="${id}" readonly>
 					</div>				
 					<div class="form-group">
@@ -24,7 +24,7 @@
 					<div class="form-group">
 						<label for="title">리뷰제목</label> 
 						<input type="text" name="title" class="form-control" id="title">
-						<span id="titleCk"></span>
+						<span id="title-ck"></span>
 					</div>
 					<div class="form-group">
 						<label for="rating">별점</label> 
@@ -40,7 +40,7 @@
 					<div class="form-group">
 						<label for="content">내용</label> 
 						<textarea class="form-control summernote" id="content"></textarea>
-						<span id="contentCk"></span>					
+						<span id="content-ck"></span>					
 					</div>
 				</form>
 				<button id="btn-write" class="btn btn-primary">리뷰작성</button>	

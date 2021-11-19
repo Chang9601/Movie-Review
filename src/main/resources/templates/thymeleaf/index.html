@@ -8,15 +8,25 @@
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-				<div class="card m-2">
-					<form>
-						<label for="query">검색</label>
-						<input type="text" name="query" id="query" placeholder="찾으시는 영화가 없으면 여기에 검색하세요.">
-						<label for="query">검색</label>
-						<input type="text" name="query" id="query" placeholder="찾으시는 영화가 없으면 여기에 검색하세요.">
-					</form>
-					<button id="btn-movie-search" class="btn btn-primary">찾기</button>				
-				</div>				
+					<div class="card m-2">
+						<form>
+							<div class="form-group">
+								<input type="text" name="query-db" id="query-db" placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
+								<span id="db-ck"></span>
+							</div>						
+						</form>	
+						<!-- <a th:href="@{/movie/searchMovieDB}" class="btn btn-warning">검색</a> -->
+						<button id="btn-movie-db" class="btn btn-primary">검색</button>
+					</div>
+					<div class="card m-2">					
+						<form>
+							<div class="form-group">
+								<input type="text" name="query-api" id="query-api" placeholder="찾으시는 영화가 없으면 검색하세요." class="form-control">
+								<span id="api-ck"></span>
+							</div>	
+						</form>
+						<button id="btn-movie-api" class="btn btn-primary">검색</button>	
+					</div>													
 				<th:block th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">

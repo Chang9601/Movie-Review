@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div th:if="${movies != null}" class="container">
+				<th:blockh th:each="movie : ${movies}">
+					<div class="card m-2">
+						<div class="card-body">
+							<h4 th:if="${movie.image} != ''" class="card-title"><img th:src="${movie.image}" width="300" height="400"></h4>		
+							<h4 th:unless="${movie.image} != ''" class="card-title"><img th:src="@{/img/none.png}" width="300" height="400"></h4>		
+							<h4 class="card-title" th:text="${movie.title}"></h4>												
+ 							<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>
+							<h4 class="card-title" th:text="${movie.cast}"></h4>
+							<h4 class="card-title" th:text="${movie.plot}"></h4>						
+							<h4 class="card-title"><a th:href="@{/rev/write/{num}(num=${movie.num})}" target="_blank" class="btn btn-primary">리뷰쓰기</a></h4>
+						</div>
+					</div>
+				</th:blockh>
+			</div>
+			<div th:unless="${movies != null}" class="container">
+				<div class="alert alert-danger">
+			    	<strong>검색하신 영화가 존재하지 않습니다. 정확한 제목을 입력하세요.(e.g. 맨인블랙 -> 맨 인 블랙)</strong>
+			  	</div>			
+			</div>
+		</main>
+</html>

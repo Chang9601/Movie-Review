@@ -43,8 +43,8 @@ public class RevController {
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/write/{num}")
-	public String writeGet(@PathVariable Integer num, Model model) throws Exception {
-		logger.info("Rev: writeGet(@PathVariable Integer num, Model model) 시작");
+	public String writeGET(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev: writeGET(@PathVariable Integer num, Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";
@@ -54,17 +54,17 @@ public class RevController {
 		// 로그인된 사용자의 아이디
 		model.addAttribute("id", id);
 		// 로그인된 사용자의 키
-		model.addAttribute("userNum", service.readNum(id));
+		model.addAttribute("user-num", service.readNum(id));
 		// 영화제목
 		model.addAttribute("movie", movie.getTitle());
 		// 영화 이미지
 		model.addAttribute("image", movie.getImage());
 		// 영화의 키
-		model.addAttribute("movieNum", num);
+		model.addAttribute("movie-num", num);
 		
 		//
 		//logger.info("아이디: " + id + ", 번호: " + num);
-		logger.info("Rev: writeGet(@PathVariable Integer num, Model model) 끝");
+		logger.info("Rev: writeGET(@PathVariable Integer num, Model model) 끝");
 
 		return "rev/write";
 	}
@@ -112,8 +112,8 @@ public class RevController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	@GetMapping("/update/{num}")
-	public String updateRevGet(@PathVariable Integer num, Model model) throws Exception {
-		logger.info("Rev: updateRevGet(@PathVariable Integer num, Model model) 시작");
+	public String updateRevGET(@PathVariable Integer num, Model model) throws Exception {
+		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";	
@@ -123,7 +123,7 @@ public class RevController {
 		model.addAttribute("id", service.readId(userNum));		
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰수정 전: " + service.readRev(num));
-		logger.info("Rev: updateRevGet(@PathVariable Integer num, Model model) 끝");
+		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 끝");
 		
 		return "rev/update";
 	}	

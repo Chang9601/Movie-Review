@@ -27,11 +27,11 @@ public class RevApiController {
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰쓰기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PostMapping("/write")
-	public ResponseEntity<String> writePost(@RequestBody Rev rev) throws Exception {
-		logger.info("Rev: writePost(@RequestBody Rev rev) 시작");
+	public ResponseEntity<String> writePOST(@RequestBody Rev rev) throws Exception {
+		logger.info("Rev: writePOST(@RequestBody Rev rev) 시작");
 		logger.info("리뷰쓰기: " + rev);	
 		service.writeRev(rev);
-		logger.info("Rev: writePost(@RequestBody Rev rev) 끝");
+		logger.info("Rev: writePOST(@RequestBody Rev rev) 끝");
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
@@ -39,11 +39,11 @@ public class RevApiController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PutMapping("/update/{num}")
-	public ResponseEntity<String> updateRevPost(@RequestBody Rev rev, @PathVariable Integer num) throws Exception {
-		logger.info("Rev: updateRevPost(@RequestBody Rev rev, @PathVariable Integer num) 시작");
+	public ResponseEntity<String> updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) throws Exception {
+		logger.info("Rev: updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) 시작");
 		logger.info("리뷰수정 후: " + rev);	
 		service.updateRev(rev, num);
-		logger.info("Rev: updateRevPost(@RequestBody Rev rev, @PathVariable Integer num) 끝");
+		logger.info("Rev: updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) 끝");
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
@@ -51,11 +51,11 @@ public class RevApiController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@DeleteMapping("/delete/{num}")
-	public ResponseEntity<String> deleteRev(@PathVariable Integer num) throws Exception {
-		logger.info("Rev: deleteRev(@PathVariable Integer num) 시작");
+	public ResponseEntity<String> deleteRevDELETE(@PathVariable Integer num) throws Exception {
+		logger.info("Rev: deleteRevDELETE(@PathVariable Integer num) 시작");
 		logger.info("리뷰삭제: " + num);	
 		service.deleteRev(num);
-		logger.info("Rev: deleteRev(@PathVariable Integer num) 끝");
+		logger.info("Rev: deleteRevDELETE(@PathVariable Integer num) 끝");
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}

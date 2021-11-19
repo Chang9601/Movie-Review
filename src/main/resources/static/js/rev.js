@@ -12,8 +12,8 @@ var rev = {
 	},
 
 	write: function() {
-		var userNum = $("#userNum").val();
-		var movieNum = $("#movieNum").val();
+		var userNum = $("#user-num").val();
+		var movieNum = $("#movie-num").val();
 		var image = $("#image").val();
 		var id = $("#id").val();
 		var movie = $("#movie").val();
@@ -33,14 +33,14 @@ var rev = {
 		};
 
 		if (title === "") {
-			$("#titleCk").html("제목을 입력하세요.").css("color", "red");
+			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
 			return false;
-		} else $("#titleCk").html("");
+		} else $("#title-ck").html("");
 
 		if (content === "") {
-			$("#contentCk").html("내용을 입력하세요.").css("color", "red");
+			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
 			return false;
-		} else $("#contentCk").html("");
+		} else $("#content-ck").html("");
 		
 		$.ajax({
 			url: "/recmv/api/rev/write",
@@ -70,14 +70,14 @@ var rev = {
 		};
 
 		if (title === "") {
-			$("#titleCk").html("제목을 입력하세요.").css("color", "red");
+			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
 			return false;
-		} else $("#titleCk").html("");
+		} else $("#title-ck").html("");
 
 		if (content === "") {
-			$("#contentCk").html("내용을 입력하세요.").css("color", "red");
+			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
 			return false;
-		} else $("#contentCk").html("");
+		} else $("#content-ck").html("");
 		
 		$.ajax({
 			url: "/recmv/api/rev/update/" + num,
@@ -86,7 +86,7 @@ var rev = {
 			data: JSON.stringify(rev)
 		}).done(function(resp){
 			console.log(resp);
-			alert("수정이 완료되었습니다.")			
+			alert("리뷰수정이 완료되었습니다.")			
 			location.replace("/recmv/rev/read/" + num);				
 		}).fail(function(){
 			alert(JSON.stringify(err));									
@@ -102,7 +102,7 @@ var rev = {
 			type: "DELETE",
 		}).done(function(resp){
 			console.log(resp);
-			alert("삭제가 완료되었습니다.")
+			alert("리뷰삭제가 완료되었습니다.")
 			location.replace("/recmv/rev/main?currentPageNum=" + currentPageNum);						
 		}).fail(function(err){
 			alert(JSON.stringify(err));						

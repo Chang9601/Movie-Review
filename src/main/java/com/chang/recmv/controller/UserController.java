@@ -35,9 +35,9 @@ public class UserController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// http://localhost:8088/recmv/user/signup
 	@GetMapping("/signup")
-	public String signupGet() throws Exception {
-		logger.info("User: signupGet() 시작");
-		logger.info("User: signupGet() 끝");
+	public String signupGET() throws Exception {
+		logger.info("User: signupGET() 시작");
+		logger.info("User: signupGET() 끝");
 			
 		return "user/signup";
 	}
@@ -47,8 +47,8 @@ public class UserController {
 	// http://localhost:8088/recmv/user/login
 	@GetMapping("/login")
 	public String loginGet() throws Exception {
-		logger.info("User: loginGet() 시작");		
-		logger.info("User: loginGet() 끝");
+		logger.info("User: loginGET() 시작");		
+		logger.info("User: loginGET() 끝");
 		
 		return "user/login";
 	}
@@ -97,15 +97,15 @@ public class UserController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/update")
-	public String updateUserGet(Model model) throws Exception {	
-		logger.info("User: updateUserGet(Model model) 시작");
+	public String updateUserGET(Model model) throws Exception {	
+		logger.info("User: updateUserGET(Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null)
 			return "redirect:./login";
 		User user = service.readUser(id);
 		logger.info("회원수정 전: " + user);
 		model.addAttribute("user", user);
-		logger.info("User: updateUserGet(Model model) 끝");
+		logger.info("User: updateUserGET(Model model) 끝");
 		
 		return "user/update";
 	}
@@ -113,15 +113,15 @@ public class UserController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/delete")
-	public String deleteUserGet(Model model) throws Exception {
-		logger.info("User: deleteUserGet(Model model) 시작");
+	public String deleteUserGET(Model model) throws Exception {
+		logger.info("User: deleteUserGET(Model model) 시작");
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:./login";		
 		User user = service.readUser(id);
 		logger.info("회원삭제 전: " + user);		
 		model.addAttribute("user", user);
-		logger.info("User: deleteUserGet(Model model) 끝");
+		logger.info("User: deleteUserGET(Model model) 끝");
 		
 		return "user/delete";
 	}

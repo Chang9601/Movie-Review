@@ -9,10 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.chang.recmv.model.Criteria;
 import com.chang.recmv.model.Movie;
-import com.chang.recmv.model.Paging;
 import com.chang.recmv.service.MovieService;
 
 @Controller
@@ -22,16 +21,17 @@ public class MovieController {
 
 	@Autowired
 	private MovieService service;
+	
+	@GetMapping("/searchMovieDB")
+	public String searchMovieDB(@RequestParam("query") String query, Model model) throws Exception {	
+		logger.info("Movie: searchMovieDB(@RequestParam(\"query\") String query, Model model) 시작");
+		//logger.info("영화 제목: " + query);
+		List<Movie> movies = service.searchDB(query);
+		//logger.info("뭥미: " + movies);
+		if(movies.isEmpty()) movies = null;
+		model.addAttribute("movies", movies);
+		logger.info("Movie: searchMovieDB(@RequestParam(\"query\") String query, Model model) 끝");
 
-	@GetMapping("/search")
-	public String searchGet(Model model, String title) throws Exception {
-		logger.info("Movie: search(Model model, String title) 시작");		
-		Movie movie = null;
-		if(title != null) 
-			movie = service.readMovie(title);
-		model.addAttribute("movie", movie);
-		logger.info("Movie: search(Model model, String title) 끝");		
-		
-		return "movie/search";
-	}
+		return "movie/searchMovie";
+	}		
 }

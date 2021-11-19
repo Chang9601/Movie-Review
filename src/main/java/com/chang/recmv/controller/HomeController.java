@@ -19,13 +19,13 @@ public class HomeController {
 	private MovieService service;
 
 	@GetMapping("/")
-	public String start(Model model, Criteria cri) throws Exception {
-		logger.info("Home: start(Model model, Criteria cri) 시작");
+	public String index(Model model, Criteria cri) throws Exception {
+		logger.info("Home: index(Model model, Criteria cri) 시작");
 		Paging page = new Paging(cri, service.getNumMovies());
 		model.addAttribute("page", page);
 		model.addAttribute("movies", service.getMovies(cri));
 		//logger.info("페이징: " + page);
-		logger.info("Home: start(Model model, Criteria cri) 끝");
+		logger.info("Home: index(Model model, Criteria cri) 끝");
 
 		return "index";
 	}

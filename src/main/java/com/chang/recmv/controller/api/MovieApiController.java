@@ -37,12 +37,14 @@ public class MovieApiController {
 	@Autowired
 	private MovieService service;
 	
-	private String clientId = "xayyRvE7DP1vyw8ehkC8";	
-	private String clientSecret = "mLATucrjt8";
-	
-	@GetMapping("/searchMovie")
-	public ResponseEntity<JSONArray> searchPost(@RequestParam("query") String query) throws Exception {
-		logger.info("Movie: searchPost(@RequestParam(\"query\") String query) 시작");
+	private String clientId = "";	
+	private String clientSecret = "";
+
+	@GetMapping("/searchMovieAPI")
+	public ResponseEntity<JSONArray> searchMovieAPI(@RequestParam("query") String query) throws Exception {
+		logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 시작");
+		
+		logger.info("영화이름: " + query);
 		
         try {
             query = URLEncoder.encode(query, "UTF-8");
@@ -78,7 +80,7 @@ public class MovieApiController {
 			cast = cast.replaceAll("(, )$", "");
 			
 			// 영화 중복방지
-			if(service.ckDupMovie(title) == null) {				
+			if(service.readMovie(title) == null) {				
 				movie.setTitle(title);
 				movie.setLink(link);
 				movie.setImage(image);
@@ -88,7 +90,7 @@ public class MovieApiController {
 			}
 		}
 				
-        logger.info("Movie: searchPost(@RequestParam(\"query\") String query) 끝");  
+        logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 끝");  
         return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
 	}
 		

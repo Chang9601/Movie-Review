@@ -19,12 +19,12 @@ public class MovieService {
 		mapper.addMovie(movie);
 	}
 	
-	public Integer ckDupMovie(String title) throws Exception {
-		return mapper.ckDupMovie(title);
-	}
-	
 	public Movie readMovie(String title) throws Exception {
 		return mapper.readMovie(title);
+	}
+	
+	public List<Movie> searchDB(String title) throws Exception {
+		return mapper.searchDB(title);
 	}
 	
 	public List<Movie> getMovies(Criteria cri) throws Exception {

@@ -45,9 +45,9 @@ var user = {
 		}
 
 		if(!idRegex.test(id) || !ckId(id)) {
-			$("#idCk").html("5~10자의 영문 소문자와 숫자만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
+			$("#id-ck").html("5~10자의 영문 소문자와 숫자만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
-		}else $("#idCk").html("");
+		}else $("#id-ck").html("");
 						
 		$.ajax({
 			url: "/recmv/api/user/ckDupId",
@@ -57,26 +57,25 @@ var user = {
 		}).done(function(resp) {
 			console.log(resp);
 			if(resp === id) {
-				$("#idCk").html("이미 사용중인 아이디입니다.").css("color", "red");						
+				$("#id-ck").html("이미 사용중인 아이디입니다.").css("color", "red");						
 				return false;				
-			}else $("#idCk").html("");
+			}else $("#id-ck").html("");
 
 			if(!pwRegex.test(pw) || !ckPw(pw)) {
-				$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
+				$("#pw-ck").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 				return false;
-			}else $("#pwCk").html("");
+			}else $("#pw-ck").html("");
 
 			if(cpw !== pw) {
-				$("#cpwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+				$("#cpw-ck").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 				return false;
-			}else $("#cpwCk").html("");
+			}else $("#cpw-ck").html("");
 			
 			if(!emailRegex.test(email)) {
-				$("#emailCk").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
+				$("#email-ck").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
 				return false;
-			}else $("#emailCk").html("");
+			}else $("#email-ck").html("");
 	
-			location.replace("./login");
 			$.ajax({			
 				url: "/recmv/api/user/signup",
 				type: "POST",
@@ -85,7 +84,7 @@ var user = {
 			}).done(function(resp) {
 				console.log(resp);	
 				alert("회원가입이 완료되었습니다.");											
-				location.replace("./login");	
+				location.replace("/recmv/user/login");	
 			}).fail(function(err) {
 				alert(JSON.stringify(err));
 			});					
@@ -104,14 +103,14 @@ var user = {
 		};
 					
 		if(id === "") {
-			$("#idCk").html("아이디를 입력하세요.").css("color", "red");
+			$("#id-ck").html("아이디를 입력하세요.").css("color", "red");
 			return false;
-		}else $("#idCk").html("");			 
+		}else $("#id-ck").html("");			 
 
 		if(pw === "") {
-			$("#pwCk").html("비밀번호를 입력하세요.").css("color", "red");
+			$("#pw-ck").html("비밀번호를 입력하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("");
+		}else $("#pw-ck").html("");
 					
 		$.ajax({
 			url: "/recmv/api/user/login",
@@ -148,24 +147,24 @@ var user = {
 		};		
 
 		if(!pwRegex.test(pw) || !ckPw(pw)) {
-			$("#pwCk").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
+			$("#pw-ck").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("");		
+		}else $("#pw-ck").html("");		
 		
 		if(pw === ppw) {
-			$("#pwCk").html("현재 비밀번호와 다른 비밀번호를 입력하세요.").css("color", "red");
+			$("#pw-ck").html("현재 비밀번호와 다른 비밀번호를 입력하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("");
+		}else $("#pw-ck").html("");
 		
 		if(pw !== cpw) {
-			$("#cpwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+			$("#cpw-ck").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 			return false;			
-		}else $("#cpwCk").html("");
+		}else $("#cpw-ck").html("");
 
 		if(!emailRegex.test(email)) {
-			$("#emailCk").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
+			$("#email-ck").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
 			return false;
-		}else $("#emailCk").html("");
+		}else $("#email-ck").html("");
 		
 		$.ajax({
 			url: "/recmv/api/user/update",
@@ -174,7 +173,7 @@ var user = {
 			data: JSON.stringify(user),
 		}).done(function(resp) {
 			console.log(resp);
-			alert("수정이 완료되었습니다.");			
+			alert("회원수정이 완료되었습니다.");			
 			location.replace("/recmv/user/read");			
 		}).fail(function(err) {
 			alert(JSON.stringify(err))				
@@ -192,14 +191,14 @@ var user = {
 		};
 		
 		if(pw === "") {
-			$("#pwCk").html("비밀번호를 입력하세요.").css("color", "red");
+			$("#pw-ck").html("비밀번호를 입력하세요.").css("color", "red");
 			return false;
-		}else $("#pwCk").html("");
+		}else $("#pw-ck").html("");
 
 		if(pw !== rpw){
-			$("#pwCk").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+			$("#pw-ck").html("비밀번호가 일치하지 않습니다.").css("color", "red");
 			return false;	
-		}else $("#pwCk").html("");	
+		}else $("#pw-ck").html("");	
 				
 		var con = confirm("탈퇴하시겠습니까?");	
 		if(con === false) return false; 
@@ -211,7 +210,7 @@ var user = {
 			data: JSON.stringify(user)
 		}).done(function(resp){
 			console.log(resp);
-			alert("탈퇴가 완료되었습니다.");		
+			alert("회원탈퇴가 완료되었습니다.");		
 			location.replace("/recmv");									
 		}).fail(function(err){
 			alert(JSON.stringify(err));

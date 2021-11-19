@@ -9,14 +9,14 @@
 		values(#{title}, #{link}, #{image}, #{cast}, #{plot}, now())
 	</insert>
 	
-	<select id="ckDupMovie" resultType="int">
-		select num from recmv_movie
-		where title = #{title}
-	</select>
-	
 	<select id="readMovie" resultType="Movie">
 		select * from recmv_movie
 		where title = #{title}
+	</select>
+	
+	<select id="searchDB" resultType="Movie">
+		select * from recmv_movie
+		where title like concat('%', #{title}, '%')
 	</select>
 	
 	<select id="getMovies" resultType="Movie">

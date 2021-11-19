@@ -43,11 +43,11 @@ public class UserApiController {
 	}
 	
 	@PostMapping("/signup")
-	public ResponseEntity<String> signupPost(@RequestBody User user) throws Exception {
-		logger.info("User: signupPost(@RequestBody User user) 시작");
+	public ResponseEntity<String> signupPOST(@RequestBody User user) throws Exception {
+		logger.info("User: signupPOST(@RequestBody User user) 시작");
 		logger.info("회원가입: " + user);
 		service.addUser(user);
-		logger.info("User: signupPost(@RequestBody User user) 끝");
+		logger.info("User: signupPOST(@RequestBody User user) 끝");
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
@@ -55,13 +55,13 @@ public class UserApiController {
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PostMapping("/login")
-	public ResponseEntity<String> loginPost(@RequestBody User user) throws Exception {
-		logger.info("User: loginPost(@RequestBody User user) 시작");
+	public ResponseEntity<String> loginPOST(@RequestBody User user) throws Exception {
+		logger.info("User: loginPOST(@RequestBody User user) 시작");
 		logger.info("로그인: " + user);
 		String id = service.ckLogin(user);
 		if(id != null)
 			session.setAttribute("id", id);
-		logger.info("User: loginPost(@RequestBody User user) 끝");	
+		logger.info("User: loginPOST(@RequestBody User user) 끝");	
 		
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}	
@@ -69,13 +69,13 @@ public class UserApiController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PutMapping("/update")
-	public ResponseEntity<String> updateUserPost(@RequestBody User user) throws Exception {
-		logger.info("User: updateUserPost(@RequestBody User user) 시작");
+	public ResponseEntity<String> updateUserPUT(@RequestBody User user) throws Exception {
+		logger.info("User: updateUserPUT(@RequestBody User user) 시작");
 		logger.info("회원수정 후: " + user);
 		String id = (String)session.getAttribute("id");
 		String pw = service.readUser(id).getPw();
 		service.updateUser(user, pw);
-		logger.info("User: updateUserPost(@RequestBody User user) 끝");	
+		logger.info("User: updateUserPUT(@RequestBody User user) 끝");	
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}	
@@ -83,14 +83,14 @@ public class UserApiController {
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteUserPost(@RequestBody User user) throws Exception {
-		logger.info("User: deleteUserPost(@RequestBody User user) 시작");
+	public ResponseEntity<String> deleteUserDELETE(@RequestBody User user) throws Exception {
+		logger.info("User: deleteUserDELETE(@RequestBody User user) 시작");
 		// 작성된 리뷰 모두 삭제 후 회원탈퇴
 		service.deleteRevs(user.getId());
 		service.deleteUser(user);
 		session.invalidate();
 		logger.info("회원삭제 후: " + user);		
-		logger.info("User: deleteUserPost(@RequestBody User user) 끝");	
+		logger.info("User: deleteUserDELETE(@RequestBody User user) 끝");	
 		
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}	
