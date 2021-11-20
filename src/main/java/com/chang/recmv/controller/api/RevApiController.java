@@ -30,6 +30,7 @@ public class RevApiController {
 	public ResponseEntity<String> writePOST(@RequestBody Rev rev) throws Exception {
 		logger.info("Rev: writePOST(@RequestBody Rev rev) 시작");
 		logger.info("리뷰쓰기: " + rev);	
+		logger.info("리뷰내용: " + rev.getContent());	
 		service.writeRev(rev);
 		logger.info("Rev: writePOST(@RequestBody Rev rev) 끝");
 		

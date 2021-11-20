@@ -10,7 +10,8 @@
 			<div class="container">
 					<div class="card m-2">
 						<form>
-							<div class="form-group">
+							<div class="card-header">사이트 영화검색</div>							
+							<div class="list-group">
 								<input type="text" name="query-db" id="query-db" placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
 								<span id="db-ck"></span>
 							</div>						
@@ -20,7 +21,8 @@
 					</div>
 					<div class="card m-2">					
 						<form>
-							<div class="form-group">
+							<div class="card-header">외부 영화검색</div>							
+							<div class="list-group">
 								<input type="text" name="query-api" id="query-api" placeholder="찾으시는 영화가 없으면 검색하세요." class="form-control">
 								<span id="api-ck"></span>
 							</div>	
@@ -36,7 +38,7 @@
  							<!--<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>-->
 							<h4 class="card-title" th:text="${movie.cast}"></h4>
 							<h4 class="card-title" th:text="${movie.plot}"></h4>						
-							<h4 class="card-title"><a th:href="@{/rev/write/{num}(num=${movie.num})}" target="_blank" class="btn btn-primary">리뷰쓰기</a></h4>
+							<h4 class="card-title"><a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a></h4>
 						</div>
 					</div>
 				</th:block>

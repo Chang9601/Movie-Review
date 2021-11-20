@@ -25,9 +25,7 @@ public class MovieController {
 	@GetMapping("/searchMovieDB")
 	public String searchMovieDB(@RequestParam("query") String query, Model model) throws Exception {	
 		logger.info("Movie: searchMovieDB(@RequestParam(\"query\") String query, Model model) 시작");
-		//logger.info("영화 제목: " + query);
 		List<Movie> movies = service.searchDB(query);
-		//logger.info("뭥미: " + movies);
 		if(movies.isEmpty()) movies = null;
 		model.addAttribute("movies", movies);
 		logger.info("Movie: searchMovieDB(@RequestParam(\"query\") String query, Model model) 끝");

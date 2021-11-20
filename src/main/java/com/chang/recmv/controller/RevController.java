@@ -48,22 +48,18 @@ public class RevController {
 		String id = (String)session.getAttribute("id");
 		if(id == null) 
 			return "redirect:/user/login";
-		
 		// 키에 해당하는 영화
 		Movie movie = service.readMovie(num);
 		// 로그인된 사용자의 아이디
 		model.addAttribute("id", id);
 		// 로그인된 사용자의 키
-		model.addAttribute("user-num", service.readNum(id));
+		model.addAttribute("userNum", service.readNum(id));
 		// 영화제목
 		model.addAttribute("movie", movie.getTitle());
 		// 영화 이미지
 		model.addAttribute("image", movie.getImage());
 		// 영화의 키
-		model.addAttribute("movie-num", num);
-		
-		//
-		//logger.info("아이디: " + id + ", 번호: " + num);
+		model.addAttribute("movieNum", num);
 		logger.info("Rev: writeGET(@PathVariable Integer num, Model model) 끝");
 
 		return "rev/write";
@@ -100,7 +96,6 @@ public class RevController {
 		// 리뷰를 작성한 사용자의 아이디
 		model.addAttribute("id", service.readId(userNum));
 		model.addAttribute("currentPageNum", currentPageNum);
-		
 		// 키에 해당하는 리뷰
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰조회: " + service.readRev(num));
