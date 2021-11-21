@@ -3,8 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/css/all.css}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">	
+
+<style>
+	.stars-outer {
+		position: relative;
+		display: inline-block;
+	}
+	
+	.stars-inner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		white-space: nowarp;
+		overflow: hidden;
+		width: 0;
+	}
+	
+	.stars-outer::before {
+		content: "\f005 \f005 \f005 \f005 \f005";
+		font-family: 'Font Awesome 5 Free';
+		font-weight: 900;
+		color: #ccc; 
+	}
+	
+	.stars-inner::before {
+		content: "\f005 \f005 \f005 \f005 \f005";
+		font-family: 'Font Awesome 5 Free';
+		font-weight: 900;
+		color: #f8ce0b; 
+	}
+
+</style>
+
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
@@ -27,16 +60,16 @@
 						<span id="title-ck"></span>
 					</div>
 					<div class="form-group">
-						<label for="rating">별점</label> 
+						<label for="rating">별점</label>
+						<input type="number" name="rating" id="rating" class="form-control" step="0.1" max="5" placeholder="별점(0점 - 5점)">
+						
+						<div class="stars-outer">
+							<div class="stars-inner"></div>
+						</div>
+						<span class="number-rating"></span>
 						<br>
-						<select name="rating" id="rating">
-									<option value="1">★☆☆☆☆</option>
-									<option value="2">★★☆☆☆</option>
-									<option value="3">★★★☆☆</option>
-									<option value="4">★★★★☆</option>
-									<option value="5">★★★★★</option>
-						</select>						
-					</div>
+						<span id="rating-ck"></span>						
+					</div>				
 					<div class="form-group">
 						<label for="content">내용</label> 
 						<textarea class="form-control summernote" id="content"></textarea>
@@ -51,6 +84,32 @@
 			    height: 300
 			  });
 			  $(".summernote").summernote("code", $("#content").html());
+
+			  document.addEventListener('DOMContentLoaded', getRating);		
+			  
+			  const maxRating = 5;
+			  const rating = document.getElementById("rating");//$("#rating-control").val();
+			  
+			  rating.addEventListener("blur", (e) => {
+				  const ratingVal = e.target.value;
+				  
+				  if(ratingVal > 5 || ratingVal < 0) {
+					  alert("별점은 0점에서 5점 사이만 가능합니다.");
+					  return;
+				  }
+				  
+				  getRating();
+			  });
+			  
+			  function getRating() {
+				  const rating = document.getElementById("rating").value;
+				  const starPercentage = (rating / maxRating) * 100;
+			  	  const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+			  	  
+			  	  document.querySelector(".stars-inner").style.width = starPercentageRounded;
+			  	  
+			  	  document.querySelector(".number-rating").innerHTML = rating;
+			  }	
 			</script>						
 		</main>
 </html>

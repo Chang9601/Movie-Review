@@ -19,7 +19,7 @@ public class Rev {
 	private String image; // 리뷰목록 이미지
 	private String movie; // 영화이름
 	private String title; // 리뷰제목
-	private Integer rating; // 평가
+	private Double rating; // 평가
 	private String content; // 내용
 	private Integer like; // 좋아요
 	private Timestamp createDate; // 등록 날짜/시간
