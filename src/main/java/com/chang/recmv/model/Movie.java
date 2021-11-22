@@ -18,5 +18,6 @@ public class Movie {
 	private String image; // 영화 이미지
 	private String cast; // 배우목록
 	private String plot; // 줄거리
+	private Double rating; // 평균 평가	
 	private Timestamp createDate; // 등록 날짜/시간	
 }

@@ -30,7 +30,21 @@ public class RevApiController {
 	public ResponseEntity<String> writePOST(@RequestBody Rev rev) throws Exception {
 		logger.info("Rev: writePOST(@RequestBody Rev rev) 시작");
 		logger.info("리뷰쓰기: " + rev);	
-		logger.info("리뷰내용: " + rev.getContent());	
+		String movie = rev.getMovie();
+		Integer num = service.getNumRevsByTitle(movie);
+		logger.info("리뷰개수: " + num);
+		// 영화제목으로 이전 평균값 
+		Double rating = service.getAvgRating(movie);
+		logger.info("이전 평균값: " + rating); 
+		// 리뷰개수를 곱해서 총값
+		Double totalRating = rating * num;
+		logger.info("총값: " + totalRating);
+		// 평균 평가값 업데이트
+		totalRating += rev.getRating();
+		// 새로운 평균값
+		rating = totalRating / (num + 1);	
+		logger.info("새로운 평균값: " + rating);
+		service.updateAvgRating(movie, rating);
 		service.writeRev(rev);
 		logger.info("Rev: writePOST(@RequestBody Rev rev) 끝");
 		

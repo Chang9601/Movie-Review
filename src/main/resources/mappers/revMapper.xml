@@ -50,4 +50,20 @@
 		select * from recmv_movie
 		where num = #{num}
 	</select>	
+	
+	<select id="getAvgRating" resultType="double">
+		select rating from recmv_movie
+		where title = #{title}
+	</select>
+
+	<select id="getNumRevsByTitle" resultType="int">
+		select count(*) from recmv_rev
+		where movie = #{movie}
+	</select>
+	
+	<update id="updateAvgRating">
+		update recmv_movie 
+		set rating = #{rating}
+		where title = #{title}
+	</update>	
 </mapper>

@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/css/all.css}">
+<link rel="stylesheet" th:href="@{/css/stars.css}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script>
 	if(!!window.performance && window.performance.navigation.type == 2){
@@ -26,12 +28,11 @@
 						리뷰제목: <span th:text="${rev.title}"></span>
 					</div>
 					<div class="form-group">
-						별점:
-						<span th:if="${rev.rating} == 1">★☆☆☆☆</span>
-			    		<span th:if="${rev.rating} == 2">★★☆☆☆</span>
-			    		<span th:if="${rev.rating} == 3">★★★☆☆</span>
-		 				<span th:if="${rev.rating} == 4">★★★★☆</span>
-		   				<span th:if="${rev.rating} == 5">★★★★★</span>
+						평점:
+						<div class="stars-outer">
+							<div class="stars-inner"></div>
+						</div>
+						(<span class="number-rating"></span>)						
 					</div>
 					<div class="form-group">		   				
 						내용: <div th:text="${rev.content}"></div>
@@ -42,5 +43,18 @@
 					<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>			
 				</span>	
 			</div>
+			<script th:inline="javascript">
+			  	document.addEventListener('DOMContentLoaded', getRating);		
+			  
+			  	const maxRating = 5;
+			  	function getRating() {
+			  		const rating = [[${rev.rating}]]; 
+				  	const starPercentage = (rating / maxRating) * 100;
+			  	  	const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+			  	  	
+			  	  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
+			  	  	document.querySelector(".number-rating").innerHTML = rating;
+			  	}
+			</script>					
 		</main>				
 </html>

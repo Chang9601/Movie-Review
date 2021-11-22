@@ -11,8 +11,8 @@
 				<th:blockh th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
-							<h4 th:if="${movie.image} != ''" class="card-title"><img th:src="${movie.image}" width="300" height="400"></h4>		
-							<h4 th:unless="${movie.image} != ''" class="card-title"><img th:src="@{/img/none.png}" width="300" height="400"></h4>		
+							<h4 th:if="${movie.image != ''}" class="card-title"><img th:src="${movie.image}" width="300" height="400"></h4>		
+							<h4 th:unless="${movie.image != ''}" class="card-title"><img th:src="@{/img/none.png}" width="300" height="400"></h4>		
 							<h4 class="card-title" th:text="${movie.title}"></h4>												
  							<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>
 							<h4 class="card-title" th:text="${movie.cast}"></h4>

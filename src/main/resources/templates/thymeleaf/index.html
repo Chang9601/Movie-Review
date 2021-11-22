@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/css/all.css}">
+<link rel="stylesheet" th:href="@{/css/stars.css}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
@@ -32,13 +34,37 @@
 				<th:block th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
-							<h4 th:if="${movie.image} != ''" class="card-title"><img th:src="${movie.image}" width="300" height="400"></h4>		
-							<h4 th:unless="${movie.image} != ''" class="card-title"><img th:src="@{/img/none.png}" width="300" height="400"></h4>		
-							<h4 class="card-title" th:text="${movie.title}"></h4>												
+							<span hidden="hidden" id="rating" th:text="${movie.rating}"></span>
+							
+							<div class="form-group" th:if="${movie.image != ''}">
+								<img th:src="${movie.image}" width="300" height="400">
+							</div>							
+							<div class="form-group" th:unless="${movie.image != ''}">
+								<img th:src="@{/img/none.png}" width="300" height="400">
+							</div>							
+							<div class="form-group">
+								제목: <span th:text="${movie.title}"></span>
+							</div>				
+							<div class="form-group">
+								배우: <span th:text="${movie.cast}"></span>
+							</div>						
+							<div class="form-group">
+								줄거리: <span th:text="${movie.plot}"></span>
+							</div>						
+							<div class="form-group" th:if="${movie.rating != 0.0}">
+								평점:
+									<div class="stars-outer">
+										<div class="stars-inner"></div>
+									</div>
+									(<span class="number-rating"></span>)									
+							</div>						
+							<div class="form-group" th:unless="${movie.rating != 0.0}">
+								리뷰없음
+							</div>						
+							<div class="form-group">
+								<a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a>							
+							</div>						
  							<!--<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>-->
-							<h4 class="card-title" th:text="${movie.cast}"></h4>
-							<h4 class="card-title" th:text="${movie.plot}"></h4>						
-							<h4 class="card-title"><a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a></h4>
 						</div>
 					</div>
 				</th:block>
@@ -66,5 +92,22 @@
 					</a></li>
 				</ul>
 			</div>
+			<script th:inline="javascript">
+		  		document.addEventListener('DOMContentLoaded', getRating);		
+				  
+			  	const maxRating = 5;
+			  	function getRating() {
+			  		const rating = document.getElementById("rating").value;
+			  		
+			  		console.log(rating);
+			  		//movies.forEach(function(movie){
+					  	const starPercentage = (rating / maxRating) * 100;
+				  	  	const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;		
+				  	  	console.log(starPercentageRounded);
+				  	  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
+				  	  	document.querySelector(".number-rating").innerHTML = rating;
+			  		//});			  		
+			  	}			
+			</script>					
 		</main>
 </html>

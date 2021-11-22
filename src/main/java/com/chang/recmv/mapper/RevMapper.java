@@ -21,4 +21,7 @@ public interface RevMapper {
 	public Integer readNum(String id) throws Exception;
 	public String readId(Integer num) throws Exception;
 	public Movie readMovie(Integer num) throws Exception;	
+	public Double getAvgRating(String  title) throws Exception;
+	public Integer getNumRevsByTitle(String movie) throws Exception;
+	public void updateAvgRating(String title, Double rating) throws Exception;
 }

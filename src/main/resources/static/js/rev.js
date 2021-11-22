@@ -21,7 +21,7 @@ var rev = {
 		var content = $("#content").val();
 		var rating = $("#rating").val();	
 	
-		console.log(rating);
+		//console.log(rating);
 		
 		var rev = {
 			userNum: userNum,
@@ -84,7 +84,16 @@ var rev = {
 			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
 			return false;
 		} else $("#title-ck").html("");
-
+		
+		if(rating === "") {
+			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
+			return false;
+		}else if(rating > 5 || rating < 0) {
+			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
+			return false;						
+		}
+		else $("#rating-ck").html("");			
+		
 		if (content === "") {
 			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
 			return false;
