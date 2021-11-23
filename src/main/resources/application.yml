@@ -12,6 +12,14 @@ spring:
     #view:
       #prefix: /WEB-INF/views/
       #suffix: .jsp
+  mvc:
+    converters:
+      preferred-json-mapper: gson
+      
+  servlet:
+    multipart:
+      location: D:/summernote_image/
+      
   thymeleaf:
     prefix: classpath:templates/thymeleaf/
     suffix: .html
@@ -22,21 +30,21 @@ spring:
     username: chang
     password: chang1234
     
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false
-    show-sql: true
-    properties:
-      hibernate.format_sql: true
+  #jpa:
+    #open-in-view: true
+    #hibernate:
+      #ddl-auto: create
+      #naming:
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      #use-new-id-generator-mappings: false
+    #show-sql: true
+    #properties:
+      #hibernate.format_sql: true
 
   jackson:
     serialization:
       fail-on-empty-beans: false
-            
+      
 mybatis:
   type-aliases-package: com.chang.recmv.model
   mapper-locations: mappers/**/*.xml

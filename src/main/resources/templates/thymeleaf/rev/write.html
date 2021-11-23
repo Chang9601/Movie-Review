@@ -6,12 +6,15 @@
 <link rel="stylesheet" th:href="@{/css/css/all.css}">
 <link rel="stylesheet" th:href="@{/css/stars.css}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-				<form>
+				<form enctype="multipart/form-data">
 					<input type="hidden" name="user-num" class="form-control" id="user-num" th:value="${userNum}" readonly>				
 					<input type="hidden" name="movie-num" class="form-control" id="movie-num" th:value="${movieNum}" readonly>				
 					<input type="hidden" name="image" class="form-control" id="image" th:value="${image}" readonly>				
@@ -48,13 +51,68 @@
 				<button id="btn-write" class="btn btn-primary">리뷰작성</button>	
 			</div>	
 			<script>
-				$('.summernote').summernote({
-			    	tabsize: 2,
-			    	height: 300
-			  	});
-			  	$(".summernote").summernote("code", $("#content").html());
+				$(".summernote").summernote({
+					tabsize: 2,
+					height: 300,
+					minHeight: null,
+					maxHeight: null,
+					focus: true,
+					placeholder: "최대 5000자까지 쓸 수 있습니다.",
+					callbacks: {
+						onImageUpload: function(files, editor, welEditable) {
+							for(var i = files.length - 1; i >= 0; i--){
+								uploadSummernoteImageFile(files[i], this);
+							}
+						},
+						onPaste: function (e) {
+							var clipboardData = e.originalEvent.clipboardData;
+							if (clipboardData && clipboardData.items && clipboardData.items.length) {
+								var item = clipboardData.items[0];
+								if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+									e.preventDefault();
+								}
+							}
+						}				
+					}
+				});				
 
-			  	document.addEventListener('DOMContentLoaded', getRating);		
+				function uploadSummernoteImageFile(file, editor) {
+					data = new FormData();
+					data.append("file", file);
+					$.ajax({
+						data: data,
+						type: "POST",
+						url: "/recmv/api/rev/uploadSummernoteImageFile",
+						contentType: false,
+						enctype: "multipart/form-data",
+						processData: false,
+						success: function(data) {
+							console.log(data);
+							$(editor).summernote("insertImage", data.url);
+						}
+					});
+				}
+				
+				function sendFile(file, editor) {
+					var data = new FormData();
+					data.append("file", file);
+					$.ajax({
+						data: data,
+						type: "POST",
+						url: "/recmv/api/rev/uploadSummernoteImageFile",
+						contentType: false,
+						enctype: "multipart/form-data",
+						processData: false,
+						success: function(data) {
+							console.log(data);
+							$(editor).summernote("insertImage", data.url);
+						}
+					});
+				}
+				
+				//console.log($($(".summernote").summernote("code")).text());
+				
+				document.addEventListener("DOMContentLoaded", getRating);		
 			  
 			  	const maxRating = 5;
 			  	const rating = document.getElementById("rating");

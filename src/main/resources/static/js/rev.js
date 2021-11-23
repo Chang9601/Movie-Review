@@ -19,10 +19,14 @@ var rev = {
 		var movie = $("#movie").val();
 		var title = $("#title").val();
 		var content = $("#content").val();
-		var rating = $("#rating").val();	
-	
-		//console.log(rating);
-		
+		var rating = $("#rating").val();
+
+		/*$(".summernote").summernote({
+			tabsize: 2,
+			height: 300,
+			focus: true
+		});
+*/
 		var rev = {
 			userNum: userNum,
 			movieNum: movieNum,
@@ -34,24 +38,24 @@ var rev = {
 			rating: rating
 		};
 
-		if(title === "") {
+		if (title === "") {
 			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
 			return false;
-		}else $("#title-ck").html("");
-		
-		if(rating === "") {
+		} else $("#title-ck").html("");
+
+		if (rating === "") {
 			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
 			return false;
-		}else if(rating > 5 || rating < 0) {
+		} else if (rating > 5 || rating < 0) {
 			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
-			return false;						
+			return false;
 		}
-		else $("#rating-ck").html("");			
+		else $("#rating-ck").html("");
 
-		if(content === "") {
+		if (content === "") {
 			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
 			return false;
-		}else $("#content-ck").html("");
+		} else $("#content-ck").html("");
 
 		$.ajax({
 			url: "/recmv/api/rev/write",
@@ -84,16 +88,16 @@ var rev = {
 			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
 			return false;
 		} else $("#title-ck").html("");
-		
-		if(rating === "") {
+
+		if (rating === "") {
 			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
 			return false;
-		}else if(rating > 5 || rating < 0) {
+		} else if (rating > 5 || rating < 0) {
 			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
-			return false;						
+			return false;
 		}
-		else $("#rating-ck").html("");			
-		
+		else $("#rating-ck").html("");
+
 		if (content === "") {
 			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
 			return false;
