@@ -6,7 +6,10 @@
 <link rel="stylesheet" th:href="@{/css/css/all.css}">
 <link rel="stylesheet" th:href="@{/css/stars.css}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
@@ -27,14 +30,6 @@
 						<span id="title-ck"></span>
 					</div>
 					<div class="form-group">
-						<!-- <label for="rating">별점</label> 
-						<select name="rating" id="rating">
-									<option value="1" th:selected="${rev.rating} == '1'">★☆☆☆☆</option>
-									<option value="2" th:selected="${rev.rating} == '2'">★★☆☆☆</option>
-									<option value="3" th:selected="${rev.rating} == '3'">★★★☆☆</option>
-									<option value="4" th:selected="${rev.rating} == '4'">★★★★☆</option>
-									<option value="5" th:selected="${rev.rating} == '5'">★★★★★</option>
-						</select>-->
 						<label for="rating">평점</label>
 						<input type="number" name="rating" id="rating" class="form-control" step="0.1" max="5" placeholder="별점(0점 - 5점)">
 						
@@ -48,7 +43,7 @@
 					</div>
 					<div class="form-group">
 						<label for="content">내용</label> 
-						<textarea class="form-control summernote" id="content" th:text="${rev.content}"></textarea>
+						<textarea class="form-control summernote" id="content" th:utext="${rev.content}"></textarea>
 						<span id="content-ck"></span>					
 					</div>
 				</form>
@@ -56,12 +51,62 @@
 				<button id="btn-upd-rev" class="btn btn-primary">리뷰수정</button>	
 			</div>
 			<script th:inline="javascript">
-			  $('.summernote').summernote({
-			    tabsize: 2,
-			    height: 300
-			  });
-			  $(".summernote").summernote("code", $("#content").html());
-			  
+				$(".summernote").summernote({
+					tabsize: 2,
+					height: 300,
+					minHeight: null,
+					maxHeight: null,
+					focus: true,
+					placeholder: "최대 5000자까지 쓸 수 있습니다.",
+					toolbar: [
+			            [ 'style', [ 'style' ] ],
+			            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+			            [ 'fontname', [ 'fontname' ] ],
+			            [ 'fontsize', [ 'fontsize' ] ],
+			            [ 'color', [ 'color' ] ],
+			            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+			            [ 'table', [ 'table' ] ],
+			            [ 'insert', [ 'link'] ],
+			            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]						
+					]
+					/*callbacks: {
+						onImageUpload: function(files, editor, welEditable) {
+							for(var i = files.length - 1; i >= 0; i--){
+								uploadSummernoteImageFile(files[i], this);
+							}
+						},
+						onPaste: function (e) {
+							var clipboardData = e.originalEvent.clipboardData;
+							if (clipboardData && clipboardData.items && clipboardData.items.length) {
+								var item = clipboardData.items[0];
+								if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+									e.preventDefault();
+								}
+							}
+						}				
+					}*/
+				});				
+				
+			//	$(".summernote").code("#content");
+
+				/*function uploadSummernoteImageFile(file, editor) {
+					data = new FormData();
+					data.append("file", file);
+					$.ajax({
+						data: data,
+						type: "POST",
+						url: "/recmv/api/rev/uploadSummernoteImageFile",
+						contentType: false,
+						enctype: "multipart/form-data",
+						processData: false,
+						success: function(data) {
+							console.log(data);
+							$(editor).summernote("insertImage", data.url);
+						}
+					});
+				}
+				*/
+				
 			  	document.addEventListener('DOMContentLoaded', getRating);		
 				  
 			  	const maxRating = 5;

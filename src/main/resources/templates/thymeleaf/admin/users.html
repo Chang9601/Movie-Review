@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+	if(!!window.performance && window.performance.navigation.type == 2){
+		window.location.reload();
+		// !!는 변수를 불리언으로 형변환하는 방법
+	}
+</script>
+</head>
+	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+		<main class="main" th:fragment="main">
+			<div class="container">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>아이디</th>
+							<th>비밀번호</th>
+							<th>이메일</th>
+							<th>가입날짜</th>
+							<th>회원수정</th>
+							<th>회원탈퇴</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${users}">
+							<td><span th:text="${user.id}"></span></td>
+							<td><span th:text="${user.pw}"></span></td>
+							<td><span th:text="${user.email}"></span></td>
+							<td><span th:text="${user.createDate}"></span></td>
+							<td><a href="/recmv/user/update">🔨</a></td>
+							<td><a href="/recmv/user/delete">📌</a></td>
+						</tr>
+					</tbody>
+				</table>
+							
+<!-- 				<th:block th:each="user : ${users}">
+					<div class="card m-2">
+						<div class="card-body">
+							<h4 class="card-title" th:text="${user.id}"></h4>						
+							<h4 class="card-title" th:text="${user.pw}"></h4>
+							<h4 class="card-title" th:text="${user.email}"></h4>
+							<h4 class="card-title" th:text="${user.createDate}"></h4>
+						</div>
+					</div>				
+				</th:block> -->
+				<ul class="pagination d-flex justify-content-center">
+					<li class="page-item" th:if="${page.pre} == true"><a 
+						th:href="@{/admin/users?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
+						class="page-link" aria-label="Puserious"> <span
+							aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
+						</span>
+					</a>
+					</li>
+					<th:block th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}">
+						<li class="page-item"
+							th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}"
+							th:each="pageButton : ${#numbers.sequence(start,end)}"><a 
+							class="page-link"
+							th:href="@{/admin/users?currentPageNum={currentPageNum} (currentPageNum=${pageButton})}" th:text=${pageButton}></a>
+						</li>
+					</th:block>
+					<li class="page-item" th:if="${page.nxt} == true"><a
+						th:href="@{/admin/users?currentPageNum={currentPageNum} (currentPageNum=${page.endNumOfPage+1 })}" class="page-link"
+						aria-label="Next"> <span aria-hidden="true"> <span
+								class="lnr lnr-chevron-right">다음</span>
+						</span>
+					</a></li>
+				</ul>
+			</div>
+		</main>
+</html>

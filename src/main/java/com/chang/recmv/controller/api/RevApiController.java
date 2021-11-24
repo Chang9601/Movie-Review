@@ -1,11 +1,11 @@
 package com.chang.recmv.controller.api;
 
-import java.io.File;
+/*import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
-
-import org.apache.commons.io.FileUtils;
+*/
+///import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
 import com.chang.recmv.controller.RevController;
 import com.chang.recmv.model.Rev;
 import com.chang.recmv.service.RevService;
-import com.google.gson.JsonObject;
+//import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/api/rev/*")
@@ -101,11 +101,7 @@ public class RevApiController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	
-	
-	
-	
-	
-	
+	/*
 	@PostMapping(value = "/uploadSummernoteImageFile", produces = "application/json; charset=UTF-8")
 	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
 		logger.info("Rev: uploadSummernoteImageFile(@RequestParam(\"file\") MultipartFile multipartFile) 시작");
@@ -135,5 +131,5 @@ public class RevApiController {
 
 		return jsonObject;
 	}
-	
+	*/
 }

@@ -22,6 +22,11 @@
 		      <li class="nav-item"><a class="nav-link" href="/recmv/user/read">회원정보</a></li>			      
 		    </ul>	       
 		</div>	    
+	   	<div th:if="${session.id == 'admin'}">
+		    <ul class="navbar-nav">
+		      <li class="nav-item"><a class="nav-link" href="/recmv/admin/users">회원목록</a></li>			      
+		    </ul>	       
+		</div>	    
 	  </div>  
 	</nav>
 	<br>

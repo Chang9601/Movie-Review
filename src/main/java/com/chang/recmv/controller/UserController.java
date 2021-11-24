@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.chang.recmv.model.User;
 import com.chang.recmv.service.UserService;
@@ -126,21 +125,4 @@ public class UserController {
 		return "user/delete";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/user/all")
-	public ModelAndView getAllUser(HttpSession session) throws Exception {
-		logger.info("User: getAllUser(HttpSession session) 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/user/all");
-		String id = (String)session.getAttribute("id");		
-		if(id == null || !id.equals("admin")) {
-			mav.setViewName("redirect:./login");
-			return mav;			
-		}		
-		mav.addObject("users", service.getAllUser(id));
-		logger.info("User: getAllUser(HttpSession session) 끝");
-		
-		return mav;
-	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

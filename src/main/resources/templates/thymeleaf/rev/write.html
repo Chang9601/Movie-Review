@@ -58,7 +58,18 @@
 					maxHeight: null,
 					focus: true,
 					placeholder: "최대 5000자까지 쓸 수 있습니다.",
-					callbacks: {
+					toolbar: [
+			            [ 'style', [ 'style' ] ],
+			            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+			            [ 'fontname', [ 'fontname' ] ],
+			            [ 'fontsize', [ 'fontsize' ] ],
+			            [ 'color', [ 'color' ] ],
+			            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+			            [ 'table', [ 'table' ] ],
+			            [ 'insert', [ 'link'] ],
+			            [ 'view', [ 'undo', 'redo', 'fullscreen', 'codeview', 'help' ] ]						
+					]
+					/*callbacks: {
 						onImageUpload: function(files, editor, welEditable) {
 							for(var i = files.length - 1; i >= 0; i--){
 								uploadSummernoteImageFile(files[i], this);
@@ -73,10 +84,12 @@
 								}
 							}
 						}				
-					}
+					}*/
 				});				
+				
+			//	$(".summernote").code("#content");
 
-				function uploadSummernoteImageFile(file, editor) {
+				/*function uploadSummernoteImageFile(file, editor) {
 					data = new FormData();
 					data.append("file", file);
 					$.ajax({
@@ -92,25 +105,7 @@
 						}
 					});
 				}
-				
-				function sendFile(file, editor) {
-					var data = new FormData();
-					data.append("file", file);
-					$.ajax({
-						data: data,
-						type: "POST",
-						url: "/recmv/api/rev/uploadSummernoteImageFile",
-						contentType: false,
-						enctype: "multipart/form-data",
-						processData: false,
-						success: function(data) {
-							console.log(data);
-							$(editor).summernote("insertImage", data.url);
-						}
-					});
-				}
-				
-				//console.log($($(".summernote").summernote("code")).text());
+				*/
 				
 				document.addEventListener("DOMContentLoaded", getRating);		
 			  

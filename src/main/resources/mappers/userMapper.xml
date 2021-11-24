@@ -35,11 +35,6 @@
 		where id = #{id} and pw = #{pw}
 	</delete>
 	
-	<select id="getAllUser" resultType="User">
-		select * from recmv_user
-		where id != #{id}
-	</select>	
-	
 	<delete id="deleteRevs">
 		delete from recmv_rev
 		where userNum = #{userNum}
