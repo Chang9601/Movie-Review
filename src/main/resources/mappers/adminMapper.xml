@@ -4,17 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.chang.recmv.mapper.AdminMapper">
-	<select id="getUsers" resultType="User">
-		select * 
-		from recmv_user
+	<select id="adminGetUsers" resultType="User">
+		select * from recmv_user
 		where id != #{id}		
 		order by createDate desc
 		limit #{cri.beginNumOfItems}, #{cri.numOfItemsPerPage}				
 	</select>
 	
-	<select id="getNumUsers" resultType="int">
-		select count(*) 
-		from recmv_user
+	<select id="adminGetNumUsers" resultType="int">
+		select count(*) from recmv_user
 		where id != #{id}		
 	</select>	
+	
+	<select id="adminReadUser" resultType="User">
+		select * from recmv_user
+		where num = #{num}
+	</select>
+	
+	<update id="adminUpdateUser">
+		update recmv_user 
+		set pw = #{user.pw}, email = #{user.email}, updateDate = now()
+		where num = #{num}
+	</update>
+
+	<delete id="adminDeleteRevs">
+		delete from recmv_rev
+		where userNum = #{userNum}
+	</delete>
+	
+	<delete id="adminDeleteUser">
+		delete from recmv_user
+		where num = #{num}
+	</delete>
+
 </mapper>

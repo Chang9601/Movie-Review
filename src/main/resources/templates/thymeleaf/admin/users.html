@@ -17,6 +17,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
+							<th>식별번호</th>
 							<th>아이디</th>
 							<th>비밀번호</th>
 							<th>이메일</th>
@@ -27,12 +28,13 @@
 					</thead>
 					<tbody>
 						<tr th:each="user : ${users}">
+							<td><span id="num" th:text="${user.num}"></span></td>
 							<td><span th:text="${user.id}"></span></td>
 							<td><span th:text="${user.pw}"></span></td>
 							<td><span th:text="${user.email}"></span></td>
 							<td><span th:text="${user.createDate}"></span></td>
-							<td><a href="/recmv/user/update">🔨</a></td>
-							<td><a href="/recmv/user/delete">📌</a></td>
+							<td><button th:onclick="|window.location.href='/recmv/admin/update/${user.num}'|">🔨</button></td>
+							<td><button id="btn-admin-del-user">📌</button></td>
 						</tr>
 					</tbody>
 				</table>

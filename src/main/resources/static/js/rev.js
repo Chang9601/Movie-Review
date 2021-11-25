@@ -21,12 +21,6 @@ var rev = {
 		var content = $("#content").val();
 		var rating = $("#rating").val();
 
-		/*$(".summernote").summernote({
-			tabsize: 2,
-			height: 300,
-			focus: true
-		});
-*/
 		var rev = {
 			userNum: userNum,
 			movieNum: movieNum,
@@ -46,7 +40,7 @@ var rev = {
 		if (rating === "") {
 			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
 			return false;
-		} else if (rating > 5 || rating < 0) {
+		} else if (rating > 5 || rating < 0.0) {
 			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
 			return false;
 		}
@@ -74,12 +68,14 @@ var rev = {
 	update: function() {
 		var num = $("#num").val();
 		var title = $("#title").val();
+		var movie = $("#movie").val();
 		var content = $("#content").val();
 		var rating = $("#rating").val();
 
 		var rev = {
 			num: num,
 			title: title,
+			movie: movie,
 			content: content,
 			rating: rating
 		};
@@ -92,7 +88,7 @@ var rev = {
 		if (rating === "") {
 			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
 			return false;
-		} else if (rating > 5 || rating < 0) {
+		} else if (rating > 5 || rating < 0.0) {
 			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
 			return false;
 		}
@@ -120,6 +116,8 @@ var rev = {
 	delete: function() {
 		var num = $("#num").text();
 		var currentPageNum = $("#currentPageNum").text();
+		
+		alert("페이지 번호: " + currentPageNum);
 
 		$.ajax({
 			url: "/recmv/api/rev/delete/" + num,

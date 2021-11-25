@@ -20,29 +20,29 @@
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-					<span hidden="hidden" id="num" th:text="${rev.num}"></span>
-					<span hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
-					<div class="form-group">
-						아이디: <span th:text="${id}"></span>
+				<span hidden="hidden" id="num" th:text="${rev.num}"></span>
+				<span hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
+				<div class="form-group">
+					아이디: <span th:text="${id}"></span>
+				</div>
+				<div class="form-group">
+					영화제목: <span th:text="${rev.movie}"></span>
+				</div>
+				<div class="form-group">
+					리뷰제목: <span th:text="${rev.title}"></span>
+				</div>
+				<div class="form-group">
+					평점:
+					<div class="stars-outer">
+						<div class="stars-inner"></div>
 					</div>
-					<div class="form-group">
-						영화제목: <span th:text="${rev.movie}"></span>
-					</div>
-					<div class="form-group">
-						리뷰제목: <span th:text="${rev.title}"></span>
-					</div>
-					<div class="form-group">
-						평점:
-						<div class="stars-outer">
-							<div class="stars-inner"></div>
-						</div>
-						(<span class="number-rating"></span>)						
-					</div>
-					<div class="form-group">		   				
-						내용: <div th:utext="${rev.content}"></div>
-					</div>
+					(<span class="number-rating"></span>)						
+				</div>
+				<div class="form-group">		   				
+					내용: <div th:utext="${rev.content}"></div>
+				</div>
 				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>	
-				<span th:if="${num} == ${rev.userNum}">
+				<span th:if="${num} == ${rev.userNum} or ${session.id} == 'admin'">
 					<a th:href="@{/rev/update/{num}(num=${rev.num})}" class="btn btn-warning">리뷰수정</a>
 					<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>			
 				</span>	

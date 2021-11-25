@@ -51,6 +51,11 @@
 		where num = #{num}
 	</select>	
 	
+	<select id="readRating" resultType="double">
+		select rating from recmv_rev
+		where num = #{num}
+	</select>
+	
 	<select id="getAvgRating" resultType="double">
 		select rating from recmv_movie
 		where title = #{title}

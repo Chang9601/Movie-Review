@@ -66,29 +66,11 @@ public class RevController {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰작성 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	/*@GetMapping("/all")
-	public ModelAndView getAllRev(Model model) throws Exception {
-		logger.info("Rev: getAllRev() 시작");
-		ModelAndView mav = new ModelAndView("thymeleaf/rev/all");				
-		String id = (String)session.getAttribute("id");
-		if(id == null) {
-			mav.setViewName("redirect:/user/login");
-			return mav;			
-		}		 
-		mav.addObject("revs", service.getAllRev());
-		logger.info("Rev: getAllRev() 끝");		
-		
-		return mav;
-	}*/
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/read/{num}")
 	public String readRev(@PathVariable Integer num, Model model, Integer currentPageNum) throws Exception {
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model, Integer currentPageNum) 시작");
 		String id = (String)session.getAttribute("id");
-		logger.info("페이지 번호: " + currentPageNum);
 		// 리뷰를 작성한 사용자의 번호
 		Integer userNum = service.readRev(num).getUserNum();
 		// 현재 로그인한 사용자의 번호

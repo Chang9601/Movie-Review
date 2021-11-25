@@ -55,6 +55,10 @@ public class RevService {
 		return mapper.readMovie(num);
 	}	
 	
+	public Double readRating(Integer num) throws Exception {
+		return mapper.readRating(num);
+	}
+	
 	public Double getAvgRating(String title) throws Exception {
 		return mapper.getAvgRating(title);
 	}

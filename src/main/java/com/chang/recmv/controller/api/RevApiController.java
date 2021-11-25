@@ -44,6 +44,9 @@ public class RevApiController {
 		Integer num = service.getNumRevsByTitle(movie);
 		// 영화제목으로 이전 평균 평점 
 		Double rating = service.getAvgRating(movie);
+		// 1번째 리뷰이면 0.0으로 초기화
+		if(rating < 0.0)
+			rating = 0.0;
 		// 리뷰개수를 곱해서 평점의 총합
 		Double totalRating = rating * num;
 		// 평점 총합 업데이트
@@ -63,6 +66,20 @@ public class RevApiController {
 	public ResponseEntity<String> updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) throws Exception {
 		logger.info("Rev: updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) 시작");
 		logger.info("리뷰수정 후: " + rev);	
+		String movie = rev.getMovie();
+		// 영화제목에 해당하는 리뷰의 개수
+		Integer numRevs = service.getNumRevsByTitle(movie);
+		// 영화제목으로 이전 평균 평점 
+		Double rating = service.getAvgRating(movie);
+		logger.info("평점: " + rating);
+		// 리뷰개수를 곱해서 평점의 총합
+		Double totalRating = rating * numRevs;
+		// 평점 총합 업데이트
+		totalRating -= service.readRating(num);
+		totalRating += rev.getRating();
+		// 새로운 평점
+		rating = totalRating / numRevs;	
+		service.updateAvgRating(movie, rating);		
 		service.updateRev(rev, num);
 		logger.info("Rev: updateRevPUT(@RequestBody Rev rev, @PathVariable Integer num) 끝");
 		

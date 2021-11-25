@@ -28,5 +28,5 @@
 	<select id="getNumMovies" resultType="int">
 		select count(*)
 		from recmv_movie
-	</select>	
+	</select>		
 </mapper>

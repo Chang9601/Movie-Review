@@ -51,14 +51,15 @@
 							<div class="form-group">
 								줄거리: <span th:text="${movie.plot}"></span>
 							</div>						
-							<div class="form-group" th:if="${movie.rating != 0.0}">
-								평점:
-									<div class="stars-outer">
+							<div class="form-group" th:if="${movie.rating > 0.0}">
+								평점: <span th:text="${movie.rating}"></span>
+									<!--<div class="stars-outer">
 										<div class="stars-inner"></div>
 									</div>
-									(<span class="number-rating"></span>)									
+									(<span class="number-rating"></span>)	
+									-->								
 							</div>						
-							<div class="form-group" th:unless="${movie.rating != 0.0}">
+							<div class="form-group" th:unless="${movie.rating > 0.0}">
 								리뷰없음
 							</div>						
 							<div class="form-group">
