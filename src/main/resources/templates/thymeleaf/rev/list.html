@@ -26,8 +26,7 @@
 								<img th:src="@{/img/none.png}" width="300" height="400">
 							</div>							
 							<div class="form-group">
-								글쓴이:
-								<a th:href="@{/rev/list/{userNum}(userNum=${rev.userNum})}" target="_blank"><span th:text=${rev.id}></span></a>
+								글쓴이: <span th:text=${rev.id}></span>
 							</div>								
 							<div class="form-group">
 								영화: <span th:text="${rev.movie}"></span>
@@ -46,14 +45,14 @@
 										-->	
 							</div>					
 							<div class="form-group">
-								<a th:href="@{/rev/read/{num}(num=${rev.num}, currentPageNum=${page.cri.currentPageNum})}" class="btn btn-primary">리뷰읽기</a>
+								<a th:href="@{/rev/read/{num}(num=${rev.num})}" class="btn btn-primary">리뷰읽기</a>
 							</div>									
 						</div>
 					</div>
 				</th:block>			
 				<ul class="pagination d-flex justify-content-center">
 					<li class="page-item" th:if="${page.pre} == true"><a 
-						th:href="@{/rev/main?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1})}"
+						th:href="@{/rev/list/{userNum}?currentPageNum={currentPageNum} (userNum=${userNum}, currentPageNum=${page.beginNumOfPage-1})}"
 						class="page-link" aria-label="Previous"> <span
 							aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
 						</span>
@@ -64,11 +63,11 @@
 							th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}"
 							th:each="pageButton : ${#numbers.sequence(start,end)}"><a 
 							class="page-link"
-							th:href="@{/rev/main?currentPageNum={currentPageNum} (currentPageNum=${pageButton})}" th:text=${pageButton}></a>
+							th:href="@{/rev/list/{userNum}?currentPageNum={currentPageNum} (userNum=${userNum}, currentPageNum=${pageButton})}" th:text=${pageButton}></a>
 						</li>
 					</th:block>
 					<li class="page-item" th:if="${page.nxt} == true"><a
-						th:href="@{/rev/main?currentPageNum={currentPageNum} (currentPageNum=${page.endNumOfPage+1})}" class="page-link"
+						th:href="@{/rev/list/{userNum}?currentPageNum={currentPageNum} (userNum=${userNum}, currentPageNum=${page.endNumOfPage+1})}" class="page-link"
 						aria-label="Next"> <span aria-hidden="true"> <span
 								class="lnr lnr-chevron-right">다음</span>
 						</span>
@@ -77,8 +76,8 @@
 			</div>
 			<div th:unless="${not #lists.isEmpty(revs)}" class="container">
 				<div class="alert alert-danger">
-		    		<strong>리뷰가 존재하지 않습니다. 첫 리뷰의 주인공이 되세요!</strong>
+		    		<strong>작성한 리뷰가 존재하지 않습니다.</strong>
 		  		</div>			
-			</div>				
+			</div>			
 		</main>
 </html>

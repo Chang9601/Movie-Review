@@ -25,4 +25,9 @@ public interface RevMapper {
 	public Double getAvgRating(String  title) throws Exception;
 	public Integer getNumRevsByTitle(String movie) throws Exception;
 	public void updateAvgRating(String title, Double rating) throws Exception;
+	public List<Rev> getUserRevs(Integer userNum, Criteria cri) throws Exception;
+	public Integer getNumUserRevs(Integer userNum) throws Exception;
+	public Integer ckDupRev(Integer userNum, Integer movieNum) throws Exception;
+	public void addLike(Integer userNum, Integer revNum) throws Exception;
+	public Integer ckDupLike(Integer userNum, Integer revNum) throws Exception;	
 }

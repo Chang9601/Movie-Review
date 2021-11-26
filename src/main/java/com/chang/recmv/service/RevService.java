@@ -70,4 +70,24 @@ public class RevService {
 	public void updateAvgRating(String title, Double rating) throws Exception {
 		mapper.updateAvgRating(title, rating);
 	}
+	
+	public List<Rev> getUserRevs(Integer userNum, Criteria cri) throws Exception {
+		return mapper.getUserRevs(userNum, cri);
+	}
+	
+	public Integer getNumUserRevs(Integer userNum) throws Exception {
+		return mapper.getNumUserRevs(userNum);
+	}
+
+	public Integer ckDupRev(Integer userNum, Integer movieNum) throws Exception {
+		return mapper.ckDupRev(userNum, movieNum);	
+	}
+	
+	public void addLike(Integer userNum, Integer revNum) throws Exception {
+		mapper.addLike(userNum, revNum);
+	}
+	
+	public Integer ckDupLike(Integer userNum, Integer revNum) throws Exception {
+		return mapper.ckDupLike(userNum, revNum);
+	}
 }

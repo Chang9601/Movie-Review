@@ -28,11 +28,11 @@
 						<input type="text" name="id" class="form-control" id="id" th:value="${id}" readonly>
 					</div>				
 					<div class="form-group">
-						<label for="movie">영화제목</label> 
+						<label for="movie">영화</label> 
 						<input type="text" name="movie" class="form-control" id="movie" th:value="${movie}" readonly>
 					</div>				
 					<div class="form-group">
-						<label for="title">리뷰제목</label> 
+						<label for="title">제목</label> 
 						<input type="text" name="title" class="form-control" id="title">
 						<span id="title-ck"></span>
 					</div>
@@ -54,6 +54,7 @@
 					</div>
 				</form>
 				<button id="btn-write" class="btn btn-primary">리뷰작성</button>	
+				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>									
 			</div>	
 			<script>
 				$(".summernote").summernote({
@@ -62,7 +63,7 @@
 					minHeight: null,
 					maxHeight: null,
 					focus: true,
-					placeholder: "최대 5000자까지 쓸 수 있습니다.",
+					placeholder: "작성하시기 전 '리뷰작성' 버튼을 눌러서 작성여부를 확인하세요. 최대 5000자까지 쓸 수 있습니다.",
 					/*callbacks: {
 						onImageUpload: function(files, editor, welEditable) {
 							for(var i = files.length - 1; i >= 0; i--){

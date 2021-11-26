@@ -19,8 +19,6 @@ public class UserController {
 	/* GET 방식: thymeleaf에서 / 없음
 	 * POST 방식: ModelAndView에서 redirect 사용
 	 * String을 json으로 전달: 쌍따옴표 제거, replaceAll("^\"|\"$", "")
-	 * 
-	 * 
 	 */
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 

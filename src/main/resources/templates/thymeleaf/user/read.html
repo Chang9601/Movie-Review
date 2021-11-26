@@ -16,6 +16,7 @@
 							<th>가입날짜</th>
 							<th>회원수정</th>
 							<th>회원탈퇴</th>
+							<th>나의리뷰</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -25,9 +26,11 @@
 							<td><span th:text="${user.createDate}"></span></td>
 							<td><a href="/recmv/user/update">🔨</a></td>
 							<td><a href="/recmv/user/delete">📌</a></td>
+							<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td>
 						</tr>
 					</tbody>
 				</table>
+				
 			</div>
 		</main>
 </html>

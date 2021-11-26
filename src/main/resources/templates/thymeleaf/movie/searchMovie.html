@@ -7,7 +7,7 @@
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
-			<div th:if="${movies != null}" class="container">
+			<div th:if="${not #lists.isEmpty(movies)}" class="container">
 				<!-- <th:blockh th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
@@ -62,9 +62,9 @@
 					</div>
 				</th:block>				
 			</div>
-			<div th:unless="${movies != null}" class="container">
+			<div th:unless="${not #lists.isEmpty(movies)}" class="container">
 				<div class="alert alert-danger">
-			    	<strong>검색하신 영화가 존재하지 않습니다. 정확한 제목을 입력하세요.(e.g. 맨인블랙 -> 맨 인 블랙)</strong>
+			    	<strong>입력하신 제목과 일치하는 영화를 찾을 수 없습니다. 정확한 제목을 입력하세요.(e.g. 맨인블랙 -> 맨 인 블랙)</strong>
 			  	</div>			
 			</div>
 		</main>

@@ -13,7 +13,7 @@
 </head>
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
-			<div class="container">
+			<div th:if="${not #lists.isEmpty(users)}" class="container">
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -24,6 +24,7 @@
 							<th>가입날짜</th>
 							<th>회원수정</th>
 							<th>회원탈퇴</th>
+							<th>회원리뷰</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,20 +36,10 @@
 							<td><span th:text="${user.createDate}"></span></td>
 							<td><button th:onclick="|window.location.href='/recmv/admin/update/${user.num}'|">🔨</button></td>
 							<td><button id="btn-admin-del-user">📌</button></td>
+							<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td>
 						</tr>
 					</tbody>
 				</table>
-							
-<!-- 				<th:block th:each="user : ${users}">
-					<div class="card m-2">
-						<div class="card-body">
-							<h4 class="card-title" th:text="${user.id}"></h4>						
-							<h4 class="card-title" th:text="${user.pw}"></h4>
-							<h4 class="card-title" th:text="${user.email}"></h4>
-							<h4 class="card-title" th:text="${user.createDate}"></h4>
-						</div>
-					</div>				
-				</th:block> -->
 				<ul class="pagination d-flex justify-content-center">
 					<li class="page-item" th:if="${page.pre} == true"><a 
 						th:href="@{/admin/users?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
@@ -73,5 +64,10 @@
 					</a></li>
 				</ul>
 			</div>
+			<div th:unless="${not #lists.isEmpty(users)}" class="container">
+				<div class="alert alert-danger">
+		    		<strong>회원이 존재하지 않습니다.</strong>
+		  		</div>			
+			</div>				
 		</main>
 </html>

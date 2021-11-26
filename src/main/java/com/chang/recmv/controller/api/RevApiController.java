@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 //import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +35,20 @@ public class RevApiController {
 
 	@Autowired
 	private RevService service;
-
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰쓰기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@GetMapping("/ckDupRev")
+	public ResponseEntity<Integer> ckDupRev(@RequestParam("userNum") Integer userNum, @RequestParam("movieNum") Integer movieNum) throws Exception {
+		logger.info("Rev: ckDupRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"movieNum\") Integer movieNum) 시작");
+		Integer num = service.ckDupRev(userNum, movieNum);
+		if(num == null)
+			num = 0;
+		logger.info("리뷰번호: " + num);
+		logger.info("Rev: ckDupRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"movieNum\") Integer movieNum) 끝");
+		
+		return new ResponseEntity<Integer>(num, HttpStatus.OK);	
+	}
+
 	@PostMapping("/write")
 	public ResponseEntity<String> writePOST(@RequestBody Rev rev) throws Exception {
 		logger.info("Rev: writePOST(@RequestBody Rev rev) 시작");
@@ -105,10 +119,12 @@ public class RevApiController {
 		Double totalRating = rating * numRevs;
 		// 평균 평점 업데이트
 		totalRating -= ratingDel;
-		// 새로운 평균값(리뷰가 1, 0개이면 예외처리)
+		// 새로운 평균값
 		if((numRevs - 1) > 1) rating = totalRating / (numRevs - 1);
+		// 리뷰가 1개면 내림
 		else if((numRevs - 1) == 1) rating = Math.floor(totalRating);
-		else rating = 0.0;
+		// 리뷰가 0개면 -1로 초기화
+		else rating = -1.0;
 		logger.info("새로운 평균값: " + rating);
 		service.updateAvgRating(movie, rating);		
 		service.deleteRev(num);
@@ -117,6 +133,28 @@ public class RevApiController {
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 좋아요 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+	@GetMapping("/ckDupLike")
+	public ResponseEntity<Integer> ckDupLike(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
+		logger.info("Rev: ckDupLike(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 시작");
+		Integer likeNum = service.ckDupLike(userNum, revNum);
+		if(likeNum == null)
+			likeNum = 0;
+		logger.info("Rev: ckDupLike(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+
+		return new ResponseEntity<Integer>(likeNum, HttpStatus.OK);	
+	}	
+	
+	@PostMapping("/like")
+	public ResponseEntity<String> likeRev(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
+		logger.info("Rev: likeRev(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+		service.addLike(userNum, revNum);
+		logger.info("Rev: likeRev(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+
+		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 좋아요 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 	
 	/*
 	@PostMapping(value = "/uploadSummernoteImageFile", produces = "application/json; charset=UTF-8")

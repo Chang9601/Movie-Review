@@ -10,27 +10,27 @@
 	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
 		<main class="main" th:fragment="main">
 			<div class="container">
-					<div class="card m-2">
-						<form>
-							<div class="card-header">사이트 영화검색</div>							
-							<div class="list-group">
+				<div class="card m-2">
+					<form>
+						<div class="card-header">사이트 영화검색</div>							
+						<div class="list-group">
 								<input type="text" name="query-db" id="query-db" placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
 								<span id="db-ck"></span>
-							</div>						
-						</form>	
-						<!-- <a th:href="@{/movie/searchMovieDB}" class="btn btn-warning">검색</a> -->
-						<button id="btn-movie-db" class="btn btn-primary">검색</button>
-					</div>
-					<div class="card m-2">					
-						<form>
-							<div class="card-header">외부 영화검색</div>							
-							<div class="list-group">
-								<input type="text" name="query-api" id="query-api" placeholder="사이트에서 찾으시는 영화가 없으면 검색하세요." class="form-control">
-								<span id="api-ck"></span>
-							</div>	
-						</form>
-						<button id="btn-movie-api" class="btn btn-primary">검색</button>	
-					</div>													
+						</div>						
+					</form>	
+					<button id="btn-movie-db" class="btn btn-primary">검색</button>
+				</div>
+				<div class="card m-2">					
+					<form>
+						<div class="card-header">외부 영화검색</div>							
+						<div class="list-group">
+							<input type="text" name="query-api" id="query-api" placeholder="사이트에서 찾으시는 영화가 없으면 검색하세요." class="form-control">
+							<span id="api-ck"></span>
+						</div>	
+					</form>
+					<button id="btn-movie-api" class="btn btn-primary">검색</button>	
+				</div>	
+																
 				<th:block th:each="movie : ${movies}">
 					<div class="card m-2">
 						<div class="card-body">
@@ -65,11 +65,10 @@
 							<div class="form-group">
 								<a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a>							
 							</div>						
- 							<!--<h4 class="card-title"><a th:href="@{${movie.link}}" target="_blank">네이버 링크</a></h4>-->
 						</div>
 					</div>
 				</th:block>
-				<ul class="pagination d-flex justify-content-center">
+				<ul th:if="${not #lists.isEmpty(movies)}" class="pagination d-flex justify-content-center">
 					<li class="page-item" th:if="${page.pre} == true"><a 
 						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
 						class="page-link" aria-label="Pmovieious"> <span
@@ -93,6 +92,12 @@
 					</a></li>
 				</ul>
 			</div>
+			<div th:if="${#lists.isEmpty(movies)}" class="container">
+				<div class="alert alert-danger">
+		    		<strong>영화가 존재하지 않습니다. 영화를 검색하세요!</strong>
+		  		</div>			
+			</div>		
+						
 			<script th:inline="javascript">
 		  		/* document.addEventListener('DOMContentLoaded', getRating);		
 				  
@@ -109,6 +114,6 @@
 				  	  	document.querySelector(".number-rating").innerHTML = rating;
 			  		//});			  		
 			  	}	 */
-			</script>					
+			</script>
 		</main>
 </html>

@@ -71,4 +71,31 @@
 		set rating = #{rating}
 		where title = #{title}
 	</update>	
+	
+	<select id="getUserRevs" resultType="Rev">
+		select * from recmv_rev
+		where userNum = #{userNum}
+		order by createDate desc
+		limit #{cri.beginNumOfItems}, #{cri.numOfItemsPerPage}		
+	</select>
+	
+	<select id="getNumUserRevs" resultType="int">
+		select count(*) from recmv_rev
+		where userNum = #{userNum}
+	</select>
+	
+	<select id="ckDupRev" resultType="int">
+		select num from recmv_rev
+		where userNum = #{userNum} and movieNum = #{movieNum}
+	</select>
+	
+	<insert id="addLike">
+		insert into recmv_like(userNum, revNum, createDate)
+		values(#{userNum}, #{revNum}, now())
+	</insert>
+	
+	<select id="ckDupLike" resultType="int">
+		select num from recmv_like
+		where userNum = #{userNum} and revNum = #{revNum}
+	</select>	
 </mapper>
