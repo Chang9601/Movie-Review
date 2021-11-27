@@ -19,34 +19,35 @@ import com.chang.recmv.service.AdminService;
 @RestController
 @RequestMapping("/api/admin/*")
 public class AdminApiController {
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private AdminService service;
-	
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 관리자 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@PutMapping("/update/{num}")
-	public ResponseEntity<String> adminUpdateUserPUT(@RequestBody User user, @PathVariable Integer num) throws Exception {
+	public ResponseEntity<String> adminUpdateUserPUT(@RequestBody User user, @PathVariable Integer num)
+			throws Exception {
 		logger.info("User: adminUpdateUserPUT(@RequestBody User user, @PathVariable Integer num) 시작");
 		logger.info("관리자 회원수정 후: " + user);
 		service.adminUpdateUser(user, num);
-		logger.info("User: adminUpdateUserPUT(@RequestBody User user, @PathVariable Integer num) 끝");	
-		
+		logger.info("User: adminUpdateUserPUT(@RequestBody User user, @PathVariable Integer num) 끝");
+
 		return new ResponseEntity<String>("success", HttpStatus.OK);
-	}	
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 관리자 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 관리자 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@DeleteMapping("/delete/{num}")
 	public ResponseEntity<String> adminDeleteUserDELETE(@PathVariable Integer num) throws Exception {
 		logger.info("Admin: adminDeleteUserDELETE(@PathVariable Integer num) 시작");
-		// 사용자 아이디로 작성된 리뷰 모두 삭제
+		// 회원번호로 작성된 리뷰 모두 삭제
 		service.adminDeleteRevs(num);
-		// 사용자 삭제
+		// 회원삭제
 		service.adminDeleteUser(num);
-		logger.info("Admin: adminDeleteUserDELETE(@PathVariable Integer num) 끝");	
-		
+		logger.info("Admin: adminDeleteUserDELETE(@PathVariable Integer num) 끝");
+
 		return new ResponseEntity<String>("success", HttpStatus.OK);
-	}	
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 관리자 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

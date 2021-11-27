@@ -19,14 +19,14 @@ import com.chang.recmv.service.RevService;
 @Controller
 @RequestMapping("/rev/*")
 public class RevController {
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private RevService service;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/main")
 	public String main(Model model, Criteria cri) throws Exception {
@@ -45,9 +45,8 @@ public class RevController {
 	@GetMapping("/write/{num}")
 	public String writeGET(@PathVariable Integer num, Model model) throws Exception {
 		logger.info("Rev: writeGET(@PathVariable Integer num, Model model) 시작");
-		String id = (String)session.getAttribute("id");
-		if(id == null) 
-			return "redirect:/user/login";
+		String id = (String) session.getAttribute("id");
+		if (id == null) return "redirect:/user/login";
 		// 키에 해당하는 영화
 		Movie movie = service.readMovie(num);
 		// 로그인된 회원의 아이디
@@ -70,7 +69,7 @@ public class RevController {
 	@GetMapping("/read/{num}")
 	public String readRev(@PathVariable Integer num, Model model, Integer currentPageNum) throws Exception {
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model, Integer currentPageNum) 시작");
-		String id = (String)session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		// 리뷰를 작성한 회원의 번호
 		Integer userNum = service.readRev(num).getUserNum();
 		// 현재 로그인한 회원의 번호
@@ -82,31 +81,31 @@ public class RevController {
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰조회: " + service.readRev(num));
 		logger.info("Rev : readRev(@PathVariable Integer num, Model model, Integer currentPageNum) 끝");
-		
+
 		return "rev/read";
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰조회 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/update/{num}")
 	public String updateRevGET(@PathVariable Integer num, Model model) throws Exception {
 		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 시작");
-		String id = (String)session.getAttribute("id");
-		if(id == null) 
-			return "redirect:/user/login";	
+		String id = (String) session.getAttribute("id");
+		if (id == null) return "redirect:/user/login";
 		// 리뷰를 작성한 회원의 번호
 		Integer userNum = service.readRev(num).getUserNum();
 		// 리뷰를 작성한 회원의 아이디
-		model.addAttribute("id", service.readId(userNum));		
+		model.addAttribute("id", service.readId(userNum));
 		model.addAttribute("rev", service.readRev(num));
 		logger.info("리뷰수정 전: " + service.readRev(num));
 		logger.info("Rev: updateRevGET(@PathVariable Integer num, Model model) 끝");
-		
+
 		return "rev/update";
-	}	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원 1명 리뷰목록 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	}
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원 1명 리뷰목록
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/list/{userNum}")
 	public String getUserRevs(@PathVariable Integer userNum, Model model, Criteria cri) throws Exception {
 		logger.info("Rev: getUserRevs(@PathVariable Integer userNum, Model model, Criteria cri) 시작");
@@ -115,8 +114,9 @@ public class RevController {
 		model.addAttribute("revs", service.getUserRevs(userNum, cri));
 		model.addAttribute("userNum", userNum);
 		logger.info("Rev: getUserRevs(@PathVariable Integer userNum, Model model, Criteria cri) 끝");
-		
+
 		return "rev/list";
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원 1명 리뷰수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원 1명 리뷰수정
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

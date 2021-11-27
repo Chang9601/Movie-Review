@@ -5,115 +5,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" th:href="@{/css/css/all.css}">
 <link rel="stylesheet" th:href="@{/css/stars.css}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
-	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
-		<main class="main" th:fragment="main">
-			<div class="container">
+<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+	<main class="main" th:fragment="main">
+		<div class="container">
+			<div class="card m-2">
+				<form>
+					<div class="card-header">사이트 영화검색</div>
+					<div class="list-group">
+						<input type="text" name="query-db" id="query-db"
+							placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
+						<span id="db-ck"></span>
+					</div>
+				</form>
+				<button id="btn-movie-db" class="btn btn-primary">검색</button>
+			</div>
+			<div class="card m-2">
+				<form>
+					<div class="card-header">외부 영화검색</div>
+					<div class="list-group">
+						<input type="text" name="query-api" id="query-api"
+							placeholder="사이트에서 찾으시는 영화가 없으면 검색하세요." class="form-control">
+						<span id="api-ck"></span>
+					</div>
+				</form>
+				<button id="btn-movie-api" class="btn btn-primary">검색</button>
+			</div>
+
+			<th:block th:each="movie : ${movies}">
 				<div class="card m-2">
-					<form>
-						<div class="card-header">사이트 영화검색</div>							
-						<div class="list-group">
-								<input type="text" name="query-db" id="query-db" placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
-								<span id="db-ck"></span>
-						</div>						
-					</form>	
-					<button id="btn-movie-db" class="btn btn-primary">검색</button>
-				</div>
-				<div class="card m-2">					
-					<form>
-						<div class="card-header">외부 영화검색</div>							
-						<div class="list-group">
-							<input type="text" name="query-api" id="query-api" placeholder="사이트에서 찾으시는 영화가 없으면 검색하세요." class="form-control">
-							<span id="api-ck"></span>
-						</div>	
-					</form>
-					<button id="btn-movie-api" class="btn btn-primary">검색</button>	
-				</div>	
-																
-				<th:block th:each="movie : ${movies}">
-					<div class="card m-2">
-						<div class="card-body">
-							<span hidden="hidden" id="rating" th:text="${movie.rating}"></span>
-							
-							<div class="form-group" th:if="${movie.image != ''}">
-								<img th:src="${movie.image}" width="300" height="400">
-							</div>							
-							<div class="form-group" th:unless="${movie.image != ''}">
-								<img th:src="@{/img/none.png}" width="300" height="400">
-							</div>							
-							<div class="form-group">
-								제목: <span th:text="${movie.title}"></span>
-							</div>				
-							<div class="form-group">
-								배우: <span th:text="${movie.cast}"></span>
-							</div>						
-							<div class="form-group">
-								줄거리: <span th:text="${movie.plot}"></span>
-							</div>						
-							<div class="form-group" th:if="${movie.rating > 0.0}">
-								평점: <span th:text="${movie.rating}"></span>
-									<!--<div class="stars-outer">
+					<div class="card-body">
+						<span hidden="hidden" id="rating" th:text="${movie.rating}"></span>
+
+						<div class="form-group" th:if="${movie.image != ''}">
+							<img th:src="${movie.image}" width="300" height="400">
+						</div>
+						<div class="form-group" th:unless="${movie.image != ''}">
+							<img th:src="@{/img/none.png}" width="300" height="400">
+						</div>
+						<div class="form-group">
+							제목: <span th:text="${movie.title}"></span>
+						</div>
+						<div class="form-group">
+							배우: <span th:text="${movie.cast}"></span>
+						</div>
+						<div class="form-group">
+							줄거리: <span th:text="${movie.plot}"></span>
+						</div>
+						<div class="form-group" th:if="${movie.rating > 0.0}">
+							평점: <span th:text="${movie.rating}"></span>
+							<!--<div class="stars-outer">
 										<div class="stars-inner"></div>
 									</div>
 									(<span class="number-rating"></span>)	
-									-->								
-							</div>						
-							<div class="form-group" th:unless="${movie.rating > 0.0}">
-								리뷰없음
-							</div>						
-							<div class="form-group">
-								<a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a>							
-							</div>						
+									-->
+						</div>
+						<div class="form-group" th:unless="${movie.rating > 0.0}">
+							리뷰없음</div>
+						<div class="form-group">
+							<a th:href="@{/rev/write/{num}(num=${movie.num})}"
+								class="btn btn-primary">리뷰쓰기</a>
 						</div>
 					</div>
+				</div>
+			</th:block>
+			<ul th:if="${not #lists.isEmpty(movies)}"
+				class="pagination d-flex justify-content-center">
+				<li class="page-item" th:if="${page.pre == true}"><a
+					th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
+					class="page-link" aria-label="Pmovieious"> <span
+						aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
+					</span>
+				</a></li>
+				<th:block
+					th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}">
+					<li class="page-item"
+						th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}"
+						th:each="pageButton : ${#numbers.sequence(start,end)}"><a
+						class="page-link"
+						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${pageButton})}"
+						th:text=${pageButton}></a></li>
 				</th:block>
-				<ul th:if="${not #lists.isEmpty(movies)}" class="pagination d-flex justify-content-center">
-					<li class="page-item" th:if="${page.pre} == true"><a 
-						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
-						class="page-link" aria-label="Pmovieious"> <span
-							aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
-						</span>
-					</a>
-					</li>
-					<th:block th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}">
-						<li class="page-item"
-							th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}"
-							th:each="pageButton : ${#numbers.sequence(start,end)}"><a 
-							class="page-link"
-							th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${pageButton})}" th:text=${pageButton}></a>
-						</li>
-					</th:block>
-					<li class="page-item" th:if="${page.nxt} == true"><a
-						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.endNumOfPage+1 })}" class="page-link"
-						aria-label="Next"> <span aria-hidden="true"> <span
-								class="lnr lnr-chevron-right">다음</span>
-						</span>
-					</a></li>
-				</ul>
+				<li class="page-item" th:if="${page.nxt == true}"><a
+					th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.endNumOfPage+1 })}"
+					class="page-link" aria-label="Next"> <span aria-hidden="true">
+							<span class="lnr lnr-chevron-right">다음</span>
+					</span>
+				</a></li>
+			</ul>
+		</div>
+		<div th:if="${#lists.isEmpty(movies)}" class="container">
+			<div class="alert alert-danger">
+				<strong>영화가 존재하지 않습니다. 영화를 검색하세요!</strong>
 			</div>
-			<div th:if="${#lists.isEmpty(movies)}" class="container">
-				<div class="alert alert-danger">
-		    		<strong>영화가 존재하지 않습니다. 영화를 검색하세요!</strong>
-		  		</div>			
-			</div>		
-						
-			<script th:inline="javascript">
-		  		/* document.addEventListener('DOMContentLoaded', getRating);		
-				  
-			  	const maxRating = 5;
-			  	function getRating() {
-			  		const rating = document.getElementById("rating").value;
-			  		
-			  		console.log(rating);
-			  		//movies.forEach(function(movie){
-					  	const starPercentage = (rating / maxRating) * 100;
-				  	  	const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;		
-				  	  	console.log(starPercentageRounded);
-				  	  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
-				  	  	document.querySelector(".number-rating").innerHTML = rating;
-			  		//});			  		
-			  	}	 */
-			</script>
-		</main>
+		</div>
+
+		<script th:inline="javascript">
+			/*document.addEventListener('DOMContentLoaded', getRating);		
+			
+			const maxRating = 5;
+			function getRating() {
+				const rating = document.getElementById("rating").value;
+				
+				console.log(rating);
+				//movies.forEach(function(movie){
+			  	const starPercentage = (rating / maxRating) * 100;
+				  	const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;		
+				  	console.log(starPercentageRounded);
+				  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
+				  	document.querySelector(".number-rating").innerHTML = rating;
+				//});			  		
+			}*/	
+		</script>
+	</main>
 </html>

@@ -41,8 +41,7 @@ public class RevApiController {
 	public ResponseEntity<Integer> ckDupRev(@RequestParam("userNum") Integer userNum, @RequestParam("movieNum") Integer movieNum) throws Exception {
 		logger.info("Rev: ckDupRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"movieNum\") Integer movieNum) 시작");
 		Integer num = service.ckDupRev(userNum, movieNum);
-		if(num == null)
-			num = 0;
+		if(num == null) num = 0;
 		logger.info("리뷰번호: " + num);
 		logger.info("Rev: ckDupRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"movieNum\") Integer movieNum) 끝");
 		
@@ -59,8 +58,7 @@ public class RevApiController {
 		// 영화제목으로 이전 평균 평점 
 		Double rating = service.getAvgRating(movie);
 		// 1번째 리뷰이면 0.0으로 초기화
-		if(rating < 0.0)
-			rating = 0.0;
+		if(rating < 0.0) rating = 0.0;
 		// 리뷰개수를 곱해서 평점의 총합
 		Double totalRating = rating * num;
 		// 평점 총합 업데이트
@@ -135,22 +133,24 @@ public class RevApiController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 리뷰삭제 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 좋아요 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	
-	@GetMapping("/ckDupLike")
-	public ResponseEntity<Integer> ckDupLike(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
-		logger.info("Rev: ckDupLike(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 시작");
-		Integer likeNum = service.ckDupLike(userNum, revNum);
-		if(likeNum == null)
-			likeNum = 0;
-		logger.info("Rev: ckDupLike(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+	@GetMapping("/ckDupRecom")
+	public ResponseEntity<Integer> ckDupRecom(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
+		logger.info("Rev: ckDupRecom(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 시작");
+		Integer recom = service.ckDupRecom(userNum, revNum);
+		if(recom == null) recom = 0;
+		logger.info("Rev: ckDupRecom(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
 
-		return new ResponseEntity<Integer>(likeNum, HttpStatus.OK);	
+		return new ResponseEntity<Integer>(recom, HttpStatus.OK);	
 	}	
 	
-	@PostMapping("/like")
-	public ResponseEntity<String> likeRev(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
-		logger.info("Rev: likeRev(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
-		service.addLike(userNum, revNum);
-		logger.info("Rev: likeRev(@PathVariable Integer num, @RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+	@PostMapping("/recom")
+	public ResponseEntity<String> recomRev(@RequestParam("userNum") Integer userNum, @RequestParam("revNum") Integer revNum) throws Exception {
+		logger.info("Rev: recomRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
+		service.addRecom(userNum, revNum);
+		Integer recom = service.getRecom(revNum);
+		recom++;
+		service.updateRecom(revNum, recom);
+		logger.info("Rev: recomRev(@RequestParam(\"userNum\") Integer userNum, @RequestParam(\"revNum\") Integer revNum) 끝");
 
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}

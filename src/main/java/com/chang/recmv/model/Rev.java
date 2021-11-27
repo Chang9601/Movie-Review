@@ -21,7 +21,7 @@ public class Rev {
 	private String title; // 리뷰제목
 	private Double rating; // 평가
 	private String content; // 내용
-	private Integer like; // 좋아요
+	private Integer recom; // 좋아요
 	private Timestamp createDate; // 등록 날짜/시간
 	private Timestamp updateDate; // 수정 날짜/시간
 }

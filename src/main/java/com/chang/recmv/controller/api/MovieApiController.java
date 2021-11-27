@@ -32,55 +32,53 @@ import org.jsoup.nodes.Element;
 @RequestMapping("/api/movie/*")
 public class MovieApiController {
 
-	private static final Logger logger = LoggerFactory.getLogger(MovieApiController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(MovieApiController.class);
 
 	@Autowired
 	private MovieService service;
-	
-	private String clientId = "";	
+
+	private String clientId = "";
 	private String clientSecret = "";
 
 	@GetMapping("/searchMovieAPI")
 	public ResponseEntity<JSONArray> searchMovieAPI(@RequestParam("query") String query) throws Exception {
 		logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 시작");
-		
-		logger.info("영화이름: " + query);
-		
-        try {
-            query = URLEncoder.encode(query, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패",e);
-        }	
-      
-        String apiURL = "https://openapi.naver.com/v1/search/movie?query=" + query;    // json 결과
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBody = get(apiURL,requestHeaders);
+		try {
+			query = URLEncoder.encode(query, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("검색어 인코딩 실패", e);
+		}
 
-        String json = responseBody;
-        JSONParser parser = new JSONParser();
-        JSONObject obj = (JSONObject)parser.parse(json);
-        JSONArray items = (JSONArray)obj.get("items");      
-        
-		for(int i = 0; i < items.size(); i++) {
+		String apiURL = "https://openapi.naver.com/v1/search/movie?query=" + query; // json 결과
+
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("X-Naver-Client-Id", clientId);
+		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		String responseBody = get(apiURL, requestHeaders);
+
+		String json = responseBody;
+		JSONParser parser = new JSONParser();
+		JSONObject obj = (JSONObject) parser.parse(json);
+		JSONArray items = (JSONArray) obj.get("items");
+
+		for (int i = 0; i < items.size(); i++) {
 			Movie movie = new Movie();
-			JSONObject tmp = (JSONObject)items.get(i);
-			
-			String title = (String)tmp.get("title");
-			String link = (String)tmp.get("link");
-			String image = (String)tmp.get("image");
-			String cast = (String)tmp.get("actor");
-			String plot = getPlot((String)tmp.get("link"));
+			JSONObject tmp = (JSONObject) items.get(i);
+
+			String title = (String) tmp.get("title");
+			String link = (String) tmp.get("link");
+			String image = (String) tmp.get("image");
+			String cast = (String) tmp.get("actor");
+			String plot = getPlot((String) tmp.get("link"));
 
 			title = title.replace("<b>", "");
 			title = title.replace("</b>", "");
-			cast = cast.replace("|", ", ");	
+			cast = cast.replace("|", ", ");
 			cast = cast.replaceAll("(, )$", "");
-			
+
 			// 영화 중복방지
-			if(service.readMovie(title) == null) {				
+			if (service.readMovie(title) == null) {
 				movie.setTitle(title);
 				movie.setLink(link);
 				movie.setImage(image);
@@ -89,70 +87,66 @@ public class MovieApiController {
 				service.addMovie(movie);
 			}
 		}
-				
-        logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 끝");  
-        return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
+
+		logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 끝");
+		return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
 	}
-		
-    private static String get(String apiUrl, Map<String, String> requestHeaders){
-        HttpURLConnection con = connect(apiUrl);
-        try {
-            con.setRequestMethod("GET");
-            for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-                con.setRequestProperty(header.getKey(), header.getValue());
-            }
 
+	private static String get(String apiUrl, Map<String, String> requestHeaders) {
+		HttpURLConnection con = connect(apiUrl);
+		try {
+			con.setRequestMethod("GET");
+			for (Map.Entry<String, String> header : requestHeaders.entrySet()) {
+				con.setRequestProperty(header.getKey(), header.getValue());
+			}
 
-            int responseCode = con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
-                return readBody(con.getInputStream());
-            } else { // 에러 발생
-                return readBody(con.getErrorStream());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("API 요청과 응답 실패", e);
-        } finally {
-            con.disconnect();
-        }
-    }
+			int responseCode = con.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+				return readBody(con.getInputStream());
+			} else { // 에러 발생
+				return readBody(con.getErrorStream());
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("API 요청과 응답 실패", e);
+		} finally {
+			con.disconnect();
+		}
+	}
 
-    private static HttpURLConnection connect(String apiUrl){
-        try {
-            URL url = new URL(apiUrl);
-            return (HttpURLConnection)url.openConnection();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
-        } catch (IOException e) {
-            throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
-        }
-    }
+	private static HttpURLConnection connect(String apiUrl) {
+		try {
+			URL url = new URL(apiUrl);
+			return (HttpURLConnection) url.openConnection();
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("API URL이 잘못되었습니다. : " + apiUrl, e);
+		} catch (IOException e) {
+			throw new RuntimeException("연결이 실패했습니다. : " + apiUrl, e);
+		}
+	}
 
-    private static String readBody(InputStream body){
-        InputStreamReader streamReader = new InputStreamReader(body);
+	private static String readBody(InputStream body) {
+		InputStreamReader streamReader = new InputStreamReader(body);
 
+		try (BufferedReader lineReader = new BufferedReader(streamReader)) {
+			StringBuilder responseBody = new StringBuilder();
 
-        try (BufferedReader lineReader = new BufferedReader(streamReader)) {
-            StringBuilder responseBody = new StringBuilder();
+			String line;
+			while ((line = lineReader.readLine()) != null) {
+				responseBody.append(line);
+			}
 
+			return responseBody.toString();
+		} catch (IOException e) {
+			throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+		}
+	}
 
-            String line;
-            while ((line = lineReader.readLine()) != null) {
-                responseBody.append(line);
-            }
+	private static String getPlot(String URL) throws Exception {
+		Document doc = Jsoup.connect(URL).get();
+		Element text = doc.select("p.con_tx").first();
+		String plot = null;
+		if (text != null) plot = text.text();
 
-
-            return responseBody.toString();
-        } catch (IOException e) {
-            throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
-        }
-    }	
-     
-    private static String getPlot(String URL) throws Exception {
-    	Document doc = Jsoup.connect(URL).get();
-    	Element text = doc.select("p.con_tx").first();
-    	String plot = null;
-    	if(text != null) plot = text.text();
-    	
-    	return plot;
-    } 
+		return plot;
+	}
 }

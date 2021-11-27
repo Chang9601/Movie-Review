@@ -3,34 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
-	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
-		<main class="main" th:fragment="main">
-			<div class="container">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th>아이디</th>
-							<th>이메일</th>
-							<th>가입날짜</th>
-							<th>회원수정</th>
-							<th>회원탈퇴</th>
-							<th>나의리뷰</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><span th:text="${user.id}"></span></td>
-							<td><span th:text="${user.email}"></span></td>
-							<td><span th:text="${user.createDate}"></span></td>
-							<td><a href="/recmv/user/update">🔨</a></td>
-							<td><a href="/recmv/user/delete">📌</a></td>
-							<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td>
-						</tr>
-					</tbody>
-				</table>
-				
-			</div>
-		</main>
+<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+	<main class="main" th:fragment="main">
+		<div class="container">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>아이디</th>
+						<th>이메일</th>
+						<th>가입날짜</th>
+						<th>회원수정</th>
+						<th>회원탈퇴</th>
+						<th>나의리뷰</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span th:text="${user.id}"></span></td>
+						<td><span th:text="${user.email}"></span></td>
+						<td><span th:text="${user.createDate}"></span></td>
+						<td><a href="/recmv/user/update">🔨</a></td>
+						<td><a href="/recmv/user/delete">📌</a></td>
+						<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</main>
 </html>

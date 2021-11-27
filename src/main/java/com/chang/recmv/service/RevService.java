@@ -83,11 +83,19 @@ public class RevService {
 		return mapper.ckDupRev(userNum, movieNum);	
 	}
 	
-	public void addLike(Integer userNum, Integer revNum) throws Exception {
-		mapper.addLike(userNum, revNum);
+	public void addRecom(Integer userNum, Integer revNum) throws Exception {
+		mapper.addRecom(userNum, revNum);
 	}
 	
-	public Integer ckDupLike(Integer userNum, Integer revNum) throws Exception {
-		return mapper.ckDupLike(userNum, revNum);
+	public Integer ckDupRecom(Integer userNum, Integer revNum) throws Exception {
+		return mapper.ckDupRecom(userNum, revNum);
+	}
+	
+	public void updateRecom(Integer num, Integer recom) throws Exception {
+		mapper.updateRecom(num, recom);
+	}
+	
+	public Integer getRecom(Integer num) throws Exception {
+		return mapper.getRecom(num);
 	}
 }

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" th:href="@{/css/css/all.css}">
-<link rel="stylesheet" th:href="@{/css/stars.css}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">	
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>	
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>	
-<script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>		
+<link th:href="@{/css/css/all.css}" rel="stylesheet">
+<link th:href="@{/css/stars.css}" rel="stylesheet">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+	rel="stylesheet">
 <script>
 	if(!!window.performance && window.performance.navigation.type == 2){
 		window.location.reload();
@@ -18,42 +18,44 @@
 	}
 </script>
 </head>
-	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
-		<main class="main" th:fragment="main">
-			<div class="container">
-				<span hidden="hidden" id="revNum" th:text="${rev.num}"></span>
-				<span hidden="hidden" id="userNum" th:text="${num}"></span>
-				<span hidden="hidden" id="sessionId" th:text="${session.id}"></span>
-				<span hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
-				<div class="form-group">
-					아이디: <span th:text="${id}"></span>
-				</div>
-				<div class="form-group">
-					영화: <span th:text="${rev.movie}"></span>
-				</div>
-				<div class="form-group">
-					제목: <span th:text="${rev.title}"></span>
-				</div>
-				<div class="form-group">
-					평점:
-					<div class="stars-outer">
-						<div class="stars-inner"></div>
-					</div>
-					(<span class="number-rating"></span>)						
-				</div>
-				<div class="form-group">		   				
-					내용: <div th:utext="${rev.content}"></div>
-				</div>
-				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>	
-				<span th:if="${num} == ${rev.userNum} or ${session.id} == 'admin'">
-					<a th:href="@{/rev/update/{num}(num=${rev.num})}" class="btn btn-warning">리뷰수정</a>
-					<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>			
-				</span>	
-				<span th:unless="${num} == ${rev.userNum} or ${session.id} == 'admin'">
-					<button id="btn-like-rev" class="btn btn-success">좋아요</button>			
-				</span>	
+<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+	<main class="main" th:fragment="main">
+		<div class="container">
+			<span hidden="hidden" id="revNum" th:text="${rev.num}"></span> <span
+				hidden="hidden" id="userNum" th:text="${num}"></span> <span
+				hidden="hidden" id="sessionId" th:text="${session.id}"></span> <span
+				hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
+			<div class="form-group">
+				아이디: <span th:text="${id}"></span>
 			</div>
-			<script th:inline="javascript">
+			<div class="form-group">
+				영화: <span th:text="${rev.movie}"></span>
+			</div>
+			<div class="form-group">
+				제목: <span th:text="${rev.title}"></span>
+			</div>
+			<div class="form-group">
+				평점:
+				<div class="stars-outer">
+					<div class="stars-inner"></div>
+				</div>
+				(<span class="number-rating"></span>)
+			</div>
+			<div class="form-group">
+				내용:
+				<div th:utext="${rev.content}"></div>
+			</div>
+			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+			<span th:if="${num == rev.userNum} or ${session.id == 'admin'}">
+				<a th:href="@{/rev/update/{num}(num=${rev.num})}"
+				class="btn btn-warning">리뷰수정</a>
+				<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>
+			</span> <span
+				th:unless="${num == rev.userNum} or ${session.id == 'admin'}">
+				<button id="btn-like-rev" class="btn btn-success">추천하기</button>
+			</span>
+		</div>
+		<script th:inline="javascript">
 			  	document.addEventListener('DOMContentLoaded', getRating);		
 			  
 			  	const maxRating = 5;
@@ -65,6 +67,6 @@
 			  	  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
 			  	  	document.querySelector(".number-rating").innerHTML = rating;
 			  	}
-			</script>					
-		</main>				
+			</script>
+	</main>
 </html>

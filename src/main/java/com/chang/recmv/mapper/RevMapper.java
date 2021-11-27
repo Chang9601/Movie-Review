@@ -28,6 +28,8 @@ public interface RevMapper {
 	public List<Rev> getUserRevs(Integer userNum, Criteria cri) throws Exception;
 	public Integer getNumUserRevs(Integer userNum) throws Exception;
 	public Integer ckDupRev(Integer userNum, Integer movieNum) throws Exception;
-	public void addLike(Integer userNum, Integer revNum) throws Exception;
-	public Integer ckDupLike(Integer userNum, Integer revNum) throws Exception;	
+	public void addRecom(Integer userNum, Integer revNum) throws Exception;
+	public Integer ckDupRecom(Integer userNum, Integer revNum) throws Exception;	
+	public void updateRecom(Integer num, Integer recom) throws Exception;
+	public Integer getRecom(Integer num) throws Exception;
 }

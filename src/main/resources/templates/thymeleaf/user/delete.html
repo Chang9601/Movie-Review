@@ -3,22 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
-	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
-		<main class="main" th:fragment="main">
-			<div class="container">		
-				<form>
-					<input type="hidden" name="id" id="id" class="form-control" th:value="${user.id}">									
-					<input type="hidden" name="rpw" id="rpw" class="form-control" th:value="${user.pw}">									
-					<div class="form-group">
-						<label for="pw">비밀번호</label>
-						<input type="password" name="pw" id="pw" class="form-control" placeholder="비밀번호를 입력하세요.">
-						<span id="pw-ck"></span>
-					</div>			
-				</form>		
-				<button id="btn-del-user" class="btn btn-danger">회원탈퇴</button>	
-				<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>					
-			</div>
-		</main>
+<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+	<main class="main" th:fragment="main">
+		<div class="container">
+			<form>
+				<input type="hidden" name="id" id="id" class="form-control"
+					th:value="${user.id}"> <input type="hidden" name="rpw"
+					id="rpw" class="form-control" th:value="${user.pw}">
+				<div class="form-group">
+					<label for="pw">비밀번호</label> <input type="password" name="pw"
+						id="pw" class="form-control" placeholder="비밀번호를 입력하세요."> <span
+						id="pw-ck"></span>
+				</div>
+			</form>
+			<button id="btn-del-user" class="btn btn-danger">회원탈퇴</button>
+			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+		</div>
+	</main>
 </html>

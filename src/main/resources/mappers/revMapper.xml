@@ -26,8 +26,7 @@
 	</select>
 	
 	<update id="updateRev">
-		update recmv_rev 
-		set title = #{rev.title}, content = #{rev.content}, rating = #{rev.rating}, updateDate = now()
+		update recmv_rev set title = #{rev.title}, content = #{rev.content}, rating = #{rev.rating}, updateDate = now()
 		where num = #{num}
 	</update>
 	
@@ -67,8 +66,7 @@
 	</select>
 	
 	<update id="updateAvgRating">
-		update recmv_movie 
-		set rating = #{rating}
+		update recmv_movie set rating = #{rating}
 		where title = #{title}
 	</update>	
 	
@@ -89,13 +87,23 @@
 		where userNum = #{userNum} and movieNum = #{movieNum}
 	</select>
 	
-	<insert id="addLike">
-		insert into recmv_like(userNum, revNum, createDate)
+	<insert id="addRecom">
+		insert into recmv_recom(userNum, revNum, createDate)
 		values(#{userNum}, #{revNum}, now())
 	</insert>
 	
-	<select id="ckDupLike" resultType="int">
-		select num from recmv_like
+	<select id="ckDupRecom" resultType="int">
+		select num from recmv_recom
 		where userNum = #{userNum} and revNum = #{revNum}
 	</select>	
+	
+	<update id="updateRecom">
+		update recmv_rev set recom = #{recom}
+		where num = #{num}
+	</update>
+	
+	<select id="getRecom" resultType="int">
+		select recom from recmv_rev
+		where num = #{num}
+	</select>
 </mapper>

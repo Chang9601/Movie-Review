@@ -22,8 +22,7 @@
 	</select>
 	
 	<update id="adminUpdateUser">
-		update recmv_user 
-		set pw = #{user.pw}, email = #{user.email}, updateDate = now()
+		update recmv_user set pw = #{user.pw}, email = #{user.email}, updateDate = now()
 		where num = #{num}
 	</update>
 
