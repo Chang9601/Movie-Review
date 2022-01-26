@@ -1,30 +1,36 @@
 # 영화 리뷰 사이트
 
-<h2>소개</h2>
-스프링 부트를 활용한 영화 리뷰 사이트
+## 소개
+스프링 부트를 사용한 영화 리뷰 사이트
 
-<h2>개발 환경</h2>
-<ul>
-  <li>Windows 10 64-bit</li>
-  <li>Spring Tool Suite 4.11.1.RELEASE</li>
-  <li>Spring Boot</li>
-  <li>Thymeleaf 3.0.12.RELEASE</li>
-  <li>HTML5/CSS3</li> 
-  <li>JavaScript</li> 
-  <li>jQuery</li>  
-  <li>Ajax</li> 
-  <li>Bootstrap 4.5.2</li>   
-  <li>MySQL DB</li>
-  <li>MyBatis</li>  
-</ul>
+## 목적
+* 스트링 부트
 
-<h2>제작 기간</h2>
+## 개발 환경
+* IDE
+  * Spring Tool Suite 4.11.1.RELEASE
+* Framework
+  * Spring Boot 2.5.6
+  * MyBatis 2.2.0
+  * Bootstrap 4.5.2 
+* Language
+  * HTML5/CSS3
+  * JavaScript
+  * Ajax
+  * jQuery
+* Template
+  * Thymeleaf 3.0.12.RELEASE
+* OS
+  * Windows 10 64-bit
+* DB
+  * MySQL DB
+## 제작 기간
 2021.10.29 - 2021.11.27
 
-<h2>개발 인원</h2>
+## 개발 인원
 1명
 
-<h2>구현</h2>
+## 기능
 <ol>
   <li>
     회원가입/로그인
