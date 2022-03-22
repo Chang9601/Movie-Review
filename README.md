@@ -19,8 +19,7 @@
 * Language
   * HTML5/CSS3
   * JavaScript
-  * Ajax
-  * jQuery
+  * Java
 * Template
   * Thymeleaf 3.0.12.RELEASE
 * OS
