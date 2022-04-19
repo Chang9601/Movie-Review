@@ -1,9 +1,9 @@
-var movie = {
+let movie = {
 	exec: function() {
 		$("#btn-movie-api").on("click", () => {
 			this.searchAPI();
 		});
-		$("#btn-movie-db").on("click", () => {
+		$('#btn--movie--db').on('click', () => {
 			this.searchDB();
 		});
 	},
@@ -30,14 +30,14 @@ var movie = {
 	},
 
 	searchDB: function() {
-		var queryDB = $("#query-db").val();
+		let movieDB = $('#movie--db').val();
 
-		if (queryDB === "") {
-			$("#db-ck").html("리뷰를 작성할 영화의 제목을 입력하세요.").css("color", "red");
+		if (movieDB === '') {
+			$('#confirm--db').html('리뷰를 작성할 영화의 제목을 입력하세요.').css('color', 'red');
 			return false;
-		} else $("#db-ck").html("");
+		} else $('#confirm--db').html('');
 
-		window.open(`/recmv/movie/searchMovieDB?query=${queryDB}`);
+		window.open(`/recmv/movie/searchMovieDB?query=${movieDB}`);
 	},
 };
 

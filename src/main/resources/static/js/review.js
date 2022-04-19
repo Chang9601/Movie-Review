@@ -1,8 +1,30 @@
-var rev = {
+const validateReview = (title, content, rating) => {
+	if (title === '') {
+		$('#title--ok').html('제목을 입력하세요.').css('color', 'red');
+		return false;
+	} else $('#title--ok').html('');
+
+	if (rating === '') {
+		$('#rating--ok').html('평점을 입력하세요.').css('color', 'red');
+		return false;
+	} else if (rating > 5.0 || rating < 0.0) {
+		$('#rating--ok').html("범위 안에 평점을 입력하세요.").css('color', 'red');
+		return false;
+	}
+	else $('#rating--ok').html('');
+
+	if (content === '') {
+		$('#content--ok').html('내용을 입력하세요.').css('color', 'red');
+		return false;
+	} else $('#content--ok').html('');
+};
+
+let review = {
 	exec: function() {
-		$("#btn-write").on("click", () => {
+		$('#btn--write').on('click', () => {
 			this.write();
 		});
+
 		$("#btn-upd-rev").on("click", () => {
 			this.update();
 		});
@@ -15,7 +37,15 @@ var rev = {
 	},
 
 	write: function() {
-		var userNum = $("#user-num").val();
+		let title = $('#title').val(); // 리뷰 제목
+		let content = $('#content').val(); // 리뷰 내용
+		let rating = $('#rating').val(); // 평점
+		let movieId = $('#movie--id').val(); // 영화 키
+		
+		if(!validateReview(title, content, rating))
+			return;
+		
+/*		var userNum = $("#user-num").val();
 		var movieNum = $("#movie-num").val();
 		var image = $("#image").val();
 		var id = $("#id").val();
@@ -33,9 +63,9 @@ var rev = {
 			title: title,
 			content: content,
 			rating: rating
-		};
+		};*/
 
-		$.ajax({
+/*		$.ajax({
 			url: "/recmv/api/rev/ckDupRev",
 			type: "GET",
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
@@ -80,7 +110,7 @@ var rev = {
 			});
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
-		});
+		});*/
 	},
 
 	update: function() {
@@ -186,4 +216,4 @@ var rev = {
 	}
 };
 
-rev.exec();
+review.exec();

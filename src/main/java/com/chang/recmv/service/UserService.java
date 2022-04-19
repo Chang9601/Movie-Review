@@ -1,48 +1,54 @@
 package com.chang.recmv.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
-import com.chang.recmv.mapper.UserMapper;
+import com.chang.recmv.dto.UserDto;
 import com.chang.recmv.model.User;
+import com.chang.recmv.repository.UserRepository;
 
 @Service
 public class UserService {
-
-	@Autowired
-	private UserMapper mapper;
-
-	public void addUser(User user) throws Exception {
-		mapper.addUser(user);
+	private final UserRepository userRepository;
+	
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userRepository = userRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
-
-	public String ckDupId(String id) throws Exception {
-		return mapper.ckDupId(id);
+	
+	@Transactional(readOnly = true)
+	public Map<String, String> validateUser(Errors errors) {
+		Map<String, String> validationResult = new HashMap<>();
+		
+		for(FieldError error : errors.getFieldErrors()) {
+			String key = String.format("valid_%s", error.getField());
+			validationResult.put(key, error.getDefaultMessage());
+		}
+		
+		return validationResult;
 	}
-
-	public String ckLogin(User user) throws Exception {
-		return mapper.ckLogin(user);
+	
+	@Transactional(readOnly = true)
+	public boolean existsByUsername(String username) {
+		return userRepository.existsByUsername(username);
 	}
-
-	public User readUser(String id) throws Exception {
-		return mapper.readUser(id);
-	}
-
-	public void updateUser(User user, String pw) throws Exception {
-		mapper.updateUser(user, pw);
-	}
-
-	public void deleteUser(User user) throws Exception {
-		mapper.deleteUser(user);
-	}
-
-	public List<User> getAllUser(String id) throws Exception {
-		return mapper.getAllUser(id);
-	}
-
-	public void deleteRevs(String id) throws Exception {
-		mapper.deleteRevs(id);
+	
+	@Transactional
+	public void save(UserDto userDto) {
+		// 비밀번호 암호화
+		String rawPassword = userDto.getPassword();
+		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+		userDto.setPassword(encPassword);
+		
+		User user = userDto.toEntity();
+		userRepository.save(user);
 	}
 }

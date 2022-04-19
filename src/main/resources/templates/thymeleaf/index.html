@@ -16,12 +16,12 @@
 				<form>
 					<div class="card-header">사이트 영화검색</div>
 					<div class="list-group">
-						<input type="text" name="query-db" id="query-db"
+						<input type="text" name="movie--db" id="movie--db"
 							placeholder="리뷰를 작성하시고 싶은 영화를 검색하세요." class="form-control">
-						<span id="db-ck"></span>
+						<span id="confirm--db"></span>
 					</div>
 				</form>
-				<button id="btn-movie-db" class="btn btn-primary">검색</button>
+				<button id="btn--movie--db" class="btn btn-primary">검색</button>
 			</div>
 			<div class="card m-2">
 				<form>
@@ -50,7 +50,7 @@
 							제목: <span th:text="${movie.title}"></span>
 						</div>
 						<div class="form-group">
-							배우: <span th:text="${movie.cast}"></span>
+							배우: <span th:text="${movie.actor}"></span>
 						</div>
 						<div class="form-group">
 							줄거리: <span th:text="${movie.plot}"></span>
@@ -66,36 +66,47 @@
 						<div class="form-group" th:unless="${movie.rating > 0.0}">
 							리뷰없음</div>
 						<div class="form-group">
-							<a th:href="@{/rev/write/{num}(num=${movie.num})}"
+							<a th:href="@{/write/{id}(id=${movie.id})}"
 								class="btn btn-primary">리뷰쓰기</a>
 						</div>
 					</div>
 				</div>
 			</th:block>
-			<ul th:if="${not #lists.isEmpty(movies)}"
-				class="pagination d-flex justify-content-center">
-				<li class="page-item" th:if="${page.pre == true}"><a
-					th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.beginNumOfPage-1 })}"
-					class="page-link" aria-label="Pmovieious"> <span
-						aria-hidden="true"> <span class="lnr lnr-chevron-left">이전</span>
-					</span>
-				</a></li>
-				<th:block
-					th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}">
-					<li class="page-item"
-						th:with="start=${page.beginNumOfPage}, end=${page.endNumOfPage}"
-						th:each="pageButton : ${#numbers.sequence(start,end)}"><a
-						class="page-link"
-						th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${pageButton})}"
-						th:text=${pageButton}></a></li>
-				</th:block>
-				<li class="page-item" th:if="${page.nxt == true}"><a
-					th:href="@{/?currentPageNum={currentPageNum} (currentPageNum=${page.endNumOfPage+1 })}"
-					class="page-link" aria-label="Next"> <span aria-hidden="true">
-							<span class="lnr lnr-chevron-right">다음</span>
-					</span>
-				</a></li>
-			</ul>
+			
+			<nav style="text-align: center;">
+			    <ul th:if="${not #lists.isEmpty(movies)}"
+			    	class="pagination d-flex justify-content-center" 
+			        th:with="start=${T(Math).floor(movies.number / 10) * 10 + 1},
+			                    last=(${start + 9 < movies.totalPages ? start + 9 : movies.totalPages})">
+			        <li>
+			            <a th:href="@{/(page=1)}" class="page-link" aria-label="First">
+			                <span aria-hidden="true">처음</span>
+			            </a>
+			        </li>
+			
+			        <li th:class="${movies.first} ? 'disabled'">
+			            <a th:href="${movies.first} ? '#' :@{/(page=${movies.number})}" class="page-link" aria-label="Previous">
+			                <span aria-hidden="true">&lt;</span>
+			            </a>
+			        </li>
+			
+			        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == movies.number + 1} ? 'active'">
+			            <a th:text="${page}" th:href="@{/(page=${page})}" class="page-link"></a>
+			        </li>
+			
+			        <li th:class="${movies.last} ? 'disabled'">
+			            <a th:href="${movies.last} ? '#' : @{/(page=${movies.number + 2})}" class="page-link" aria-label="Next">
+			                <span aria-hidden="true">&gt;</span>
+			            </a>
+			        </li>
+			
+			        <li>
+			            <a th:href="@{/(page=${movies.totalPages})}" class="page-link" aria-label="Last">
+			                <span aria-hidden="true">끝</span>
+			            </a>
+			        </li>
+			    </ul>
+			</nav>			
 		</div>
 		<div th:if="${#lists.isEmpty(movies)}" class="container">
 			<div class="alert alert-danger">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">  
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">  
 <header th:fragment="header">  
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 	  <a class="navbar-brand" href="/recmv">영화</a>
@@ -8,16 +8,16 @@
 	  </button>
 	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	  
-	  	<div th:if="${session.id == null}">
+	  	<div sec:authorize-expr="!isAuthenticated()">
 		    <ul class="navbar-nav">
-		      <li class="nav-item"><a class="nav-link" href="/recmv/user/signup">회원가입</a></li>
-		      <li class="nav-item"><a class="nav-link" href="/recmv/user/login">로그인</a></li>
-		      <li class="nav-item"><a class="nav-link" href="/recmv/rev/main">리뷰</a></li>  	        
+		      <li class="nav-item"><a class="nav-link" href="/recmv/join">회원가입</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/login">로그인</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/reviews">리뷰</a></li>  	        
 		    </ul>
 	    </div>
-	   	<div th:unless="${session.id == null}">
+	   	<div sec:authorize-expr="isAuthenticated()">
 		    <ul class="navbar-nav">
-		      <li class="nav-item"><a class="nav-link" href="/recmv/user/logout">로그아웃</a></li>
+		      <li class="nav-item"><a class="nav-link" href="/recmv/logout">로그아웃</a></li>
 		      <li class="nav-item"><a class="nav-link" href="/recmv/rev/main">리뷰</a></li>   
 		      <li class="nav-item"><a class="nav-link" href="/recmv/user/read">회원정보</a></li>			      
 		    </ul>	       

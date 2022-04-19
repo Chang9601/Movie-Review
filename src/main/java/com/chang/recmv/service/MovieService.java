@@ -1,37 +1,48 @@
 package com.chang.recmv.service;
 
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.chang.recmv.mapper.MovieMapper;
-import com.chang.recmv.model.Criteria;
+import com.chang.recmv.dto.MovieDto.Item;
 import com.chang.recmv.model.Movie;
+import com.chang.recmv.repository.MovieRepository;
 
 @Service
 public class MovieService {
-
-	@Autowired
-	private MovieMapper mapper;
-
-	public void addMovie(Movie movie) throws Exception {
-		mapper.addMovie(movie);
+	private final MovieRepository movieRepository;
+	
+	public MovieService(MovieRepository movieRepository) {
+		this.movieRepository = movieRepository;
+	}
+	
+	@Transactional(readOnly = true)
+	public boolean existsByLink(String link) {
+		return movieRepository.existsByLink(link);
+	}
+	
+	@Transactional
+	public void save(Item movieDto) {
+		Movie movie = movieDto.toEntity();
+		
+		movieRepository.save(movie);
 	}
 
-	public Movie readMovie(String title) throws Exception {
-		return mapper.readMovie(title);
+	@Transactional(readOnly = true)
+	public Page<Movie> findAll(Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);
+		
+		return movieRepository.findAll(pageable);
 	}
 
-	public List<Movie> searchDB(String title) throws Exception {
-		return mapper.searchDB(title);
-	}
-
-	public List<Movie> getMovies(Criteria cri) throws Exception {
-		return mapper.getMovies(cri);
-	}
-
-	public Integer getNumMovies() throws Exception {
-		return mapper.getNumMovies();
+	@Transactional(readOnly = true)
+	public Movie findById(int id) {
+		return movieRepository.findById(id).orElseThrow(() ->{
+			return new IllegalArgumentException("영화 찾기 실패: 아이디 없음");
+		});
 	}
 }
