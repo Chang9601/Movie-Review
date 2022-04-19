@@ -1,98 +1,55 @@
 package com.chang.recmv.controller.api;
 
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.chang.recmv.controller.UserController;
-import com.chang.recmv.model.User;
+import com.chang.recmv.dto.ResponseDto;
+import com.chang.recmv.dto.UserDto;
 import com.chang.recmv.service.UserService;
 
-@RestController
-@RequestMapping("/api/user/*")
+@Controller
 public class UserApiController {
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-	@Autowired
-	private UserService service;
-
-	@Autowired
-	private HttpSession session;
-
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@GetMapping("/ckDupId")
-	public ResponseEntity<String> ckDupId(@RequestParam("id") String id) throws Exception {
-		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 시작");
-		logger.info("아이디 중복확인: " + id);
-		String dbId = service.ckDupId(id);
-		logger.info("User: ckDupId(@RequestParam(\"id\") String id) 끝");
-
-		return new ResponseEntity<String>(dbId, HttpStatus.OK);
+	
+	private final UserService userService;
+	
+	public UserApiController(UserService userService) {
+		this.userService = userService;
 	}
-
-	@PostMapping("/signup")
-	public ResponseEntity<String> signupPOST(@RequestBody User user) throws Exception {
-		logger.info("User: signupPOST(@RequestBody User user) 시작");
-		logger.info("회원가입: " + user);
-		service.addUser(user);
-		logger.info("User: signupPOST(@RequestBody User user) 끝");
-
-		return new ResponseEntity<String>("success", HttpStatus.OK);
+	
+	@PostMapping("/join")
+	public String join(@Valid UserDto userDto, Errors errors, Model model) {
+		if(errors.hasErrors()) {
+			model.addAttribute("userDto", userDto);
+			
+			Map<String, String> validationResult = userService.validateUser(errors);
+			for(String key : validationResult.keySet())
+				model.addAttribute(key, validationResult.get(key));
+			return "user/join";
+		}
+		
+		userService.save(userDto);
+		return "redirect:/login";
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원가입 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@PostMapping("/login")
-	public ResponseEntity<String> loginPOST(@RequestBody User user) throws Exception {
-		logger.info("User: loginPOST(@RequestBody User user) 시작");
-		logger.info("로그인: " + user);
-		String id = service.ckLogin(user);
-		if (id != null)
-			session.setAttribute("id", id);
-		logger.info("User: loginPOST(@RequestBody User user) 끝");
-
-		return new ResponseEntity<String>(id, HttpStatus.OK);
+	
+	@GetMapping("/duplicate")
+	public @ResponseBody ResponseDto<String> duplicate(@RequestParam String username) {
+		boolean result = userService.existsByUsername(username);
+		String dbUsername = "";
+		
+		if(result)
+			dbUsername = username;
+		System.out.println("DB 아이디: " + dbUsername);
+		return new ResponseDto<String>(HttpStatus.OK.value(), dbUsername);
+		
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 로그인 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@PutMapping("/update")
-	public ResponseEntity<String> updateUserPUT(@RequestBody User user) throws Exception {
-		logger.info("User: updateUserPUT(@RequestBody User user) 시작");
-		logger.info("회원수정 후: " + user);
-		String id = (String) session.getAttribute("id");
-		String pw = service.readUser(id).getPw();
-		service.updateUser(user, pw);
-		logger.info("User: updateUserPUT(@RequestBody User user) 끝");
-
-		return new ResponseEntity<String>("success", HttpStatus.OK);
-	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteUserDELETE(@RequestBody User user) throws Exception {
-		logger.info("User: deleteUserDELETE(@RequestBody User user) 시작");
-		// 작성된 리뷰 모두 삭제 후 회원탈퇴
-		service.deleteRevs(user.getId());
-		service.deleteUser(user);
-		session.invalidate();
-		logger.info("회원탈퇴 후: " + user);
-		logger.info("User: deleteUserDELETE(@RequestBody User user) 끝");
-
-		return new ResponseEntity<String>("success", HttpStatus.OK);
-	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 회원탈퇴 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

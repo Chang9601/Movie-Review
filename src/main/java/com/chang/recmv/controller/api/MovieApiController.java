@@ -1,6 +1,10 @@
 package com.chang.recmv.controller.api;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,42 +12,33 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.chang.recmv.model.Movie;
-import com.chang.recmv.service.MovieService;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.chang.recmv.dto.MovieDto;
+import com.chang.recmv.dto.MovieDto.Item;
+import com.chang.recmv.service.MovieService;
+import com.google.gson.Gson;
 
 @RestController
-@RequestMapping("/api/movie/*")
 public class MovieApiController {
+	
+	private final MovieService movieService;
+	
+	public MovieApiController(MovieService movieService) {
+		this.movieService = movieService;
+	}
+	
+	@GetMapping("/movie")
+	public String getMovie(/*@RequestParam String query*/) throws Exception {
+		String clientId = "sTFs6vyQCtWYXkzcSbOY"; // 애플리케이션 클라이언트 아이디값"
+		String clientSecret = "2e0N2GUS5k"; // 애플리케이션 클라이언트 시크릿값"
 
-	private static final Logger logger = LoggerFactory.getLogger(MovieApiController.class);
-
-	@Autowired
-	private MovieService service;
-
-	private String clientId = "";
-	private String clientSecret = "";
-
-	@GetMapping("/searchMovieAPI")
-	public ResponseEntity<JSONArray> searchMovieAPI(@RequestParam("query") String query) throws Exception {
-		logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 시작");
-
+		String query = "전우치";
+		
 		try {
 			query = URLEncoder.encode(query, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -51,45 +46,32 @@ public class MovieApiController {
 		}
 
 		String apiURL = "https://openapi.naver.com/v1/search/movie?query=" + query; // json 결과
-
+		
 		Map<String, String> requestHeaders = new HashMap<>();
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 		String responseBody = get(apiURL, requestHeaders);
-
-		String json = responseBody;
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(json);
-		JSONArray items = (JSONArray) obj.get("items");
-
-		for (int i = 0; i < items.size(); i++) {
-			Movie movie = new Movie();
-			JSONObject tmp = (JSONObject) items.get(i);
-
-			String title = (String) tmp.get("title");
-			String link = (String) tmp.get("link");
-			String image = (String) tmp.get("image");
-			String cast = (String) tmp.get("actor");
-			String plot = getPlot((String) tmp.get("link"));
-
-			title = title.replace("<b>", "");
-			title = title.replace("</b>", "");
-			cast = cast.replace("|", ", ");
-			cast = cast.replaceAll("(, )$", "");
-
-			// 영화 중복방지
-			if (service.readMovie(title) == null) {
-				movie.setTitle(title);
-				movie.setLink(link);
-				movie.setImage(image);
-				movie.setCast(cast);
-				movie.setPlot(plot);
-				service.addMovie(movie);
-			}
+		
+		Gson gson = new Gson();
+		
+		MovieDto movieDto = gson.fromJson(responseBody, MovieDto.class);
+		for(Item item : movieDto.getItems()) {
+			String link = item.getLink();
+			if(movieService.existsByLink(link)) // 이미 DB에 존재하면 스킵
+				continue;
+			
+			String title = item.getTitle().replaceAll("(<b>|</b>)", "");			
+			String plot = getPlot(link);
+			String actor = item.getActor().replaceAll("\\|", " ");
+			
+			item.setTitle(title);
+			item.setActor(actor);
+			item.setPlot(plot);
+			
+			movieService.save(item);
 		}
-
-		logger.info("Movie: searchMovieAPI(@RequestParam(\"query\") String query) 끝");
-		return new ResponseEntity<JSONArray>(items, HttpStatus.OK);
+		
+		return responseBody;
 	}
 
 	private static String get(String apiUrl, Map<String, String> requestHeaders) {
@@ -140,13 +122,16 @@ public class MovieApiController {
 			throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
 		}
 	}
-
-	private static String getPlot(String URL) throws Exception {
-		Document doc = Jsoup.connect(URL).get();
-		Element text = doc.select("p.con_tx").first();
+	
+	// 링크로 줄거리 추출
+	private static String getPlot(String link) throws Exception {
+		Document document = Jsoup.connect(link).get();
+		Element text = document.select("p.con_tx").first();
 		String plot = null;
-		if (text != null) plot = text.text();
+		
+		if (text != null) 
+			plot = text.text();
 
 		return plot;
-	}
+	}	
 }
