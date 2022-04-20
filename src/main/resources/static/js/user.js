@@ -122,7 +122,7 @@ let user = {
 			return false;
 		} else $('#username--ok').html('');
 
-		if (password === "") {
+		if (password === '') {
 			$('#password--ok').html('비밀번호를 입력하세요.').css('color', 'red');
 			return false;
 		} else $('#password--ok').html('');

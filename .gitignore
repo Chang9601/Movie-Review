@@ -6,6 +6,7 @@ target/
 
 ### MY ### 
 src/main/java/com/chang/recmv/controller/api/MovieApiController.java
+src/main/resources/application.yml
 
 ### STS ###
 .apt_generated

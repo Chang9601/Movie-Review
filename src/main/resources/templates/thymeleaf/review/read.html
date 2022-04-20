@@ -21,18 +21,19 @@
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
 		<div class="container">
-			<span hidden="hidden" id="revNum" th:text="${rev.num}"></span> <span
+<!-- 			<span hidden="hidden" id="revNum" th:text="${rev.num}"></span> <span
 				hidden="hidden" id="userNum" th:text="${num}"></span> <span
 				hidden="hidden" id="sessionId" th:text="${session.id}"></span> <span
-				hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span>
+				hidden="hidden" id="currentPageNum" th:text="${currentPageNum}"></span> -->
+			<input type="hidden" name="id" id="id" th:value="${review.id}"> 				
 			<div class="form-group">
-				아이디: <span th:text="${id}"></span>
+				아이디: <span th:text="${review.user.username}"></span>
 			</div>
 			<div class="form-group">
-				영화: <span th:text="${rev.movie}"></span>
+				영화: <span th:text="${review.movie.title}"></span>
 			</div>
 			<div class="form-group">
-				제목: <span th:text="${rev.title}"></span>
+				제목: <span th:text="${review.title}"></span>
 			</div>
 			<div class="form-group">
 				평점:
@@ -43,15 +44,15 @@
 			</div>
 			<div class="form-group">
 				내용:
-				<div th:utext="${rev.content}"></div>
+				<div th:utext="${review.content}"></div>
 			</div>
 			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
-			<span th:if="${num == rev.userNum} or ${session.id == 'admin'}">
-				<a th:href="@{/rev/update/{num}(num=${rev.num})}"
-				class="btn btn-warning">리뷰수정</a>
-				<button id="btn-del-rev" class="btn btn-danger">리뷰삭제</button>
-			</span> <span
-				th:unless="${num == rev.userNum} or ${session.id == 'admin'}">
+ 			<span th:if="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
+				<a th:href="@{/review/update/{id}(id=${review.id})}" class="btn btn-warning">리뷰수정</a>
+				<button type="button" id="btn--delete--review" class="btn btn-danger">리뷰삭제</button>
+			</span> 
+			
+			<span th:unless="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
 				<button id="btn-like-rev" class="btn btn-success">추천하기</button>
 			</span>
 		</div>
@@ -60,12 +61,12 @@
 			  
 			  	const maxRating = 5;
 			  	function getRating() {
-			  		const rating = [[${rev.rating}]]; 
+			  		const rating = [[${review.rating}]]; 
 				  	const starPercentage = (rating / maxRating) * 100;
 			  	  	const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
 			  	  	
-			  	  	document.querySelector(".stars-inner").style.width = starPercentageRounded;
-			  	  	document.querySelector(".number-rating").innerHTML = rating;
+			  	  	document.querySelector('.stars-inner').style.width = starPercentageRounded;
+			  	  	document.querySelector('.number-rating').innerHTML = rating;
 			  	}
 			</script>
 	</main>

@@ -8,15 +8,16 @@ const validateReview = (title, content, rating) => {
 		$('#rating--ok').html('평점을 입력하세요.').css('color', 'red');
 		return false;
 	} else if (rating > 5.0 || rating < 0.0) {
-		$('#rating--ok').html("범위 안에 평점을 입력하세요.").css('color', 'red');
+		$('#rating--ok').html('범위 안에 평점을 입력하세요.').css('color', 'red');
 		return false;
-	}
-	else $('#rating--ok').html('');
+	} else $('#rating--ok').html('');
 
 	if (content === '') {
 		$('#content--ok').html('내용을 입력하세요.').css('color', 'red');
 		return false;
 	} else $('#content--ok').html('');
+	
+	return true;
 };
 
 let review = {
@@ -25,12 +26,14 @@ let review = {
 			this.write();
 		});
 
-		$("#btn-upd-rev").on("click", () => {
+		$('#btn--update--review').on('click', () => {
 			this.update();
 		});
-		$("#btn-del-rev").on("click", () => {
+		
+		$('#btn--delete--review').on('click', () => {
 			this.delete();
 		});
+		
 		$("#btn-like-rev").on("click", () => {
 			this.like();
 		});
@@ -45,26 +48,13 @@ let review = {
 		if(!validateReview(title, content, rating))
 			return;
 		
-/*		var userNum = $("#user-num").val();
-		var movieNum = $("#movie-num").val();
-		var image = $("#image").val();
-		var id = $("#id").val();
-		var movie = $("#movie").val();
-		var title = $("#title").val();
-		var content = $("#content").val();
-		var rating = $("#rating").val();
+		// form의 속성값 변경
+		let fr = $('form[role="form"]');
 
-		var rev = {
-			userNum: userNum,
-			movieNum: movieNum,
-			image: image,
-			id: id,
-			movie: movie,
-			title: title,
-			content: content,
-			rating: rating
-		};*/
-
+		fr.attr('action', `/recmv/review/${movieId}`);
+		fr.attr('method', 'post');
+		fr.submit();
+				
 /*		$.ajax({
 			url: "/recmv/api/rev/ckDupRev",
 			type: "GET",
@@ -114,63 +104,47 @@ let review = {
 	},
 
 	update: function() {
-		var num = $("#num").val();
-		var title = $("#title").val();
-		var movie = $("#movie").val();
-		var content = $("#content").val();
-		var rating = $("#rating").val();
-
-		var rev = {
-			num: num,
+		let title = $('#title').val(); // 리뷰 제목
+		let content = $('#content').val(); // 리뷰 내용
+		let rating = $('#rating').val(); // 평점
+		let id = $('#id').val(); // 리뷰 키
+		
+		if(!validateReview(title, content, rating))
+			return;
+			
+		let review = {
 			title: title,
-			movie: movie,
 			content: content,
 			rating: rating
 		};
-
-		if (title === "") {
-			$("#title-ck").html("제목을 입력하세요.").css("color", "red");
-			return false;
-		} else $("#title-ck").html("");
-
-		if (rating === "") {
-			$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
-			return false;
-		} else if (rating > 5 || rating < 0.0) {
-			$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
-			return false;
-		}
-		else $("#rating-ck").html("");
-
-		if (content === "") {
-			$("#content-ck").html("내용을 입력하세요.").css("color", "red");
-			return false;
-		} else $("#content-ck").html("");
-
+		
 		$.ajax({
-			url: `/recmv/api/rev/update/${num}`,
-			type: "PUT",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify(rev)
-		}).done(function(resp) {
-			console.log(resp);
-			alert("리뷰수정이 완료되었습니다.")
-			location.replace(`/recmv/rev/read/${num}`);
-		}).fail(function() {
+			type: 'PUT',
+			url: `/recmv/review/${id}`,
+			contentType: 'application/json; charset=UTF-8', 
+			data: JSON.stringify(review),
+		}).done(function(res) { // 응답 결과
+			alert('리뷰수정 완료');
+			location.replace(`/recmv/review/${res.data}`);
+		}).fail(function(err) {
 			alert(JSON.stringify(err));
 		});
 	},
 
 	delete: function() {
-		var num = $("#revNum").text();
-
+		let id = $('#id').val(); // 리뷰 키
+		
+		let ok = confirm('정말로 삭제하시겠습니까?');
+		
+		if(!ok)
+			return;
+		
 		$.ajax({
-			url: `/recmv/api/rev/delete/${num}`,
-			type: "DELETE",
-		}).done(function(resp) {
-			console.log(resp);
-			alert("리뷰삭제가 완료되었습니다.")
-			location.replace("/recmv/rev/main");
+			url: `/recmv/review/${id}`,
+			type: 'DELETE',
+		}).done(function(res) {
+			alert('리뷰삭제 완료');
+			location.replace('/recmv/reviews');			
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
 		});

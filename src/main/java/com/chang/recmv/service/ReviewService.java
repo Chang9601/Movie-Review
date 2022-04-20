@@ -54,4 +54,28 @@ public class ReviewService {
 		
 		return reviewRepository.findAll(pageable);
 	}
+	
+	@Transactional(readOnly = true)
+	public Review findById(int id) {
+		return reviewRepository.findById(id).orElseThrow(() ->{
+			return new IllegalArgumentException("리뷰 찾기 실패: 아이디 없음");
+		});
+	}
+	
+	// 해당 함수로 종료 시(Service가 종료될 때)에 트랜잭션 종료, 변경 감지로 업데이트
+	@Transactional
+	public void update(Review review, int id) {
+		Review entity = reviewRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("리뷰 수정 실패: 아이디 없음");			
+		});
+		
+		entity.setTitle(review.getTitle());
+		entity.setRating(review.getRating());
+		entity.setContent(review.getContent());
+	}
+	
+	@Transactional
+	public void delete(int id) {
+		reviewRepository.deleteById(id);
+	}
 }

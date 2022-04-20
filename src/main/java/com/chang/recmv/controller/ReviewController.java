@@ -33,11 +33,25 @@ public class ReviewController {
 	}	
 	
 	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") // 미리 접근 권한 요구
-	@GetMapping("/write/{id}")
+	@GetMapping("/review/write/{id}")
 	public String write(@PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		System.out.println("사용자 세션: " + principalDetails.getUser());
 		model.addAttribute("movie", movieService.findById(id));
 		
 		return "review/write";
+	}
+	
+	@GetMapping("/review/{id}")
+	public String read(@PathVariable int id, Model model) {
+		model.addAttribute("review", reviewService.findById(id));
+		
+		return "review/read";
+	}
+
+	@GetMapping("/review/update/{id}")
+	public String update(@PathVariable int id, Model model) {
+		model.addAttribute("review", reviewService.findById(id));
+		
+		return "review/update";
 	}
 }
