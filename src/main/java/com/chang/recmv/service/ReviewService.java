@@ -78,4 +78,9 @@ public class ReviewService {
 	public void delete(int id) {
 		reviewRepository.deleteById(id);
 	}
+	
+	@Transactional
+	public int updateView(int id) {
+		return reviewRepository.updateView(id);
+	}
 }

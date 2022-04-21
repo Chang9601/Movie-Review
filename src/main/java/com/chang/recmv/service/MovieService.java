@@ -45,4 +45,12 @@ public class MovieService {
 			return new IllegalArgumentException("영화 찾기 실패: 아이디 없음");
 		});
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<Movie> findByTitleContaining(String query, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);		
+		
+		return movieRepository.findByTitleContaining(query, pageable);
+	}
 }

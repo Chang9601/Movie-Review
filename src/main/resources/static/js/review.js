@@ -119,8 +119,8 @@ let review = {
 		};
 		
 		$.ajax({
-			type: 'PUT',
 			url: `/recmv/review/${id}`,
+			type: 'PUT',
 			contentType: 'application/json; charset=UTF-8', 
 			data: JSON.stringify(review),
 		}).done(function(res) { // 응답 결과
@@ -133,7 +133,6 @@ let review = {
 
 	delete: function() {
 		let id = $('#id').val(); // 리뷰 키
-		
 		let ok = confirm('정말로 삭제하시겠습니까?');
 		
 		if(!ok)

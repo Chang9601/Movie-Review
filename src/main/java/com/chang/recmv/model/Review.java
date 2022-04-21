@@ -1,6 +1,6 @@
 package com.chang.recmv.model;
 
-import java.sql.Timestamp;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +21,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @Entity
-public class Review {
+public class Review extends TimeEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,15 +48,9 @@ public class Review {
 	
 	private double rating; // 리뷰평가, not null 자동 추가
 	
+	private int view; // 조회 수
+	
 	//private int like; // 리뷰 좋아요 개수,  not null 자동 추가
-	
-	@CreationTimestamp
-	@Column(name = "creation_date")
-	private Timestamp creationDate; // 등록 날짜와시간
-	
-	@UpdateTimestamp
-	@Column(name = "update_date")
-	private Timestamp updateDate; // 수정 날짜와시간
 	
 	/*
 	// 연관관계 편의 메서드(양방향)

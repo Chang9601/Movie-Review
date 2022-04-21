@@ -26,7 +26,7 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/reviews")
-	public String join(Model model, @PageableDefault Pageable pageable) throws Exception {
+	public String reviews(Model model, @PageableDefault Pageable pageable) throws Exception {
 		model.addAttribute("reviews", reviewService.findAll(pageable));
 
 		return "review/reviews";
@@ -43,6 +43,7 @@ public class ReviewController {
 	
 	@GetMapping("/review/{id}")
 	public String read(@PathVariable int id, Model model) {
+		reviewService.updateView(id); 
 		model.addAttribute("review", reviewService.findById(id));
 		
 		return "review/read";

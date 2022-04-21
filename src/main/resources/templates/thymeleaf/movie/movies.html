@@ -9,11 +9,12 @@
 </head>
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
-		<div th:if="${not #lists.isEmpty(movies)}" class="container">
+		<div class="container">
 			<th:block th:each="movie : ${movies}">
 				<div class="card m-2">
 					<div class="card-body">
 						<span hidden="hidden" id="rating" th:text="${movie.rating}"></span>
+
 						<div class="form-group" th:if="${movie.image != ''}">
 							<img th:src="${movie.image}" width="300" height="400">
 						</div>
@@ -21,13 +22,10 @@
 							<img th:src="@{/img/none.png}" width="300" height="400">
 						</div>
 						<div class="form-group">
-							<a th:href="@{${movie.link}}" target="_blank">네이버 링크</a>
-						</div>
-						<div class="form-group">
 							제목: <span th:text="${movie.title}"></span>
 						</div>
 						<div class="form-group">
-							배우: <span th:text="${movie.cast}"></span>
+							배우: <span th:text="${movie.actor}"></span>
 						</div>
 						<div class="form-group">
 							줄거리: <span th:text="${movie.plot}"></span>
@@ -35,24 +33,25 @@
 						<div class="form-group" th:if="${movie.rating > 0.0}">
 							평점: <span th:text="${movie.rating}"></span>
 							<!--<div class="stars-outer">
-										<div class="stars-inner"></div>
-									</div>
-									(<span class="number-rating"></span>)	
-									-->
+									<div class="stars-inner"></div>
+								</div>
+								(<span class="number-rating"></span>)	
+								-->
 						</div>
 						<div class="form-group" th:unless="${movie.rating > 0.0}">
-							리뷰없음
-						</div>
+							리뷰없음</div>
 						<div class="form-group">
-							<a th:href="@{/rev/write/{num}(num=${movie.num})}" class="btn btn-primary">리뷰쓰기</a>
+							<a th:href="@{/review/write/{id}(id=${movie.id})}"
+								class="btn btn-primary">리뷰쓰기</a>
 						</div>
 					</div>
 				</div>
 			</th:block>
 		</div>
-		<div th:unless="${not #lists.isEmpty(movies)}" class="container">
+		<div th:if="${movies.empty}" class="container">
 			<div class="alert alert-danger">
-				<strong>입력하신 제목과 일치하는 영화를 찾을 수 없습니다. 정확한 제목을 입력하세요.(e.g. 맨인블랙 -> 맨 인 블랙)</strong>
+				<strong>입력하신 제목과 일치하는 영화를 찾을 수 없습니다. 정확한 제목을 입력하세요.(e.g.
+					맨인블랙 -> 맨 인 블랙)</strong>
 			</div>
 		</div>
 	</main>

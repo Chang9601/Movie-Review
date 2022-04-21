@@ -5,94 +5,105 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" th:href="@{/css/css/all.css}">
 <link rel="stylesheet" th:href="@{/css/stars.css}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script>
-	if(!!window.performance && window.performance.navigation.type == 2){
-		window.location.reload();
-		// !!는 변수를 불리언으로 형변환하는 방법
-	}
+	/* 	if(!!window.performance && window.performance.navigation.type == 2){
+	 window.location.reload();
+	 // !!는 변수를 불리언으로 형변환하는 방법
+	 } */
 </script>
 </head>
-	<th:block th:replace="~{include/layout :: body(~{this :: main})}">
-		<main class="main" th:fragment="main">
-			<div th:if="${not #lists.isEmpty(reviews)}" class="container">
-				<th:block th:each="review : ${reviews}">
-					<div class="card m-2">
-						<div class="card-body">
-							<div class="form-group" th:if="${review.movie.image != ''}">
-								<img th:src="${review.movie.image}" width="300" height="400">
-							</div>							
-							<div class="form-group" th:unless="${review.movie.image != ''}">
-								<img th:src="@{/img/none.png}" width="300" height="400">
-							</div>							
-							<div class="form-group">
-								글쓴이:
-								<a th:href="@{/review/list/{userNum}(userNum=${review.user.username})}" target="_blank"><span th:text=${review.user.username}></span></a>
-							</div>								
-							<div class="form-group">
-								영화: <span th:text="${review.movie.title}"></span>
-							</div>				
-							<div class="form-group">
-								제목: <span th:text="${review.title}"></span>
-							</div>						
-							<div class="form-group">
-							</div>						
-							<div class="form-group" th:if="${review.rating > 0.0}">
-								평점: <span th:text="${review.rating}"></span>
-										<!--<div class="stars-outer">
+<th:block th:replace="~{include/layout :: body(~{this :: main})}">
+	<main class="main" th:fragment="main">
+		<div class="container">
+			<form action="/posts/search" method="GET"
+				class="form-inline p-2 bd-highlight" role="search">
+				<input type="text" name="keyword" class="form-control" id="search"
+					placeholder="검색">
+				<button class="btn btn-success bi bi-search"></button>
+			</form>
+
+			<th:block th:each="review : ${reviews}">
+				<div class="card m-2">
+					<div class="card-body">
+						<div class="form-group" th:if="${review.movie.image != ''}">
+							<img th:src="${review.movie.image}" width="300" height="400">
+						</div>
+						<div class="form-group" th:unless="${review.movie.image != ''}">
+							<img th:src="@{/img/none.png}" width="300" height="400">
+						</div>
+						<div class="form-group">
+							글쓴이: <a
+								th:href="@{/review/list/{userNum}(userNum=${review.user.username})}"
+								target="_blank"><span th:text=${review.user.username}></span></a>
+						</div>
+						<div class="form-group">
+							영화: <span th:text="${review.movie.title}"></span>
+						</div>
+						<div class="form-group">
+							제목: <span th:text="${review.title}"></span>
+						</div>
+						<div class="form-group" th:if="${review.rating > 0.0}">
+							평점: <span th:text="${review.rating}"></span>
+							<!--<div class="stars-outer">
 											<div class="stars-inner"></div>
 										</div>
 										(<span class="number-rating"></span>)
-										-->	
-							</div>	
-			<!-- TO-DO: 좋아요 				<div class="form-group">
+										-->
+						</div>
+						<div class="form-group">
+							조회: <span th:text="${review.view}"></span>
+						</div>
+						<div class="form-group">
+							날짜: <span th:text="${review.creationDate}"></span>
+						</div>
+						<!-- TO-DO: 좋아요 				<div class="form-group">
 								👍: <span th:text="${review.recom}"></span>
-							</div>	 -->											
-							<div class="form-group">
-								<a th:href="@{/review/{id}(id=${review.id})}" class="btn btn-primary">리뷰읽기</a>
-							</div>									
+							</div>	 -->
+						<div class="form-group">
+							<a th:href="@{/review/{id}(id=${review.id})}"
+								class="btn btn-primary">리뷰읽기</a>
 						</div>
 					</div>
-				</th:block>			
+				</div>
+			</th:block>
+
 			<nav style="text-align: center;">
-			    <ul th:if="${not #lists.isEmpty(reviews)}"
-			    	class="pagination d-flex justify-content-center" 
-			        th:with="start=${T(Math).floor(reviews.number / 10) * 10 + 1},
+				<ul th:if="${!reviews.empty}"
+					class="pagination d-flex justify-content-center"
+					th:with="start=${T(Math).floor(reviews.number / 10) * 10 + 1},
 			                    last=(${start + 9 < reviews.totalPages ? start + 9 : reviews.totalPages})">
-			        <li>
-			            <a th:href="@{/reviews(page=1)}" class="page-link" aria-label="First">
-			                <span aria-hidden="true">처음</span>
-			            </a>
-			        </li>
-			
-			        <li th:class="${reviews.first} ? 'disabled'">
-			            <a th:href="${reviews.first} ? '#' :@{/reviews(page=${reviews.number})}" class="page-link" aria-label="Previous">
-			                <span aria-hidden="true">&lt;</span>
-			            </a>
-			        </li>
-			
-			        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == reviews.number + 1} ? 'active'">
-			            <a th:text="${page}" th:href="@{/reviews(page=${page})}" class="page-link"></a>
-			        </li>
-			
-			        <li th:class="${reviews.last} ? 'disabled'">
-			            <a th:href="${reviews.last} ? '#' : @{/reviews(page=${reviews.number + 2})}" class="page-link" aria-label="Next">
-			                <span aria-hidden="true">&gt;</span>
-			            </a>
-			        </li>
-			
-			        <li>
-			            <a th:href="@{/reviews(page=${reviews.totalPages})}" class="page-link" aria-label="Last">
-			                <span aria-hidden="true">끝</span>
-			            </a>
-			        </li>
-			    </ul>
-			</nav>	
+					<li><a th:href="@{/reviews(page=1)}" class="page-link"
+						aria-label="First"> <span aria-hidden="true">처음</span>
+					</a></li>
+
+					<li th:class="${reviews.first} ? 'disabled'"><a
+						th:href="${reviews.first} ? '#' :@{/reviews(page=${reviews.number})}"
+						class="page-link" aria-label="Previous"> <span
+							aria-hidden="true">&lt;</span>
+					</a></li>
+
+					<li th:each="page: ${#numbers.sequence(start, last)}"
+						th:class="${page == reviews.number + 1} ? 'active'"><a
+						th:text="${page}" th:href="@{/reviews(page=${page})}"
+						class="page-link"></a></li>
+
+					<li th:class="${reviews.last} ? 'disabled'"><a
+						th:href="${reviews.last} ? '#' : @{/reviews(page=${reviews.number + 2})}"
+						class="page-link" aria-label="Next"> <span aria-hidden="true">&gt;</span>
+					</a></li>
+
+					<li><a th:href="@{/reviews(page=${reviews.totalPages})}"
+						class="page-link" aria-label="Last"> <span aria-hidden="true">끝</span>
+					</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div th:if="${reviews.empty}" class="container">
+			<div class="alert alert-danger">
+				<strong>리뷰가 존재하지 않습니다. 첫 리뷰의 주인공이 되세요!</strong>
 			</div>
-			<div th:unless="${not #lists.isEmpty(reviews)}" class="container">
-				<div class="alert alert-danger">
-		    		<strong>리뷰가 존재하지 않습니다. 첫 리뷰의 주인공이 되세요!</strong>
-		  		</div>			
-			</div>				
-		</main>
+		</div>
+	</main>
 </html>
