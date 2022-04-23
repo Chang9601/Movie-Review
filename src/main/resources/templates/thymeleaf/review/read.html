@@ -44,8 +44,8 @@
 			</div>
 			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
  			<span th:if="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
-				<a th:href="@{/review/update/{id}(id=${review.id})}" class="btn btn-warning">리뷰수정</a>
-				<button type="button" id="btn--delete--review" class="btn btn-danger">리뷰삭제</button>
+				<a th:href="@{/reviews/{id}/update(id=${review.id})}" class="btn btn-warning">리뷰수정</a>
+				<button type="button" id="btn--review--delete" class="btn btn-danger">리뷰삭제</button>
 			</span> 
 			
 			<span th:unless="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">

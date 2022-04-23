@@ -16,91 +16,96 @@ const validateReview = (title, content, rating) => {
 		$('#content--ok').html('내용을 입력하세요.').css('color', 'red');
 		return false;
 	} else $('#content--ok').html('');
-	
+
 	return true;
 };
 
 let review = {
 	exec: function() {
-		$('#btn--write').on('click', () => {
-			this.write();
+		$('#btn--review--create').on('click', () => {
+			this.create();
 		});
 
-		$('#btn--update--review').on('click', () => {
+		$('#btn--review--update').on('click', () => {
 			this.update();
 		});
-		
-		$('#btn--delete--review').on('click', () => {
+
+		$('#btn--review--delete').on('click', () => {
 			this.delete();
 		});
-		
+
+		$('#btn--review--search').on('click', () => {
+			this.search();
+		});
+
+
 		$("#btn-like-rev").on("click", () => {
 			this.like();
 		});
 	},
 
-	write: function() {
+	create: function() {
 		let title = $('#title').val(); // 리뷰 제목
 		let content = $('#content').val(); // 리뷰 내용
 		let rating = $('#rating').val(); // 평점
 		let movieId = $('#movie--id').val(); // 영화 키
-		
-		if(!validateReview(title, content, rating))
+
+		if (!validateReview(title, content, rating))
 			return;
-		
+
 		// form의 속성값 변경
 		let fr = $('form[role="form"]');
 
-		fr.attr('action', `/recmv/review/${movieId}`);
+		fr.attr('action', `/recmv/reviews/movies/${movieId}`);
 		fr.attr('method', 'post');
 		fr.submit();
-				
-/*		$.ajax({
-			url: "/recmv/api/rev/ckDupRev",
-			type: "GET",
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: { userNum: userNum, movieNum: movieNum, }
-		}).done(function(resp) {
-			console.log(resp);
-			if (resp !== 0) {
-				alert("이미 리뷰를 작성하셨습니다.");
-				return false;
-			}
 
-			if (title === "") {
-				$("#title-ck").html("제목을 입력하세요.").css("color", "red");
-				return false;
-			} else $("#title-ck").html("");
-
-			if (rating === "") {
-				$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
-				return false;
-			} else if (rating > 5 || rating < 0.0) {
-				$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
-				return false;
-			}
-			else $("#rating-ck").html("");
-
-			if (content === "") {
-				$("#content-ck").html("내용을 입력하세요.").css("color", "red");
-				return false;
-			} else $("#content-ck").html("");
-
-			$.ajax({
-				url: "/recmv/api/rev/write",
-				type: "POST",
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify(rev)
-			}).done(function(resp) {
-				console.log(resp);
-				alert("리뷰작성이 완료되었습니다.")
-				location.replace("/recmv/rev/main");
-			}).fail(function(err) {
-				alert(JSON.stringify(err));
-			});
-		}).fail(function(err) {
-			alert(JSON.stringify(err));
-		});*/
+		/*		$.ajax({
+					url: "/recmv/api/rev/ckDupRev",
+					type: "GET",
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					data: { userNum: userNum, movieNum: movieNum, }
+				}).done(function(resp) {
+					console.log(resp);
+					if (resp !== 0) {
+						alert("이미 리뷰를 작성하셨습니다.");
+						return false;
+					}
+		
+					if (title === "") {
+						$("#title-ck").html("제목을 입력하세요.").css("color", "red");
+						return false;
+					} else $("#title-ck").html("");
+		
+					if (rating === "") {
+						$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
+						return false;
+					} else if (rating > 5 || rating < 0.0) {
+						$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
+						return false;
+					}
+					else $("#rating-ck").html("");
+		
+					if (content === "") {
+						$("#content-ck").html("내용을 입력하세요.").css("color", "red");
+						return false;
+					} else $("#content-ck").html("");
+		
+					$.ajax({
+						url: "/recmv/api/rev/write",
+						type: "POST",
+						contentType: "application/json; charset=UTF-8",
+						data: JSON.stringify(rev)
+					}).done(function(resp) {
+						console.log(resp);
+						alert("리뷰작성이 완료되었습니다.")
+						location.replace("/recmv/rev/main");
+					}).fail(function(err) {
+						alert(JSON.stringify(err));
+					});
+				}).fail(function(err) {
+					alert(JSON.stringify(err));
+				});*/
 	},
 
 	update: function() {
@@ -108,24 +113,24 @@ let review = {
 		let content = $('#content').val(); // 리뷰 내용
 		let rating = $('#rating').val(); // 평점
 		let id = $('#id').val(); // 리뷰 키
-		
-		if(!validateReview(title, content, rating))
+
+		if (!validateReview(title, content, rating))
 			return;
-			
+
 		let review = {
 			title: title,
 			content: content,
 			rating: rating
 		};
-		
+
 		$.ajax({
-			url: `/recmv/review/${id}`,
+			url: `/recmv/reviews/${id}/update`,
 			type: 'PUT',
-			contentType: 'application/json; charset=UTF-8', 
+			contentType: 'application/json; charset=UTF-8',
 			data: JSON.stringify(review),
 		}).done(function(res) { // 응답 결과
 			alert('리뷰수정 완료');
-			location.replace(`/recmv/review/${res.data}`);
+			location.replace(`/recmv/reviews/${res.data}`);
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
 		});
@@ -134,19 +139,45 @@ let review = {
 	delete: function() {
 		let id = $('#id').val(); // 리뷰 키
 		let ok = confirm('정말로 삭제하시겠습니까?');
-		
-		if(!ok)
+
+		if (!ok)
 			return;
-		
+
 		$.ajax({
-			url: `/recmv/review/${id}`,
+			url: `/recmv/reviews/${id}`,
 			type: 'DELETE',
 		}).done(function(res) {
 			alert('리뷰삭제 완료');
-			location.replace('/recmv/reviews');			
+			location.replace('/recmv/reviews');
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
 		});
+	},
+
+	search: function() {
+		let query = $('#query').val();
+		let choice = $('#choice').val();
+		
+		if (query === '') {
+			alert('검색할 리뷰의 제목 혹은 내용을 입력하세요.');
+			return false;
+		}
+		
+		let fr = $('form[role="form"]');
+
+		fr.attr('action', `/recmv/reviews/search?choice=${choice}&query=${query}`);
+		fr.attr('method', 'get');
+		fr.submit();
+		
+/*		$.ajax({
+			url: `/recmv/reviews/search?query=${query}&choice=${choice}`,
+			type: 'GET',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		}).done(function(res) {
+			location.replace(`/recmv/movies?query=${query}`);
+		}).fail(function(err) {
+			alert(JSON.stringify(err));
+		});*/
 	},
 
 	like: function() {

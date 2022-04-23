@@ -19,4 +19,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	
 	// Containing: LIKE 검색 가능(즉, %{query}%)
 	Page<Review> findByTitleContaining(@Param("query") String query, Pageable pageable);
+	
+	Page<Review> findByContentContaining(@Param("query") String query, Pageable pageable);
 }

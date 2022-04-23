@@ -96,10 +96,11 @@ let user = {
 				event.preventDefault();
 		});
 
-		$("#btn-upd-user").on("click", () => {
+		$('#btn--user--update').on('click', () => {
 			this.update();
 		});
-		$("#btn-del-user").on("click", () => {
+		
+		$('#btn--user--delete').on('click', () => {
 			this.delete();
 		});
 	},

@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// 비밀번호 암호화 객체 Bean으로 등록(IoC 컨테이너)
 	@Bean
-	public BCryptPasswordEncoder encoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
  
@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// DB의 암호환된 비밀번호와 비교하기 위해서 로그인 과정에서 전달받은 password를 BCryptPasswordEncoder로 암호화
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(principalDetailsService).passwordEncoder(encoder());
+		auth.userDetailsService(principalDetailsService).passwordEncoder(passwordEncoder());
 	}
 	
 	// 인증을 무시할 경로 설정

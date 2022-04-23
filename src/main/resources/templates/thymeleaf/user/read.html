@@ -15,7 +15,6 @@
 					<tr>
 						<th>아이디</th>
 						<th>이메일</th>
-						<th>가입날짜</th>
 						<th>회원수정</th>
 						<th>회원탈퇴</th>
 						<th>나의리뷰</th>
@@ -23,12 +22,11 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><span th:text="${user.id}"></span></td>
+						<td><span th:text="${user.username}"></span></td>
 						<td><span th:text="${user.email}"></span></td>
-						<td><span th:text="${user.createDate}"></span></td>
-						<td><a href="/recmv/user/update">🔨</a></td>
-						<td><a href="/recmv/user/delete">📌</a></td>
-						<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td>
+						<td><a th:href="@{/users/{id}/update(id=${user.id})}">🔨</a></td>
+<!--						<td><a href="/recmv/user/delete">📌</a></td>
+						<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td> -->
 					</tr>
 				</tbody>
 			</table>

@@ -58,7 +58,7 @@ public class ReviewService {
 	@Transactional(readOnly = true)
 	public Review findById(int id) {
 		return reviewRepository.findById(id).orElseThrow(() ->{
-			return new IllegalArgumentException("리뷰 찾기 실패: 아이디 없음");
+			return new IllegalStateException("리뷰 찾기 실패: 아이디 없음");
 		});
 	}
 	
@@ -66,7 +66,7 @@ public class ReviewService {
 	@Transactional
 	public void update(Review review, int id) {
 		Review entity = reviewRepository.findById(id).orElseThrow(() -> {
-			return new IllegalArgumentException("리뷰 수정 실패: 아이디 없음");			
+			return new IllegalStateException("리뷰 수정 실패: 아이디 없음");			
 		});
 		
 		entity.setTitle(review.getTitle());
@@ -82,5 +82,21 @@ public class ReviewService {
 	@Transactional
 	public int updateView(int id) {
 		return reviewRepository.updateView(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<Review> findByTitleContaining(String query, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);		
+		
+		return reviewRepository.findByTitleContaining(query, pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<Review> findByContentContaining(String query, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);		
+		
+		return reviewRepository.findByContentContaining(query, pageable);
 	}
 }

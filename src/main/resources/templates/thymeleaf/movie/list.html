@@ -41,16 +41,42 @@
 						<div class="form-group" th:unless="${movie.rating > 0.0}">
 							리뷰없음</div>
 						<div class="form-group">
-							<a th:href="@{/review/write/{id}(id=${movie.id})}"
+							<a th:href="@{/reviews/movies/{id}(id=${movie.id})}"
 								class="btn btn-primary">리뷰쓰기</a>
 						</div>
 					</div>
 				</div>
 			</th:block>
+			<nav style="text-align: center;">
+				<ul th:if="${!movies.empty}"
+					class="pagination d-flex justify-content-center"
+					th:with="start=${T(Math).floor(movies.number / 10) * 10 + 1},
+			                    last=(${start + 9 < movies.totalPages ? start + 9 : movies.totalPages})">
+					<li><a th:href="@{/movies(page=1, query=${query})}" class="page-link"
+						aria-label="First"> <span aria-hidden="true">처음</span>
+					</a></li>
+					<li th:class="${movies.first} ? 'disabled'"><a
+						th:href="${movies.first} ? '#' :@{/movies(page=${movies.number}, query=${query})}"
+						class="page-link" aria-label="Previous"> <span
+							aria-hidden="true">&lt;</span>
+					</a></li>
+					<li th:each="page: ${#numbers.sequence(start, last)}"
+						th:class="${page == movies.number + 1} ? 'active'"><a
+						th:text="${page}" th:href="@{/movies(page=${page}, query=${query})}" class="page-link"></a>
+					</li>
+					<li th:class="${movies.last} ? 'disabled'"><a
+						th:href="${movies.last} ? '#' : @{/movies(page=${movies.number + 2}, query=${query})}"
+						class="page-link" aria-label="Next"> <span aria-hidden="true">&gt;</span>
+					</a></li>
+					<li><a th:href="@{/movies(page=${movies.totalPages}, query=${query})}"
+						class="page-link" aria-label="Last"> <span aria-hidden="true">끝</span>
+					</a></li>
+				</ul>
+			</nav>
 		</div>
 		<div th:if="${movies.empty}" class="container">
 			<div class="alert alert-danger">
-				<strong>입력하신 제목과 일치하는 영화를 찾을 수 없습니다. 정확한 제목을 입력하세요.(e.g.
+				<strong>검색과 일치하는 영화를 찾을 수 없습니다. 정확한 제목을 입력하세요.(e.g.
 					맨인블랙 -> 맨 인 블랙)</strong>
 			</div>
 		</div>

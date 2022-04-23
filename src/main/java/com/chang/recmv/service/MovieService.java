@@ -42,7 +42,7 @@ public class MovieService {
 	@Transactional(readOnly = true)
 	public Movie findById(int id) {
 		return movieRepository.findById(id).orElseThrow(() ->{
-			return new IllegalArgumentException("영화 찾기 실패: 아이디 없음");
+			return new IllegalStateException("영화 찾기 실패: 아이디 없음");
 		});
 	}
 	

@@ -34,8 +34,8 @@ public class ReviewApiController {
 		this.movieService = movieService;
 	}
 
-	@PostMapping("/review/{id}")
-	public String write(@Valid ReviewDto reviewDto, Errors errors, Model model, @PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	@PostMapping("/reviews/movies/{id}")
+	public String create(@Valid ReviewDto reviewDto, Errors errors, Model model, @PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
 		/* redirect 때문인지 오류 메시지 작동 X
 		 * if(errors.hasErrors()) { model.addAttribute("reviewDto", reviewDto);
@@ -72,14 +72,14 @@ public class ReviewApiController {
 	 * return "redirect:/review/" + String.valueOf(id); }
 	 */
 
-	@PutMapping("/review/{id}")
+	@PutMapping("/reviews/{id}/update")
 	public @ResponseBody ResponseDto<Integer> update(@RequestBody Review review, @PathVariable int id) {
 		reviewService.update(review, id);
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), id); // 변경한 리뷰로 이동		
 	}
 	
-	@DeleteMapping("/review/{id}")
+	@DeleteMapping("/reviews/{id}")
 	public @ResponseBody ResponseDto<Integer> delete(@PathVariable int id) {
 		reviewService.delete(id);
 		

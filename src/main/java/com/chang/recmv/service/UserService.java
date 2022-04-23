@@ -51,4 +51,16 @@ public class UserService {
 		User user = userDto.toEntity();
 		userRepository.save(user);
 	}
+	
+	@Transactional(readOnly = true)
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+	
+	@Transactional(readOnly = true)
+	public User findById(int id) {
+		return userRepository.findById(id).orElseThrow(() -> {
+			return new IllegalStateException("사용자 찾기 실패: 아이디 없음");				
+		});
+	}
 }
