@@ -23,7 +23,7 @@
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
 		<div class="container">
-			<form role="form" th:action="@{/reviews/{id}(id=${movie.id})}" method="post" modelAttribute="reviewDto">
+			<form role="form" th:action="@{/api/movies/{id}/reviews(id=${movie.id})}" method="post" modelAttribute="reviewDto">
 				<input type="hidden" name="movie--id" id="movie--id" th:value="${movie.id}">			
 				<div class="form-group">
 					<label for="username">아이디</label> 

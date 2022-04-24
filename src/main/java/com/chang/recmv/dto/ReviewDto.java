@@ -14,13 +14,13 @@ import lombok.ToString;
 @ToString
 public class ReviewDto {
 	@NotBlank(message = "제목을 입력하세요.")
-	private String title; // 아이디
+	private String title;
 	
 	@NotBlank(message = "내용을 입력하세요.")
-	private String content; // 비밀번호
+	private String content;
 	
 	@PositiveOrZero(message = "별점을 입력하세요.(0 ~ 5)")
-	private double rating; // 평점
+	private double rating;
 	
 	// ReviewDto(DTO) -> Review(Entity)
 	public Review toEntity() {

@@ -3,10 +3,12 @@ package com.chang.recmv.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,11 +34,16 @@ public class User {
 	@Column(name = "user_id")
 	private int id; // 키
 	
-	// 연관관계의 주인
+	// 연관관계의 주인 X
 	// 반대쪽 필드의 이름을 값으로 설정
 	// 사용자와 리뷰: 일대다
-	////@OneToMany(mappedBy = "user")
-	//private List<Review> reviews;
+	// 연관관계의 주인이 아니기 때문에 mappedBy 키워드 사용
+	// User 삭제 시 외래 키로 걸린 모든 Review 삭제 위해서 CascadeType.REMOVE 사용
+	// @OneToMany는 기본적으로 FetchType.LAZY, @AuthenticationPrincipal은 SQL 쿼리 실행 시 User의 연관된 reviews에 접근하기 때문에 즉시 로딩, 따라서 FetchType.EAGER
+	// ★컬렉션의 경우 user.getReviews().get(0)처럼 실제 데이터 조회 시 데이터베이스를 조회해서 초기화, 따라서 user.getReviews() 호출 시 컬렉션 초기화 X
+	// Resolved [org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.chang.recmv.model.User.reviews, could not initialize proxy - no Session]
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	private List<Review> reviews;
 	
 	@Column(nullable = false, length = 100, unique = true)
 	private String username; // 아이디

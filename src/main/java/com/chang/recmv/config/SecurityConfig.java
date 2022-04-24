@@ -2,6 +2,7 @@ package com.chang.recmv.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		this.principalDetailsService = principalDetailsService;
 	}
 	
+	
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+
+
+
 	// 비밀번호 암호화 객체 Bean으로 등록(IoC 컨테이너)
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -49,7 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable(); // 나중에 토큰으로 수정 필요
 		
 		http.authorizeRequests() // HttpServletRequest에 따라 접근 제한
-			.antMatchers("/user/**").authenticated() // user는 인증 필요
+			.antMatchers("/users/**").authenticated() // user는 인증 필요
+			.antMatchers("/api/**").authenticated() // user는 인증 필요
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // admin은 권한 필요
 			.anyRequest().permitAll() // 나머지 권한없이 모두 허용
 			.and()

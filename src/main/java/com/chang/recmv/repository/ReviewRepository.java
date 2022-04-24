@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	Page<Review> findByTitleContaining(@Param("query") String query, Pageable pageable);
 	
 	Page<Review> findByContentContaining(@Param("query") String query, Pageable pageable);
+	
+	Page<Review> findByMovieId(int id, Pageable pageable);
 }

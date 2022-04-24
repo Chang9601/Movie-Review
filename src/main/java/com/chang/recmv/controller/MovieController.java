@@ -19,7 +19,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/movies")
-	public String list(@RequestParam String query, Model model, @PageableDefault Pageable pageable) throws Exception { // 세션 정보 접근
+	public String list(@RequestParam(name = "query") String query, Model model, @PageableDefault Pageable pageable) throws Exception { // 세션 정보 접근
 		model.addAttribute("movies", movieService.findByTitleContaining(query, pageable));
 		model.addAttribute("query", query);
 		

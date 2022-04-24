@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,7 +51,41 @@
 			<span th:unless="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
 				<button id="btn-like-rev" class="btn btn-success">추천하기</button>
 			</span>
-		</div>
+			<hr />
+			
+			<div class="card">
+				<div class="card-header bi bi-chat-right-dots" >댓글</div>
+				<ul id="reply-box" class="list-group-flush"><!-- 
+					<th:block th:each="comment : ${review.comment}">
+						<li id="reply-${reply.id }" class="list-group-item d-flex justify-content-between">
+							<div>${reply.content }</div>
+							<div class="d-flex">
+								<div class="font-italic">
+									글쓴이: <span th:text="${comment.user.username}"></span>
+								</div>
+								<button onClick="index.replyDelete(${board.id}, ${reply.id })" class="badge">삭제</button>
+							</div>
+						</li>				
+					</th:block> -->
+				</ul>
+			</div>
+			
+			<br />	
+								
+			<div class="card" sec:authorize-expr="isAuthenticated()">
+				<div class="card-header bi bi-chat-right-dots">댓글 작성하기</div>
+				<form role="form" th:action="@{/api/reviews/{id}/comments(id=${review.id})}" method="post" modelAttribute="commentDto">
+					<input type="hidden" name="review--id" id="review--id" th:value="${review.id}"> 					
+					<div class="card-body">
+						<textarea name="content" id="content" class="form-control" rows="1"></textarea>
+					</div>
+					<div class="card-footer">
+						<button type="button" id="btn--comment--create" class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+					</div>
+				</form>
+			</div>
+		</div>			
+		
 		<script th:inline="javascript">
 			  	document.addEventListener('DOMContentLoaded', getRating);		
 			  

@@ -17,16 +17,6 @@
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
 		<div class="container">
-			<form role="form" class="form-inline p-2 bd-highlight">
-				<label for="query"></label> 			
-				<input type="text" name="query" class="form-control" id="query" placeholder="리뷰 검색">
-				<select id="choice" name="choice" class="form-control">
-					<option value="title">제목</option>
-					<option value="content">내용</option>
-				</select>
-				<button type="button" id="btn--review--search" class="btn btn-light">🔍</button>
-			</form>
-
 			<th:block th:each="review : ${reviews}">
 				<div class="card m-2">
 					<div class="card-body">
@@ -37,7 +27,7 @@
 							<img th:src="@{/img/none.png}" width="300" height="400">
 						</div>
 						<div class="form-group">
-							아이디: <a
+							글쓴이: <a
 								th:href="@{/review/list/{userNum}(userNum=${review.user.username})}"
 								target="_blank"><span th:text=${review.user.username}></span></a>
 						</div>
@@ -46,14 +36,6 @@
 						</div>
 						<div class="form-group">
 							제목: <span th:text="${review.title}"></span>
-						</div>
-						<div class="form-group" th:if="${review.rating > 0.0}">
-							평점: <span th:text="${review.rating}"></span>
-							<!--<div class="stars-outer">
-											<div class="stars-inner"></div>
-										</div>
-										(<span class="number-rating"></span>)
-										-->
 						</div>
 						<div class="form-group">
 							조회: <span th:text="${review.view}"></span>
@@ -77,27 +59,27 @@
 					class="pagination d-flex justify-content-center"
 					th:with="start=${T(Math).floor(reviews.number / 10) * 10 + 1},
 			                    last=(${start + 9 < reviews.totalPages ? start + 9 : reviews.totalPages})">
-					<li><a th:href="@{/reviews(page=1)}" class="page-link"
+					<li><a th:href="@{/reviews/movies/id/{id}(page=1, id=${id})}" class="page-link"
 						aria-label="First"> <span aria-hidden="true">처음</span>
 					</a></li>
 
 					<li th:class="${reviews.first} ? 'disabled'"><a
-						th:href="${reviews.first} ? '#' :@{/reviews(page=${reviews.number})}"
+						th:href="${reviews.first} ? '#' :@{/reviews/movies/id/{id}(page=${reviews.number}, id=${id})}"
 						class="page-link" aria-label="Previous"> <span
 							aria-hidden="true">&lt;</span>
 					</a></li>
 
 					<li th:each="page: ${#numbers.sequence(start, last)}"
 						th:class="${page == reviews.number + 1} ? 'active'"><a
-						th:text="${page}" th:href="@{/reviews(page=${page})}"
+						th:text="${page}" th:href="@{/reviews/movies/id/{id}(page=${page}, id=${id})}"
 						class="page-link"></a></li>
 
 					<li th:class="${reviews.last} ? 'disabled'"><a
-						th:href="${reviews.last} ? '#' : @{/reviews(page=${reviews.number + 2})}"
+						th:href="${reviews.last} ? '#' : @{/reviews/movies/id/{id}(page=${reviews.number + 2}, id=${id})}"
 						class="page-link" aria-label="Next"> <span aria-hidden="true">&gt;</span>
 					</a></li>
 
-					<li><a th:href="@{/reviews(page=${reviews.totalPages})}"
+					<li><a th:href="@{/reviews/movies/id/{id}(page=${reviews.totalPages}, id=${id})}"
 						class="page-link" aria-label="Last"> <span aria-hidden="true">끝</span>
 					</a></li>
 				</ul>

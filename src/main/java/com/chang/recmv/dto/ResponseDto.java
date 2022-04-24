@@ -1,15 +1,18 @@
 package com.chang.recmv.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 public class ResponseDto<T> {
 	int status;
 	T data;
+	
+	public ResponseDto (int status, T data) {
+		this.status = status;
+		this.data = data;
+	}
 }

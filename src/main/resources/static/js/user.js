@@ -5,6 +5,7 @@ const validateUsername = (username) => {
 		if (!regex.test(username[i]))
 			return false;
 	}
+	
 	return true;
 };
 
@@ -15,6 +16,19 @@ const validatePassword = (password) => {
 		if (!regex.test(password[i]))
 			return false;
 	}
+	
+	return true;
+};
+
+// email 유효성
+const validateEmail = (email) => {
+	const regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4})$/;
+
+	if (!regex.test(email)) {
+		$('#email--ok').html('이메일이 형식에 맞지 않습니다.').css('color', 'red');
+		return false;
+	} else $('#email--ok').html('');
+
 	return true;
 };
 
@@ -99,7 +113,7 @@ let user = {
 		$('#btn--user--update').on('click', () => {
 			this.update();
 		});
-		
+
 		$('#btn--user--delete').on('click', () => {
 			this.delete();
 		});
@@ -132,87 +146,77 @@ let user = {
 	},
 
 	update: function() {
-		var pwRegex = /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*]+)).{7,14}$/;
-		var emailRegex = /[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4})/;
+		const passwordRegex = /^(?=(.*[a-z])+)(?=(.*[A-Z])+)(?=(.*[0-9])+)(?=(.*[!@#$%^&*]+)).{7,14}$/;
+		const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z]{2,4})$/;
+	
+		let id = $('#id').val();
+		let username = $('#username').val();
+		let password = $('#password').val();
+		let confirmPassword = $('#confirm--password').val();
+		let email = $('#email').val();
 
-		var id = $("#id").val();
-		var ppw = $("#ppw").val();
-		var pw = $("#pw").val();
-		var cpw = $("#cpw").val();
-		var email = $("#email").val();
-
-		var user = {
-			id: id,
-			pw: pw,
-			email: email
-		};
-
-		if (!pwRegex.test(pw) || !ckPw(pw)) {
-			$("#pw-ck").html("7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.").css("color", "red");
+		if (!passwordRegex.test(password) || !validatePassword(password)) {
+			$('#password--ok').html('7~14자의 영문 대소문자, 숫자, 특수문자(!@#$%^&*)만 사용 가능합니다. 각각 적어도 1개 이상 포함하세요.').css('color', 'red');
 			return false;
-		} else $("#pw-ck").html("")
+		} else $('#password--ok').html('');
 
-		if (pw === ppw) {
-			$("#pw-ck").html("현재 비밀번호와 다른 비밀번호를 입력하세요.").css("color", "red");
+		if (confirmPassword !== password) {
+			$('#confirm--password--ok').html('비밀번호가 일치하지 않습니다.').css('color', 'red');
 			return false;
-		} else $("#pw-ck").html("");
-
-		if (pw !== cpw) {
-			$("#cpw-ck").html("비밀번호가 일치하지 않습니다.").css("color", "red");
-			return false;
-		} else $("#cpw-ck").html("");
+		} else $('#confirm--password--ok').html('');
 
 		if (!emailRegex.test(email)) {
-			$("#email-ck").html("이메일이 형식에 맞지 않습니다.").css("color", "red");
+			$('#email--ok').html('이메일이 형식에 맞지 않습니다.').css('color', 'red');
 			return false;
-		} else $("#email-ck").html("");
+		} else $('#email--ok').html('');
 
+		let user = {
+			username: username,
+			password: password,
+			email: email
+		};
+		
 		$.ajax({
-			url: "/recmv/api/user/update",
-			type: "PUT",
-			contentType: "application/json; charset=UTF-8",
+			url: `/recmv/api/users/${id}/update`,
+			type: 'PUT',
+			contentType: 'application/json; charset=UTF-8',
 			data: JSON.stringify(user),
-		}).done(function(resp) {
-			console.log(resp);
-			alert("회원수정이 완료되었습니다.");
-			location.replace("/recmv/user/read");
+		}).done(function(res) { // 응답 결과
+			alert('회원수정 완료');
+			location.replace(`/recmv/users?username=${res.data}`);
 		}).fail(function(err) {
-			alert(JSON.stringify(err))
+			alert(JSON.stringify(err));
 		});
 	},
 
 	delete: function() {
-		var id = $("#id").val();
-		var pw = $("#pw").val();
-		var rpw = $("#rpw").val();
-
-		var user = {
-			id: id,
-			pw: pw
+		let id = $('#id').val();
+		let password = $('#password').val();
+		
+		if (password === '') {
+			$('#password--ok').html('비밀번호를 입력하세요.').css('color', 'red');
+			return false;
+		} else $('#password--ok').html('');
+		
+		let ok = confirm('정말로 탈퇴하시겠습니까?');
+		if (!ok) return;
+		
+		let user = {
+			password: password
 		};
 
-		if (pw === "") {
-			$("#pw-ck").html("비밀번호를 입력하세요.").css("color", "red");
-			return false;
-		} else $("#pw-ck").html("");
-
-		if (pw !== rpw) {
-			$("#pw-ck").html("비밀번호가 일치하지 않습니다.").css("color", "red");
-			return false;
-		} else $("#pw-ck").html("");
-
-		var con = confirm("탈퇴하시겠습니까?");
-		if (con === false) return false;
-
 		$.ajax({
-			url: "/recmv/api/user/delete",
-			type: "DELETE",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify(user)
-		}).done(function(resp) {
-			console.log(resp);
-			alert("회원탈퇴가 완료되었습니다.");
-			location.replace("/recmv");
+			url: `/recmv/api/users/${id}/delete`,
+			type: 'DELETE',
+			contentType: 'application/json; charset=UTF-8',
+			data: JSON.stringify(user),			
+		}).done(function(res) {
+			if(res.data === 0) {
+				alert('회원탈퇴 완료');
+				location.replace('/recmv/');
+			} else {
+				alert('비밀번호가 일치하지 않습니다.');
+			}
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
 		});

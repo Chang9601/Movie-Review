@@ -43,7 +43,7 @@ public class ReviewService {
 		Review review = reviewDto.toEntity();
 		review.setUser(user);
 		review.setMovie(movie);
-		
+			
 		reviewRepository.save(review);
 	}
 	
@@ -57,17 +57,19 @@ public class ReviewService {
 	
 	@Transactional(readOnly = true)
 	public Review findById(int id) {
-		return reviewRepository.findById(id).orElseThrow(() ->{
-			return new IllegalStateException("리뷰 찾기 실패: 아이디 없음");
+		return reviewRepository.findById(id).orElseThrow(() -> {
+			return new IllegalStateException("리뷰 찾기 실패: Review 객체 없음");
 		});
 	}
 	
 	// 해당 함수로 종료 시(Service가 종료될 때)에 트랜잭션 종료, 변경 감지로 업데이트
 	@Transactional
-	public void update(Review review, int id) {
+	public void update(ReviewDto reviewDto, int id) {
 		Review entity = reviewRepository.findById(id).orElseThrow(() -> {
-			return new IllegalStateException("리뷰 수정 실패: 아이디 없음");			
+			return new IllegalStateException("리뷰 수정 실패: Review 객체 없음");			
 		});
+		
+		Review review = reviewDto.toEntity();
 		
 		entity.setTitle(review.getTitle());
 		entity.setRating(review.getRating());
@@ -98,5 +100,13 @@ public class ReviewService {
 		pageable = PageRequest.of(page, 5);		
 		
 		return reviewRepository.findByContentContaining(query, pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<Review> findByMovieId(int id, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);	
+		
+		return reviewRepository.findByMovieId(id, pageable);
 	}
 }

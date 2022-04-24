@@ -22,6 +22,11 @@ public class ReviewController {
 	private final MovieService movieService;
 	
 	private final ReviewService reviewService;
+
+	// 다른 사용자 정보 접근 시 이동	
+	private boolean isUserPrincipalDetailsSame(String user, String principalDetail) {
+		return user.equals(principalDetail);
+	}
 	
 	public ReviewController(MovieService movieService, ReviewService reviewService) {
 		this.movieService = movieService;
@@ -36,9 +41,8 @@ public class ReviewController {
 	}	
 	
 	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") // 미리 접근 권한 요구
-	@GetMapping("/reviews/movies/{id}")
-	public String create(@PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		System.out.println("사용자 세션: " + principalDetails.getUser());
+	@GetMapping("/movies/{id}/reviews")
+	public String create(@PathVariable int id, Model model) {
 		model.addAttribute("movie", movieService.findById(id));
 		
 		return "review/create";
@@ -52,9 +56,16 @@ public class ReviewController {
 		return "review/read";
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") // 미리 접근 권한 요구
 	@GetMapping("/reviews/{id}/update")
-	public String update(@PathVariable int id, Model model) {
-		model.addAttribute("review", reviewService.findById(id));
+	public String update(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int id, Model model) {
+		Review review = reviewService.findById(id);
+		
+		if(!isUserPrincipalDetailsSame(review.getUser().getUsername(), principalDetails.getUsername())) {
+			return "redirect:/";
+		}
+		
+		model.addAttribute("review", review);
 		
 		return "review/update";
 	}
@@ -73,4 +84,11 @@ public class ReviewController {
 		return "review/search";
 	}
 	
+	@GetMapping("/reviews/movies/id/{id}")
+	public String title(@PathVariable int id, Model model, @PageableDefault Pageable pageable) throws Exception {
+		model.addAttribute("reviews", reviewService.findByMovieId(id, pageable));
+		model.addAttribute("id", id);
+
+		return "review/title";
+	}		
 }

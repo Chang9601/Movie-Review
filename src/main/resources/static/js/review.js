@@ -56,56 +56,9 @@ let review = {
 		// form의 속성값 변경
 		let fr = $('form[role="form"]');
 
-		fr.attr('action', `/recmv/reviews/movies/${movieId}`);
+		fr.attr('action', `/recmv/api/movies/${movieId}/reviews`);
 		fr.attr('method', 'post');
 		fr.submit();
-
-		/*		$.ajax({
-					url: "/recmv/api/rev/ckDupRev",
-					type: "GET",
-					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-					data: { userNum: userNum, movieNum: movieNum, }
-				}).done(function(resp) {
-					console.log(resp);
-					if (resp !== 0) {
-						alert("이미 리뷰를 작성하셨습니다.");
-						return false;
-					}
-		
-					if (title === "") {
-						$("#title-ck").html("제목을 입력하세요.").css("color", "red");
-						return false;
-					} else $("#title-ck").html("");
-		
-					if (rating === "") {
-						$("#rating-ck").html("별점을 입력하세요.").css("color", "red");
-						return false;
-					} else if (rating > 5 || rating < 0.0) {
-						$("#rating-ck").html("범위 안에 별점을 입력하세요.").css("color", "red");
-						return false;
-					}
-					else $("#rating-ck").html("");
-		
-					if (content === "") {
-						$("#content-ck").html("내용을 입력하세요.").css("color", "red");
-						return false;
-					} else $("#content-ck").html("");
-		
-					$.ajax({
-						url: "/recmv/api/rev/write",
-						type: "POST",
-						contentType: "application/json; charset=UTF-8",
-						data: JSON.stringify(rev)
-					}).done(function(resp) {
-						console.log(resp);
-						alert("리뷰작성이 완료되었습니다.")
-						location.replace("/recmv/rev/main");
-					}).fail(function(err) {
-						alert(JSON.stringify(err));
-					});
-				}).fail(function(err) {
-					alert(JSON.stringify(err));
-				});*/
 	},
 
 	update: function() {
@@ -124,7 +77,7 @@ let review = {
 		};
 
 		$.ajax({
-			url: `/recmv/reviews/${id}/update`,
+			url: `/recmv/api/reviews/${id}/update`,
 			type: 'PUT',
 			contentType: 'application/json; charset=UTF-8',
 			data: JSON.stringify(review),
@@ -140,11 +93,10 @@ let review = {
 		let id = $('#id').val(); // 리뷰 키
 		let ok = confirm('정말로 삭제하시겠습니까?');
 
-		if (!ok)
-			return;
+		if (!ok) return;
 
 		$.ajax({
-			url: `/recmv/reviews/${id}`,
+			url: `/recmv/api/reviews/${id}`,
 			type: 'DELETE',
 		}).done(function(res) {
 			alert('리뷰삭제 완료');

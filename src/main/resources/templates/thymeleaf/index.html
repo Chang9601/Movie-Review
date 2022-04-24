@@ -20,8 +20,6 @@
 			<th:block th:each="movie : ${movies}">
 				<div class="card m-2">
 					<div class="card-body">
-						<span hidden="hidden" id="rating" th:text="${movie.rating}"></span>
-
 						<div class="form-group" th:if="${movie.image != ''}">
 							<img th:src="${movie.image}" width="300" height="400">
 						</div>
@@ -37,18 +35,10 @@
 						<div class="form-group">
 							줄거리: <span th:text="${movie.plot}"></span>
 						</div>
-						<div class="form-group" th:if="${movie.rating > 0.0}">
-							평점: <span th:text="${movie.rating}"></span>
-							<!--<div class="stars-outer">
-									<div class="stars-inner"></div>
-								</div>
-								(<span class="number-rating"></span>)	
-								-->
-						</div>
-						<div class="form-group" th:unless="${movie.rating > 0.0}">
-							리뷰없음</div>
 						<div class="form-group">
-							<a th:href="@{/reviews/movies/{id}(id=${movie.id})}"
+							<a th:href="@{/reviews/movies/id/{id}(id=${movie.id})}"
+								class="btn btn-info">리뷰읽기</a>						
+							<a th:href="@{/movies/{id}/reviews/(id=${movie.id})}"
 								class="btn btn-primary">리뷰쓰기</a>
 						</div>
 					</div>

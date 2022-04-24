@@ -41,8 +41,6 @@ public class Movie {
 	@Lob
 	private String plot; // 영화 줄거리
 	
-	private double rating; // 평균 평점	
-	
 	@CreationTimestamp
 	@Column(name = "creation_date")
 	private Timestamp creationDate; // 등록 날짜와 시간
