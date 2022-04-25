@@ -39,8 +39,7 @@
 				(<span class="number-rating"></span>)
 			</div>
 			<div class="form-group">
-				내용:
-				<div th:utext="${review.content}"></div>
+				내용: <div th:utext="${review.content}"></div>
 			</div>
 			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
  			<span th:if="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
@@ -54,19 +53,30 @@
 			<hr />
 			
 			<div class="card">
-				<div class="card-header bi bi-chat-right-dots" >댓글</div>
-				<ul id="reply-box" class="list-group-flush"><!-- 
-					<th:block th:each="comment : ${review.comment}">
-						<li id="reply-${reply.id }" class="list-group-item d-flex justify-content-between">
-							<div>${reply.content }</div>
-							<div class="d-flex">
-								<div class="font-italic">
-									글쓴이: <span th:text="${comment.user.username}"></span>
-								</div>
-								<button onClick="index.replyDelete(${board.id}, ${reply.id })" class="badge">삭제</button>
-							</div>
+				<div class="card-header bi bi-chat-dots" >댓글 <span th:text="${review.comments.size}"></span>개 </div>
+				<ul class="list-group-flush">
+					<th:block th:each="comment : ${review.comments}">
+						<li class="list-group-item justify-content-between">
+ 							<span>
+								<span class="font-italic" style="font-size: small" th:text="${comment.user.username}"></span>
+								<span style="font-size: xx-small" th:text="${comment.updateDate}"></span>
+							</span>
+							<button type="button" data-toggle="collapse" th:attr="data-target='.comment--collapse--'+${comment.id}" class="badge bi bi-pencil-square">수정</button>
+							<button type="button" class="badge bi bi-x-square">삭제</button>							
+ 							<div th:class="'collapse show comment--collapse--'+${comment.id}">
+								<span th:text="${comment.content}"></span>
+							</div>					 
+							<form th:class="'collapse comment--collapse--'+${comment.id}">
+								<textarea name="comment--content" id="comment--content" th:class="'form-control comment--content'+${comment.id}" rows="1" th:utext="${comment.content}"></textarea>
+ 								<button type="button" 
+ 									th:data-id="${comment.id}" 
+ 									th:data-review-id="${comment.review.id}" 
+ 									th:onclick="comment.update(this.getAttribute('data-id'), this.getAttribute('data-review-id'))" class="btn btn-outline-primary bi bi-pencil-square">
+ 									수정하기
+ 								</button>
+							</form>
 						</li>				
-					</th:block> -->
+					</th:block>
 				</ul>
 			</div>
 			
@@ -74,7 +84,7 @@
 								
 			<div class="card" sec:authorize-expr="isAuthenticated()">
 				<div class="card-header bi bi-chat-right-dots">댓글 작성하기</div>
-				<form role="form" th:action="@{/api/reviews/{id}/comments(id=${review.id})}" method="post" modelAttribute="commentDto">
+				<form role="comment--form" th:action="@{/api/reviews/{id}/comments(id=${review.id})}" method="post" modelAttribute="commentDto">
 					<input type="hidden" name="review--id" id="review--id" th:value="${review.id}"> 					
 					<div class="card-body">
 						<textarea name="content" id="content" class="form-control" rows="1"></textarea>

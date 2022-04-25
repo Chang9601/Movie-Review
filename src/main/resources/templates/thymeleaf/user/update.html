@@ -10,7 +10,7 @@
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
 		<div class="container">
-			<form role="form" modelAttribute="userDto">
+			<form>
 				<input type="hidden" name="id" id="id" th:value="${user.id}"> 				
 				<div class="form-group">
 					<label for="username">아이디</label> 

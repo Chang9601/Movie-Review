@@ -1,7 +1,5 @@
 package com.chang.recmv.model;
 
-
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 
 import lombok.Builder;
 import lombok.Getter;

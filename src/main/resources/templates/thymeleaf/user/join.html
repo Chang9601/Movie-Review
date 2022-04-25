@@ -10,7 +10,7 @@
 <th:block th:replace="~{include/layout :: body(~{this :: main})}">
 	<main class="main" th:fragment="main">
 		<div class="container">
-			<form role="form" th:action="@{/join}" method="post" modelAttribute="userDto">
+			<form role="join--form" th:action="@{/join}" method="post" modelAttribute="userDto">
 				<div class="form-group">
 					<label for="username">아이디</label> 
 					<input type="text" name="username" id="username" th:value="${userDto?.username}" class="form-control" placeholder="아이디를 입력하세요."> 

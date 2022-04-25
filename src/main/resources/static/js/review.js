@@ -54,7 +54,7 @@ let review = {
 			return;
 
 		// form의 속성값 변경
-		let fr = $('form[role="form"]');
+		let fr = $('form[role="review--form"]');
 
 		fr.attr('action', `/recmv/api/movies/${movieId}/reviews`);
 		fr.attr('method', 'post');
@@ -115,21 +115,11 @@ let review = {
 			return false;
 		}
 		
-		let fr = $('form[role="form"]');
+		let fr = $('form[role="search--form"]');
 
 		fr.attr('action', `/recmv/reviews/search?choice=${choice}&query=${query}`);
 		fr.attr('method', 'get');
 		fr.submit();
-		
-/*		$.ajax({
-			url: `/recmv/reviews/search?query=${query}&choice=${choice}`,
-			type: 'GET',
-			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-		}).done(function(res) {
-			location.replace(`/recmv/movies?query=${query}`);
-		}).fail(function(err) {
-			alert(JSON.stringify(err));
-		});*/
 	},
 
 	like: function() {

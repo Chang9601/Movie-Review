@@ -88,7 +88,7 @@ const validate = async (username, password, confirmPassword, email) => {
 		}
 
 		// form의 속성값 변경
-		let fr = $('form[role="form"]');
+		let fr = $('form[role="join--form"]');
 
 		fr.attr('action', '/recmv/join');
 		fr.attr('method', 'post');

@@ -3,6 +3,9 @@ package com.chang.recmv.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
@@ -42,5 +45,23 @@ public class CommentService {
 		comment.setReview(review);
 		
 		commentRepository.save(comment);
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<Comment> findAll(int reviewId, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);
+		
+		return commentRepository.findByReviewId(reviewId, pageable);
+	}
+	
+	@Transactional
+	public void update(CommentDto commentDto, int id) {
+		Comment entity = commentRepository.findById(id).orElseThrow(() -> {
+			return new IllegalStateException("댓글 수정 실패: Comment 객체 없음");			
+		});
+		
+		Comment comment = commentDto.toEntity();
+		entity.setContent(comment.getContent());
 	}
 }

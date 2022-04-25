@@ -22,7 +22,7 @@ public class ReviewController {
 	private final MovieService movieService;
 	
 	private final ReviewService reviewService;
-
+	
 	// 다른 사용자 정보 접근 시 이동	
 	private boolean isUserPrincipalDetailsSame(String user, String principalDetail) {
 		return user.equals(principalDetail);
