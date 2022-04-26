@@ -70,6 +70,10 @@ let review = {
 		if (!validateReview(title, content, rating))
 			return;
 
+		// CSRF 토큰
+		let token = $('meta[name="_csrf"]').attr('content');
+		let header = $('meta[name="_csrf_header"]').attr('content');
+
 		let review = {
 			title: title,
 			content: content,
@@ -81,6 +85,9 @@ let review = {
 			type: 'PUT',
 			contentType: 'application/json; charset=UTF-8',
 			data: JSON.stringify(review),
+			beforeSend: function(xhr) { // 데이터 전송 전 HTTP 헤더 설정
+				xhr.setRequestHeader(header, token);
+			}
 		}).done(function(res) { // 응답 결과
 			alert('리뷰수정 완료');
 			location.replace(`/recmv/reviews/${res.data}`);
@@ -95,9 +102,16 @@ let review = {
 
 		if (!ok) return;
 
+		// CSRF 토큰
+		let token = $('meta[name="_csrf"]').attr('content');
+		let header = $('meta[name="_csrf_header"]').attr('content');
+
 		$.ajax({
 			url: `/recmv/api/reviews/${id}`,
 			type: 'DELETE',
+			beforeSend: function(xhr) { // 데이터 전송 전 HTTP 헤더 설정
+				xhr.setRequestHeader(header, token);
+			}
 		}).done(function(res) {
 			alert('리뷰삭제 완료');
 			location.replace('/recmv/reviews');
@@ -109,12 +123,12 @@ let review = {
 	search: function() {
 		let query = $('#query').val();
 		let choice = $('#choice').val();
-		
+
 		if (query === '') {
 			alert('검색할 리뷰의 제목 혹은 내용을 입력하세요.');
 			return false;
 		}
-		
+
 		let fr = $('form[role="search--form"]');
 
 		fr.attr('action', `/recmv/reviews/search?choice=${choice}&query=${query}`);

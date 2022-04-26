@@ -170,6 +170,10 @@ let user = {
 			return false;
 		} else $('#email--ok').html('');
 
+		// CSRF 토큰
+		let token = $('meta[name="_csrf"]').attr('content');
+		let header = $('meta[name="_csrf_header"]').attr('content');
+		
 		let user = {
 			username: username,
 			password: password,
@@ -181,6 +185,9 @@ let user = {
 			type: 'PUT',
 			contentType: 'application/json; charset=UTF-8',
 			data: JSON.stringify(user),
+			beforeSend: function(xhr) { // 데이터 전송 전 HTTP 헤더 설정
+				xhr.setRequestHeader(header, token);
+			}			
 		}).done(function(res) { // 응답 결과
 			alert('회원수정 완료');
 			location.replace(`/recmv/users?username=${res.data}`);
@@ -199,8 +206,13 @@ let user = {
 		} else $('#password--ok').html('');
 		
 		let ok = confirm('정말로 탈퇴하시겠습니까?');
-		if (!ok) return;
 		
+		if (!ok) return;
+
+		// CSRF 토큰
+		let token = $('meta[name="_csrf"]').attr('content');
+		let header = $('meta[name="_csrf_header"]').attr('content');
+				
 		let user = {
 			password: password
 		};
@@ -209,7 +221,10 @@ let user = {
 			url: `/recmv/api/users/${id}/delete`,
 			type: 'DELETE',
 			contentType: 'application/json; charset=UTF-8',
-			data: JSON.stringify(user),			
+			data: JSON.stringify(user),	
+			beforeSend: function(xhr) { // 데이터 전송 전 HTTP 헤더 설정
+				xhr.setRequestHeader(header, token);
+			}					
 		}).done(function(res) {
 			if(res.data === 0) {
 				alert('회원탈퇴 완료');

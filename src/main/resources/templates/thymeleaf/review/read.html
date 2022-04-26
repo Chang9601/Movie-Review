@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link th:href="@{/css/css/all.css}" rel="stylesheet">
 <link th:href="@{/css/stars.css}" rel="stylesheet">
 <link
@@ -61,8 +63,10 @@
 								<span class="font-italic" style="font-size: small" th:text="${comment.user.username}"></span>
 								<span style="font-size: xx-small" th:text="${comment.updateDate}"></span>
 							</span>
-							<button type="button" data-toggle="collapse" th:attr="data-target='.comment--collapse--'+${comment.id}" class="badge bi bi-pencil-square">수정</button>
-							<button type="button" class="badge bi bi-x-square">삭제</button>							
+							<span th:if="${#authentication.name == comment.user.username} or ${#authentication.name == 'admin'}">
+								<button type="button" data-toggle="collapse" th:attr="data-target='.comment--collapse--'+${comment.id}" class="badge bi bi-pencil-square">수정</button>
+								<button type="button" class="badge bi bi-x-square" th:data-id="${comment.id}" th:data-review-id="${comment.review.id}" th:onclick="comment.delete(this.getAttribute('data-id'), this.getAttribute('data-review-id'))">삭제</button>							
+ 							</span>
  							<div th:class="'collapse show comment--collapse--'+${comment.id}">
 								<span th:text="${comment.content}"></span>
 							</div>					 

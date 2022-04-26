@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.chang.recmv.config.auth.PrincipalDetailsService;
 
@@ -24,16 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		this.principalDetailsService = principalDetailsService;
 	}
 	
-	
-	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-
-
-
 
 	// 비밀번호 암호화 객체 Bean으로 등록(IoC 컨테이너)
 	@Bean
@@ -58,21 +54,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// HTTP 요청에 대한 보안(인증과 권한) 설정
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable(); // 나중에 토큰으로 수정 필요
+		//http.csrf().disable(); // 나중에 토큰으로 수정 필요
 		
 		http.authorizeRequests() // HttpServletRequest에 따라 접근 제한
-			.antMatchers("/users/**").authenticated() // user는 인증 필요
-			.antMatchers("/api/**").authenticated() // user는 인증 필요
-			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // admin은 권한 필요
-			.anyRequest().permitAll() // 나머지 권한없이 모두 허용
+				.antMatchers("/users/**").authenticated() // user는 인증 필요
+				.antMatchers("/api/**").authenticated() // user는 인증 필요
+				.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // admin은 권한 필요
+				.anyRequest().permitAll() // 나머지 권한없이 모두 허용
 			.and()
-			.formLogin() // form 기반 인증, /login으로 접근하면 Spring Security가 제공하는 기본 로그인 form 사용, HttpSession 사용
-			.loginPage("/login") // 맞춤 로그인 페이지 사용
-			.loginProcessingUrl("/login") // Spring Security 로그인 대신 처리
-			.defaultSuccessUrl("/") // 로그인 성공 시 기본 페이지
+				.formLogin() // form 기반 인증, /login으로 접근하면 Spring Security가 제공하는 기본 로그인 form 사용, HttpSession 사용
+				.loginPage("/login") // 맞춤 로그인 페이지 사용
+				.loginProcessingUrl("/login") // Spring Security 로그인 대신 처리
+				.defaultSuccessUrl("/") // 로그인 성공 시 기본 페이지
 			.and()
-			.logout() // 로그아웃 대신 처리, WebSecurityConfigureAdpater가 자동으로 적용, /logout 접근 시 HTTP 세션 제거
-			.logoutSuccessUrl("/") // 로그아웃 성공 시 이동하는 페이지
-			.invalidateHttpSession(false); // HTTP 세션 초기화
+				.logout() // 로그아웃 대신 처리, WebSecurityConfigureAdpater가 자동으로 적용, /logout 접근 시 HTTP 세션 제거
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // CSRF 활성화 시 로그아웃 요청 기본적으로 POST(강제 로그아웃 방지 목적), logoutRequestMatcher를 통해서 GET으로 로그아웃
+				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동하는 페이지
+				.invalidateHttpSession(false); // HTTP 세션 초기화
 	}
 }

@@ -1,5 +1,7 @@
 package com.chang.recmv.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,5 +65,11 @@ public class CommentService {
 		
 		Comment comment = commentDto.toEntity();
 		entity.setContent(comment.getContent());
+		entity.setUpdateDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")));
+	}
+	
+	@Transactional
+	public void delete(int id) {
+		commentRepository.deleteById(id);
 	}
 }

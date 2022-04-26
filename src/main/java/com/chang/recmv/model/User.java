@@ -45,6 +45,10 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<Review> reviews;
 	
+	// User 삭제 시 외래 키로 걸린 모든 Comment 삭제 위해서 CascadeType.REMOVE 사용
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	private List<Comment> comments;
+	
 	@Column(nullable = false, length = 100, unique = true)
 	private String username; // 아이디
 	

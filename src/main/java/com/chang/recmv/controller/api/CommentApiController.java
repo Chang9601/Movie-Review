@@ -9,10 +9,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chang.recmv.config.auth.PrincipalDetails;
 import com.chang.recmv.dto.CommentDto;
@@ -51,8 +53,15 @@ public class CommentApiController {
 	}
 	
 	@PutMapping("/api/reviews/{review-id}/comments/{comment-id}")
-	public ResponseDto<Integer> update(@PathVariable(name = "review-id") int reviewId, @PathVariable(name = "comment-id") int id, @RequestBody CommentDto commentDto) {
+	public @ResponseBody ResponseDto<Integer> update(@PathVariable(name = "review-id") int reviewId, @PathVariable(name = "comment-id") int id, @RequestBody CommentDto commentDto) {
 		commentService.update(commentDto, id);
+		
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 0);	
+	}
+	
+	@DeleteMapping("/api/reviews/{review-id}/comments/{comment-id}")
+	public @ResponseBody ResponseDto<Integer> delete(@PathVariable(name = "review-id") int reviewId, @PathVariable(name = "comment-id") int id) {
+		commentService.delete(id);
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 0);	
 	}
