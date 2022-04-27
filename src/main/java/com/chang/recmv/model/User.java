@@ -57,6 +57,12 @@ public class User {
 	
 	@Column(nullable = false, length = 50, unique = true)
 	private String email; // 이메일
+
+	@Column(length = 100)
+	private String provider; // OAuth 2.0 제공자
+	
+	@Column(name = "provider_id", length = 100)
+	private String providerId; // 
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 50)	
@@ -81,5 +87,15 @@ public class User {
 		this.password = password;
 		this.email = email;
 		this.role = role;
+	}
+	
+	@Builder
+	public User(String username, String password, String email, RoleType role, String provider, String providerId) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.provider = provider;
+		this.providerId = providerId;
 	}
 }

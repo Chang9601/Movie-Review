@@ -2,9 +2,11 @@ package com.chang.recmv.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.chang.recmv.model.User;
 
@@ -17,12 +19,21 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	private User user;
 	
+	private Map<String, Object> attributes;
+	
+	// 일반 로그인
 	public PrincipalDetails(User user) {
 		this.user = user;
+	}
+
+	// OAuth 로그인
+	public PrincipalDetails(User user, Map<String, Object> attributes) {
+		this.user = user;
+		this.attributes = attributes;
 	}
 	
 	// 사용자의 권한 목록
@@ -69,5 +80,15 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return null;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.chang.recmv.config.auth.PrincipalDetailsService;
+import com.chang.recmv.config.oauth.PrincipalOauth2UserService;
 
 @Configuration
 @EnableWebSecurity // Spring Security 설정 클래스 정의
@@ -21,8 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final PrincipalDetailsService principalDetailsService;
 	
-	public SecurityConfig(PrincipalDetailsService principalDetailsService) {
+	private final PrincipalOauth2UserService principalOauth2UserService;
+	
+	public SecurityConfig(PrincipalDetailsService principalDetailsService, PrincipalOauth2UserService principalOauth2UserService) {
 		this.principalDetailsService = principalDetailsService;
+		this.principalOauth2UserService = principalOauth2UserService;
 	}
 	
 	@Bean
@@ -70,6 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logout() // 로그아웃 대신 처리, WebSecurityConfigureAdpater가 자동으로 적용, /logout 접근 시 HTTP 세션 제거
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // CSRF 활성화 시 로그아웃 요청 기본적으로 POST(강제 로그아웃 방지 목적), logoutRequestMatcher를 통해서 GET으로 로그아웃
 				.logoutSuccessUrl("/") // 로그아웃 성공 시 이동하는 페이지
-				.invalidateHttpSession(false); // HTTP 세션 초기화
+				.invalidateHttpSession(false) // HTTP 세션 초기화
+			.and()
+				.oauth2Login()
+				.loginPage("/login")
+				.userInfoEndpoint()
+				.userService(principalOauth2UserService);
 	}
 }
