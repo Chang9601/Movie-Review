@@ -49,9 +49,6 @@
 				<button type="button" id="btn--review--delete" class="btn btn-danger">리뷰삭제</button>
 			</span> 
 			
-			<span th:unless="${#authentication.name == review.user.username} or ${#authentication.name == 'admin'}">
-				<button id="btn-like-rev" class="btn btn-success">추천하기</button>
-			</span>
 			<hr />
 			
 			<div class="card">

@@ -19,6 +19,11 @@
 					<label for="password">비밀번호</label> <input type="password" name="password"
 						id="password" class="form-control"> <span id="password--ok"></span>
 				</div>
+				
+				<div th:if="${error == 'true'}">
+					<p id="valid" class="alert alert-danger" th:text="${exception}"></p>
+				</div>
+				
 				<button id="btn--login" class="btn btn-primary">로그인</button>					
 				<a href="/recmv/oauth2/authorization/naver" class="btn btn-primary">네이버 로그인</a>					
 				<a href="/recmv/oauth2/authorization/google" class="btn btn-primary">구글 로그인</a>					

@@ -1,6 +1,7 @@
 package com.chang.recmv.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -43,11 +44,11 @@ public class User {
 	// ★컬렉션의 경우 user.getReviews().get(0)처럼 실제 데이터 조회 시 데이터베이스를 조회해서 초기화, 따라서 user.getReviews() 호출 시 컬렉션 초기화 X
 	// Resolved [org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.chang.recmv.model.User.reviews, could not initialize proxy - no Session]
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	private List<Review> reviews;
+	private List<Review> reviews = new ArrayList<Review>();
 	
 	// User 삭제 시 외래 키로 걸린 모든 Comment 삭제 위해서 CascadeType.REMOVE 사용
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column(nullable = false, length = 100, unique = true)
 	private String username; // 아이디

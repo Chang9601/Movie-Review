@@ -26,8 +26,7 @@
 						<td><span th:text="${user.email}"></span></td>
 						<td><a th:href="@{/users/{id}/update(id=${user.id})}">🔨</a></td>
 						<td><a th:href="@{/users/{id}/delete(id=${user.id})}">📌</a></td>
-<!--						<td><a href="/recmv/user/delete"></a></td>
-						<td><a th:href="@{/rev/list/{userNum}(userNum=${user.num})}" target="_blank">📄</a></td> -->
+						<td><a th:href="@{/users/{id}/reviews(id=${user.id})}" target="_blank">📄</a></td>
 					</tr>
 				</tbody>
 			</table>

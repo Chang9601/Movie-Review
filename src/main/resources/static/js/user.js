@@ -180,6 +180,8 @@ let user = {
 			email: email
 		};
 		
+		console.log(JSON.stringify(user));
+		
 		$.ajax({
 			url: `/recmv/api/users/${id}/update`,
 			type: 'PUT',

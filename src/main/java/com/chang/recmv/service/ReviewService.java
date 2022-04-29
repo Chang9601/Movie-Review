@@ -43,7 +43,7 @@ public class ReviewService {
 		Review review = reviewDto.toEntity();
 		review.setUser(user);
 		review.setMovie(movie);
-			
+		
 		reviewRepository.save(review);
 	}
 	
@@ -109,4 +109,13 @@ public class ReviewService {
 		
 		return reviewRepository.findByMovieId(id, pageable);
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<Review> findByUserId(int id, Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 5);	
+		
+		return reviewRepository.findByUserId(id, pageable);
+	}
+	
 }

@@ -10,23 +10,27 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.chang.recmv.config.auth.PrincipalDetailsService;
 import com.chang.recmv.config.oauth.PrincipalOauth2UserService;
 
 @Configuration
-@EnableWebSecurity // Spring Security 설정 클래스 정의
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // @Secured 어노테이션 활성화, @PreAuthorize와 @PostAuthorize 어노테이션 활성화
+@EnableWebSecurity // @Configuration에 @EnableWebSecurity 추가: Spring Security 설정 클래스 정의
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // 특정 경로로 접근할 경우 인증 및 권한 미리 확인, @Secured 어노테이션 활성화, @PreAuthorize와 @PostAuthorize 어노테이션 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final PrincipalDetailsService principalDetailsService;
 	
 	private final PrincipalOauth2UserService principalOauth2UserService;
 	
-	public SecurityConfig(PrincipalDetailsService principalDetailsService, PrincipalOauth2UserService principalOauth2UserService) {
+	private final AuthenticationFailureHandler authenticationFailureHandler;
+	
+	public SecurityConfig(PrincipalDetailsService principalDetailsService, PrincipalOauth2UserService principalOauth2UserService, AuthenticationFailureHandler authenticationFailureHandler) {
 		this.principalDetailsService = principalDetailsService;
 		this.principalOauth2UserService = principalOauth2UserService;
+		this.authenticationFailureHandler = authenticationFailureHandler;
 	}
 	
 	@Bean
@@ -35,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	// 비밀번호 암호화 객체 Bean으로 등록(IoC 컨테이너)
+	// Spring Security가 제공하는 비밀번호 암호화 객체
+	// IoC 컨테이너에 Bean으로 등록
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -69,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin() // form 기반 인증, /login으로 접근하면 Spring Security가 제공하는 기본 로그인 form 사용, HttpSession 사용
 				.loginPage("/login") // 맞춤 로그인 페이지 사용
 				.loginProcessingUrl("/login") // Spring Security 로그인 대신 처리
+				.failureHandler(authenticationFailureHandler) // 로그인 실패 처리
 				.defaultSuccessUrl("/") // 로그인 성공 시 기본 페이지
 			.and()
 				.logout() // 로그아웃 대신 처리, WebSecurityConfigureAdpater가 자동으로 적용, /logout 접근 시 HTTP 세션 제거

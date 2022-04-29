@@ -46,7 +46,6 @@ public class ReviewApiController {
 		}
 		
 		reviewService.save(reviewDto, principalDetails.getUser(), movieService.findById(id));
-
 		return "redirect:/";
 	}
 	

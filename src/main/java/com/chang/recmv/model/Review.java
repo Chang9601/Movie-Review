@@ -1,5 +1,6 @@
 package com.chang.recmv.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -48,7 +49,7 @@ public class Review extends TimeEntity {
 	// 연관관계의 주인이 아니기 때문에 mappedBy 키워드 사용
 	// Review 삭제 시 외래 키로 걸린 모든 Comment 삭제 위해서 CascadeType.REMOVE 사용	
 	@OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column(nullable = false, length = 100)
 	private String title; // 리뷰제목

@@ -27,7 +27,9 @@
 							<img th:src="@{/img/none.png}" width="300" height="400">
 						</div>
 						<div class="form-group">
-							아이디: <span th:text=${review.user.username}></span>	
+							아이디: <a
+								th:href="@{/review/list/{userNum}(userNum=${review.user.username})}"
+								target="_blank"><span th:text=${review.user.username}></span></a>
 						</div>
 						<div class="form-group">
 							영화: <span th:text="${review.movie.title}"></span>
@@ -35,13 +37,8 @@
 						<div class="form-group">
 							제목: <span th:text="${review.title}"></span>
 						</div>
-						<div class="form-group" th:if="${review.rating > 0.0}">
+						<div class="form-group">
 							평점: <span th:text="${review.rating}"></span>
-							<!--<div class="stars-outer">
-											<div class="stars-inner"></div>
-										</div>
-										(<span class="number-rating"></span>)
-										-->
 						</div>
 						<div class="form-group">
 							조회: <span th:text="${review.view}"></span>
@@ -49,9 +46,6 @@
 						<div class="form-group">
 							날짜: <span th:text="${review.creationDate}"></span>
 						</div>
-						<!-- TO-DO: 좋아요 				<div class="form-group">
-								👍: <span th:text="${review.recom}"></span>
-							</div>	 -->
 						<div class="form-group">
 							<a th:href="@{/reviews/{id}(id=${review.id})}"
 								class="btn btn-primary">리뷰읽기</a>
@@ -65,27 +59,27 @@
 					class="pagination d-flex justify-content-center"
 					th:with="start=${T(Math).floor(reviews.number / 10) * 10 + 1},
 			                    last=(${start + 9 < reviews.totalPages ? start + 9 : reviews.totalPages})">
-					<li><a th:href="@{/reviews/search(page=1, query=${query}, choice=${choice})}" class="page-link"
+					<li><a th:href="@{/users/{id}/reviews(page=1, id=${id})}" class="page-link"
 						aria-label="First"> <span aria-hidden="true">처음</span>
 					</a></li>
 
 					<li th:class="${reviews.first} ? 'disabled'"><a
-						th:href="${reviews.first} ? '#' :@{/reviews/search(page=${reviews.number}, query=${query}, choice=${choice})}"
+						th:href="${reviews.first} ? '#' :@{/users/{id}/reviews(page=${reviews.number}, id=${id})}"
 						class="page-link" aria-label="Previous"> <span
 							aria-hidden="true">&lt;</span>
 					</a></li>
 
 					<li th:each="page: ${#numbers.sequence(start, last)}"
 						th:class="${page == reviews.number + 1} ? 'active'"><a
-						th:text="${page}" th:href="@{/reviews/search(page=${page}, query=${query}, choice=${choice})}"
+						th:text="${page}" th:href="@{/users/{id}/reviews(page=${page}, id=${id})}"
 						class="page-link"></a></li>
 
 					<li th:class="${reviews.last} ? 'disabled'"><a
-						th:href="${reviews.last} ? '#' : @{/reviews/search(page=${reviews.number + 2}, query=${query}, choice=${choice})}"
+						th:href="${reviews.last} ? '#' : @{/users/{id}/reviews(page=${reviews.number + 2}, id=${id})}"
 						class="page-link" aria-label="Next"> <span aria-hidden="true">&gt;</span>
 					</a></li>
 
-					<li><a th:href="@{/reviews/search(page=${reviews.totalPages}, query=${query}, choice=${choice})}"
+					<li><a th:href="@{/users/{id}/reviews(page=${reviews.totalPages}, id=${id})}"
 						class="page-link" aria-label="Last"> <span aria-hidden="true">끝</span>
 					</a></li>
 				</ul>
@@ -93,7 +87,7 @@
 		</div>
 		<div th:if="${reviews.empty}" class="container">
 			<div class="alert alert-danger">
-				<strong>검색과 일치하는 리뷰가 존재하지 않습니다.</strong>
+				<strong>작성하신 리뷰가 존재하지 않습니다.</strong>
 			</div>
 		</div>
 	</main>
