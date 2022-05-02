@@ -35,13 +35,8 @@
 						<div class="form-group">
 							제목: <span th:text="${review.title}"></span>
 						</div>
-						<div class="form-group" th:if="${review.rating > 0.0}">
+						<div class="form-group">
 							평점: <span th:text="${review.rating}"></span>
-							<!--<div class="stars-outer">
-											<div class="stars-inner"></div>
-										</div>
-										(<span class="number-rating"></span>)
-										-->
 						</div>
 						<div class="form-group">
 							조회: <span th:text="${review.view}"></span>
@@ -49,9 +44,6 @@
 						<div class="form-group">
 							날짜: <span th:text="${review.creationDate}"></span>
 						</div>
-						<!-- TO-DO: 좋아요 				<div class="form-group">
-								👍: <span th:text="${review.recom}"></span>
-							</div>	 -->
 						<div class="form-group">
 							<a th:href="@{/reviews/{id}(id=${review.id})}"
 								class="btn btn-primary">리뷰읽기</a>

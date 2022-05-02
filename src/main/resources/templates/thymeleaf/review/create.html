@@ -53,10 +53,10 @@
 					<span id="content--ok" th:text="${valid_content}"></span>
 					<h5 id="limite_vermelho" style="text-align: right; color: red"></h5>
 					<h5 id="limite_normal" style="text-align: right"></h5>
-				</div>
-				<button type="button" id="btn--review--create" class="btn btn-primary">리뷰작성</button> 			
+				</div>		
 			</form>
-			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+			<button type="button" id="btn--review--create" class="btn btn-primary">리뷰작성</button> 		
+			<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>						
 		</div>
 		<script>
 			    $('.summernote').on('summernote.keyup', function(e) {
@@ -82,7 +82,7 @@
 					minHeight: null,
 					maxHeight: null,
 					focus: true,
-					placeholder: '작성하시기 전 "리뷰작성" 버튼을 눌러서 작성여부를 확인하세요. 최대 5000자까지 쓸 수 있습니다. 업로드 하실 수 있는 파일의 크기는 최대 10MB 입니다.',
+					placeholder: '최대 5000자까지 쓸 수 있습니다. 업로드 하실 수 있는 파일의 크기는 최대 10MB 입니다.',
 					maximumImageFileSize: 1024 * 1024 * 10, // 10MB
 					toolbar: [
 			            [ 'style', [ 'style' ] ],

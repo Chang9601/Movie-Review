@@ -37,11 +37,6 @@ let review = {
 		$('#btn--review--search').on('click', () => {
 			this.search();
 		});
-
-
-		$("#btn-like-rev").on("click", () => {
-			this.like();
-		});
 	},
 
 	create: function() {
@@ -134,45 +129,6 @@ let review = {
 		fr.attr('action', `/recmv/reviews/search?choice=${choice}&query=${query}`);
 		fr.attr('method', 'get');
 		fr.submit();
-	},
-
-	like: function() {
-		var id = $("#sessionId").text();
-		var userNum = $("#userNum").text();
-		var revNum = $("#revNum").text();
-
-		if (id === "") {
-			var msg = confirm("로그인이 필요합니다. 로그인 하시겠습니까?");
-			if (msg === true) location.replace("/recmv/user/login");
-			return false;
-		}
-
-		$.ajax({
-			url: "/recmv/api/rev/ckDupRecom",
-			type: "GET",
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: { userNum: userNum, revNum: revNum, }
-		}).done(function(resp) {
-			console.log(resp);
-			if (resp !== 0) {
-				alert("이미 리뷰를 추천하셨습니다.");
-				return false;
-			}
-
-			$.ajax({
-				url: "/recmv/api/rev/recom",
-				type: "POST",
-				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				data: { userNum: userNum, revNum: revNum, }
-			}).done(function(resp) {
-				console.log(resp);
-				alert("리뷰를 추천하셨습니다.");
-			}).fail(function(err) {
-				alert(JSON.stringify(err));
-			});
-		}).fail(function(err) {
-			alert(JSON.parse(err));
-		});
 	}
 };
 

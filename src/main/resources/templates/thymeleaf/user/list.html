@@ -27,9 +27,7 @@
 							<img th:src="@{/img/none.png}" width="300" height="400">
 						</div>
 						<div class="form-group">
-							아이디: <a
-								th:href="@{/review/list/{userNum}(userNum=${review.user.username})}"
-								target="_blank"><span th:text=${review.user.username}></span></a>
+							아이디: <span th:text=${review.user.username}></span>
 						</div>
 						<div class="form-group">
 							영화: <span th:text="${review.movie.title}"></span>

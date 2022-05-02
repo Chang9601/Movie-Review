@@ -51,7 +51,6 @@ let comment = {
 			}			
 		}).done(function(res) { // 응답 결과
 			alert('댓글수정 완료');
-			//location.replace(`/recmv/reviews/${res.data}`);
 			location.reload();
 		}).fail(function(err) {
 			alert(JSON.stringify(err));
