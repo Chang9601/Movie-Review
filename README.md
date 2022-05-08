@@ -1,7 +1,7 @@
 # 영화 리뷰 사이트
 
 ## 소개
-Spring Security, OAuth 2.0 로그인과 JPA를 사용한 영화 리뷰 사이트
+Spring Boot, Spring Security, OAuth 2.0 로그인과 JPA를 사용한 영화 리뷰 사이트
 
 ## 목적
 * Spring Boot에 대한 전반적인 설정과 작동원리를 파악
